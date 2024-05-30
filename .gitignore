@@ -1,0 +1,8 @@
+*.out
+minishell
+*.o
+*.a
+minishell_db
+minishell_db.dSYM/
+private/
+obj/

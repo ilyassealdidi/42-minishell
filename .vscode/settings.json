@@ -1,0 +1,19 @@
+{
+	"files.associations": {
+		"minishell.h": "c",
+		"unistd.h": "c",
+		"_types.h": "c",
+		"string.h": "c",
+		"availability.h": "c",
+		"_size_t.h": "c",
+		"_null.h": "c",
+		"cdefs.h": "c",
+		"stdio.h": "c",
+		"signal.h": "c",
+		"__threading_support": "c",
+		"libft.h": "c",
+		"readline.h": "c",
+		"history.h": "c",
+		"types.h": "c"
+	}
+}
