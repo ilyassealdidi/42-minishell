@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_append_token.c                                  :+:      :+:    :+:   */
+/*   join.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/01 17:02:02 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/05/31 10:59:11 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/05/31 10:59:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_appendtoken(t_list **head, t_token *token)
+char	*join(char *str1, char *str2)
 {
-	t_list	*new;
+	char	*tmp;
+	char	*joined;
 
-	new = ft_lstnew(token);
-	if (!new)
-		return (0);
-	ft_lstadd_back(head, new);
-	return (1);
+	if (!str1)
+	{
+		tmp = ft_strdup(str2);
+		if (tmp == NULL)
+			free(str2);
+		return (tmp);
+	}
+	tmp = str1;
+	joined = ft_strjoin(str1, str2);
+	free(tmp);
+	if (joined == NULL)
+		return (NULL);
+	return (joined);
 }

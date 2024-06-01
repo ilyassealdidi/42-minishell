@@ -6,123 +6,111 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/05/30 11:10:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:45:12 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-# define is_sep is_seperator
+# define is_sep is_separator
 
-char	*join(char *str1, char *str2)
+// echo "Hello World"
+
+t_token_type	get_token_type(char *str)
 {
-	char	*tmp;
-	char	*joined;
+	t_token_type	type;
 
-	if (!str1)
-	{
-		tmp = ft_strdup(str2);
-		if (tmp == NULL)
-			free(str2);
-		return (tmp);
-	}
-	tmp = str1;
-	joined = ft_strjoin(str1, str2);
-	free(tmp);
-	if (joined == NULL)
-		return (NULL);
-	return (joined);
+	type = is_sep(str);
+	if (type != -1)
+		return (type);
+	if (ft_strchr("'\"", *str) && ft_strchr(str + 1, *str))
+		return (QUOTED);
+	if (ft_isprint(*str))
+		return (TEXT);
+	return (SPACE);
 }
 
-char	*handle_alpha(char **line, char *buffer)
+int	get_token_length(char *line, t_token_type type)
 {
-	char	*extracted;
-	char	*ptr;
-
-	ptr = *line;
-	while (ft_isalnum(*ptr))
-		ptr++;
-	extracted = ft_substr(*line, 0, ptr - *line);
-	if (!extracted)
-		return (free(buffer), NULL);
-	*line = ptr;
-	buffer = join(buffer, extracted);
-	free(extracted);
-	return (buffer);
+	if (type == TEXT)
+		return (strcspn(line, " |><"));
+	else if (type == SPACE)
+		return (ft_strspn(line, " "));
+	else if (type == PIPE || type == REDIR_IN || type == REDIR_OUT)
+		return (1);
+	else if (type == HEREDOC || type == APPEND)
+		return (2);
+	else
+		return (ft_strchr(line + 1, *line) - line - 1);
 }
 
-char	*handle_quote(char **line, char *buffer)
+int	set_token(char *line, t_token *token)
 {
-	char	*extracted;
-	char	*start;
-	char	*end;
+	char	*str;
 
-	start = (*line) + 1;
-	end = ft_strchr(start, **line);
-	if (!end)
-		return (NULL);
-	extracted = ft_substr(start, 0, end - start);
-	if (!extracted)
-		return (NULL);
-	*line = end + 1;
-	buffer = join(buffer, extracted);
-	free(extracted);
-	return (buffer);
-}
-
-int	handle_sep(char **line, char **buffer, t_list **list)
-{
-	*buffer = ft_strdup(is_seperator(*line));
-	if (!*buffer)
+	if (*line == '\0')
+		return 1;
+	token->type = get_token_type(line);
+	token->len = get_token_length(line, token->type);
+	if (token->type == SPACE)
+		return (1);
+	str = ft_substr(line, 0, token->len);
+	if (str == NULL)
 		return (0);
-	*line += ft_strlen(is_seperator(*line));
-	if (ft_appendtoken(list, buffer) == 0)
-		return (free(*buffer), 0);
+	token->content = join(token->content, str);
+	free(str);
 	return (1);
 }
 
-// t_lexer	*create_token(char	*content, t_token_type type)
-// {
-// 	t_lexer	*lex;
+int	set_next_token(char **line, t_token **token)
+{
+	static t_token	buffer;
 
-// 	lex = malloc(sizeof(t_lexer));
-// 	if (lex == NULL)
-// 		return (NULL);
-// 	lex->str = content;
-// 	lex->type = type;
-// 	return (lex);
-// }
+	if (set_token(*line, &buffer) == 0)
+		return (free(buffer.content), -1);
+	*line += buffer.len;
+	if (ft_strchr(" ", **line) || is_separator(*line))
+	{
+		*token = malloc(sizeof(t_token));
+		if (*token == NULL)
+			return (free(buffer.content), -1);
+		ft_memcpy(*token, &buffer, sizeof(t_token));
+		ft_bzero(&buffer, sizeof(t_token));
+	}
+	else
+		*token = NULL;
+	return (1);
+}
 
+/*
+Make the function set_next_token returns:
+	-1	: on failure
+	0	: on adding a token
+	1	: on success
+*/
 int	tokens_init(t_object *obj, char *line)
 {
-	char	*buffer;
+	int		ret;
+	t_token	*token;
 
-	buffer = NULL;
+	token = NULL;
 	while (1)
 	{
-		if (buffer != NULL && ft_appendtoken(&obj->tokens, &buffer) == 0)
-			return (0);
-		if (*line == '\0')
-			break ;
-		if (is_sep(line) && !handle_sep(&line, &buffer, &obj->tokens))
-			return (0);
-		while (*line == ' ')
-			line++;
-		while (*line != '\0' && (ft_isalnum(*line) || ft_strchr("'\"", *line)))
+		ret = set_next_token(&line, &token);
+		if (ret <= 0)
 		{
-			if (ft_isalnum(*line))
-				buffer = handle_alpha(&line, buffer);
-			else
-				buffer = handle_quote(&line, buffer);
-			if (buffer == NULL)
-				return (0);
+			// if (ret == -1)
+			// break ;
 		}
+		if (token != NULL)
+			if (ft_appendtoken(&obj->tokens, token) == 0)
+				return (free(token), 0);
 	}
-	return 1;
+	return (1);
 }
 
 void	print_content(void *content)
 {
-	ft_printf("%s\n", ((t_lexer *)content)->str);
+	ft_printf("%s\n", ((t_token *)content)->content);
 }
 
 int	parse(char *line, t_object *obj)
@@ -130,7 +118,7 @@ int	parse(char *line, t_object *obj)
 	line = ft_strtrim(line, " ");
 	if (line == NULL)
 		return (0);
-	if (tokens_init(obj, line) == 0 || !obj->tokens)
+	if (tokens_init(obj, line) == 0)
 		return (ft_printf("Syntax Error"), ft_lstclear(&obj->tokens, free),
 			free(line), 0);
 	free(line);

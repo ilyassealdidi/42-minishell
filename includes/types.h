@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/05/25 16:46:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/01 17:02:13 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 
 typedef enum e_token_type
 {
+	SPACE,
+	QUOTED,
+	TEXT,
 	CMD,
 	ARG,
 	PIPE,
@@ -27,11 +30,12 @@ typedef enum e_token_type
 	HEREDOC,
 }	t_token_type;
 
-typedef struct s_lexer
+typedef struct s_token
 {
-	char	*str;
-	int		type;
-}	t_lexer;
+	char			*content;
+	t_token_type	type;
+	int				len;
+}	t_token;
 
 typedef struct s_object
 {

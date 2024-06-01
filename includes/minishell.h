@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/05/30 15:39:07 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:16:38 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 
 // Think to use seperate header files, one for parsing, one for executing
 
-int		ft_appendtoken(t_list **head, char **buffer);
-char	*is_seperator(char	*str);
-int 	parse(char *line, t_object *obj);
+char			*join(char *str1, char *str2);
+int				ft_appendtoken(t_list **head, t_token *token);
+t_token_type	is_separator(char	*str);
+int 			parse(char *line, t_object *obj);
 
 #endif
