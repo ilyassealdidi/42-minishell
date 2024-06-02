@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/01 17:02:13 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/02 21:00:12 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@
 # define YELLOW "\033[0;33m"
 # define RESET "\033[0m"
 
+// typedef enum e_status
+// {
+// 	INVALID,
+// };
+
 typedef enum e_token_type
 {
-	SPACE,
+	SPACE = 1,
 	QUOTED,
 	TEXT,
 	CMD,
