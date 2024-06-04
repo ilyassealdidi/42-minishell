@@ -6,27 +6,24 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/02 21:23:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/04 14:54:47 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-
 static t_token_type	get_token_type(char *str)
 {
-	t_token_type	type;
+	t_token_type		type;
 
 	type = is_sep(str);
-	if (type != -1)
+	if (type != NONE)
 		return (type);
-	if (*str == '\0')
-		return (0);
-	if (ft_strchr("'\"", *str) && ft_strchr(str + 1, *str))
-		return (QUOTED);
 	if (*str == ' ')
 		return (SPACE);
-	if (ft_isprint(*str))
+	if ((*str == '\'' || *str == '"') && ft_strchr(str + 1, *str))
+		return (QUOTED);
+	if (ft_isprint(*str) && (*str != '\'' && *str != '"'))
 		return (TEXT);
 	return (0);
 }
@@ -45,38 +42,54 @@ static int	get_token_length(char *line, t_token_type type)
 		return (ft_strchr(line + 1, *line) - line - 1);
 }
 
-static int	set_token(char *line, t_token *token)
+static int	set_token(char **line, t_token *token)
 {
-	char	*str;
+	char				*str;
+	int					len;
 
-	if (*line == '\0')
-		return 1;
-	token->type = get_token_type(line);
-	token->len = get_token_length(line, token->type);
-	if (token->type == SPACE)
-		return (1);
-	if (token->type == QUOTED)
-		line++;
-	str = ft_substr(line, 0, token->len);
-	if (str == NULL)
-		return (0);
-	token->content = join(token->content, str);
-	free(str);
-	return (1);
+	if (**line == '\0')
+		return (SUCCESS);
+	token->type = get_token_type(*line);
+	if (token->type == NONE)
+		return (ERROR);
+	len = get_token_length(*line, token->type);
+	if (token->type != SPACE)
+	{
+		if (token->type == QUOTED)
+			(*line)++;
+		str = ft_substr(*line, 0, len);
+		if (str == NULL)
+			return (FAILURE);
+		token->content = join(token->content, str);
+		if (token->content == NULL)
+			return (FAILURE);
+		free(str);
+	}
+	*line += len + (token->type == QUOTED);
+	return (SUCCESS);
 }
 
+/**
+ * Sets the next token by parsing the given line.
+ *
+ * @param line The line to be parsed.
+ * @param token A pointer to the token structure to store the parsed token.
+ * @return Returns `SUCCESS` on success, `ERROR` on error, `FAILURE` on memory 
+ * allocation failure, and `END_OF_LINE` if the end of the line is reached.
+ */
 static int	set_next_token(char **line, t_token **token)
 {
 	static t_token		buffer;
 	static t_token_type	prev_type = 0;
+	int					status;
 
-	if (set_token(*line, &buffer) == 0)
-		return (free(buffer.content), -1);
-	*line += buffer.len;
-	if (buffer.type == QUOTED)
-		*line += 2;
+	if (!line || !token)
+		return (free(buffer.content), ERROR);
+	status = set_token(line, &buffer);
+	if (status != SUCCESS)
+		return (free(buffer.content), status);
 	if (buffer.content == NULL && **line == '\0')
-		return (prev_type = 0);
+		return (prev_type = 0, END_OF_LINE);
 	else if (buffer.type == SPACE && buffer.content == NULL)
 		prev_type = SPACE;
 	else if ((buffer.type == TEXT || buffer.type == QUOTED)
@@ -86,36 +99,35 @@ static int	set_next_token(char **line, t_token **token)
 	{
 		*token = malloc(sizeof(t_token));
 		if (*token == NULL)
-			return (free(buffer.content), -1);
+			return (free(buffer.content), FAILURE);
 		ft_memcpy(*token, &buffer, sizeof(t_token));
 		prev_type = buffer.type;
 		ft_bzero(&buffer, sizeof(t_token));
 	}
-	return (1);
+	return (SUCCESS);
 }
 
 int	tokens_init(t_object *obj, char *line)
 {
-	int		ret;
-	t_token	*token;
+	int					ret;
+	t_token				*token;	//use this instead of static variable
 
 	token = NULL;
 	while (1)
 	{
 		ret = set_next_token(&line, &token);
-		if (ret <= 0)
-		{
-			// if (ret == -1)
+		if (ret == END_OF_LINE)
 			break ;
-		}
+		if (ret != SUCCESS)
+			return (ret);
 		if (token != NULL)
 		{
-			if (ft_appendtoken(&obj->tokens, token) == 0)
-				return (free(token), 0);
+			if (ft_appendtoken(&obj->tokens, token) == FAILURE)
+				return (free(token), set_next_token(NULL, NULL), FAILURE);
 			token = NULL;
 		}
 	}
-	if (is_valid_syntax(obj->tokens) == 0)
-		return (0);
-	return (1);
+	if (is_valid_syntax(obj->tokens) == ERROR)
+		return (ERROR);
+	return (SUCCESS);
 }

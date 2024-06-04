@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/02 21:00:12 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/04 12:46:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,22 @@
 # define YELLOW "\033[0;33m"
 # define RESET "\033[0m"
 
-// typedef enum e_status
-// {
-// 	INVALID,
-// };
+# define SUCCESS 0
+# define FAILURE 1
+# define ERROR -1
+
+# define END_OF_LINE 8
+
+# define VALID 1
+# define INVALID 0
+
+# define MEMORY_ERR "Failed to allocate memory\n"
+# define SYNTAX_ERR "Syntax error\n"
 
 typedef enum e_token_type
 {
-	SPACE = 1,
+	NONE,
+	SPACE,
 	QUOTED,
 	TEXT,
 	CMD,
@@ -39,7 +47,6 @@ typedef struct s_token
 {
 	char			*content;
 	t_token_type	type;
-	int				len;
 }	t_token;
 
 typedef struct s_object

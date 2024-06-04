@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 void	print_content(void *content)

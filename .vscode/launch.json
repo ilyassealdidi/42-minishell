@@ -11,7 +11,7 @@
 			"preLaunchTask": "C/C++: clang build active file",
 			"program": "${workspaceFolder}/minishell_db",
 			"args": [
-				">",
+				"\"\"",
 			],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",

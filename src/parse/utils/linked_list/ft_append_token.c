@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/01 17:02:02 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/04 12:48:12 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_appendtoken(t_list **head, t_token *token)
 
 	new = ft_lstnew(token);
 	if (!new)
-		return (0);
+		return (FAILURE);
 	ft_lstadd_back(head, new);
-	return (1);
+	return (SUCCESS);
 }
