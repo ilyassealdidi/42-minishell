@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 11:24:11 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/04/29 13:13:34 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/05 12:15:16 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 long	ft_atol(const char *str);
 char	*ft_strpbrk(const char *s, const char *charset);
 size_t	ft_strspn(const char *s, const char *charset);
+size_t	ft_strcspn(const char *s, const char *reject);
 char	*get_next_line(int fd);
 int		ft_printf(const char *s, ...);
 

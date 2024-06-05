@@ -1,2 +1,3 @@
-instead of buffering use a flage named 'APPENDABLE'
-split with pipe
+Check errors before initilizing tokens
+skrt l expand
+Split with pipe
