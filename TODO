@@ -1,3 +1,4 @@
 Check errors before initilizing tokens
 skrt l expand
 Split with pipe
+Check for forbidden functions
