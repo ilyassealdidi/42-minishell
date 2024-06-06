@@ -3,20 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_append_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/05 22:11:50 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/06 10:15:53 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+#include <fcntl.h> 
 
-static void	update_token_type(t_list *head, t_token *token)
+// Warning : don't upate the token content until joining the joinable 
+// tokens is accomplished
+static int	update_token(t_list *head, t_token *token)
 {
-	if ((ft_lstlast(head) == NULL || get_last_token(head)->type == PIPE)
+	char	**paths;
+	char	*var;
+	char	*ptr;
+	int		i;
+
+	i = -1;
+	if ((ft_lstsize(head) == 0 || get_last_token(head)->type == PIPE)
 		&& token->type == ARG)
+	{
 		token->type = CMD;
+		var = getenv("PATH");
+		if (var == NULL)
+			return (SUCCESS);
+		paths = ft_split(var, ':');
+		if (paths == NULL)
+			return (FAILURE);
+		while (paths[++i] != NULL)
+		{
+			ptr = ft_strjoin(paths[i], "/");
+			if (ptr == NULL)
+				return (free_array(paths), FAILURE);
+			ptr = join(ptr, token->content);
+			if (ptr == NULL)
+				return (free_array(paths), FAILURE);
+			if (access(ptr, X_OK) != -1)
+			{
+				free(token->content);	
+				token->content = ptr;
+				return (SUCCESS);
+			}
+			free(ptr);
+		}
+		free_array(paths);
+	}
 }
 
 int	ft_appendtoken(t_list **head, t_token *token)

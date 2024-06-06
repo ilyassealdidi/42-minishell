@@ -1,4 +1,6 @@
 Check errors before initilizing tokens
 skrt l expand
+skrt join
+skrt lpath
 Split with pipe
 Check for forbidden functions

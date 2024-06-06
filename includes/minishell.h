@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/05 20:01:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/06 10:04:34 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	print_error(char *str);
 /*		Utilities		*/
 char			*join(char *str1, char *str2);
 int				is_valid_syntax(t_list *tokens);
+void			free_array(char **strs);
 // t_token_type	is_separator(char	*str);
 
 /*		Tokens utils	*/

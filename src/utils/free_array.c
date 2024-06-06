@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   free_array.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/06 02:47:34 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/06/06 09:59:45 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/06/06 10:04:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	parse(char *line, t_object *obj)
+void	free_array(char **strs)
 {
-	int		status;
+	int	i;
 
-	line = ft_strtrim(line, " ");
-	if (line == NULL)
-		return (FAILURE);
-	status = tokens_init(&obj->tokens, line);
-	free(line);
-	if (status == ERROR)
-		return (print_error(SYNTAX_ERR), 258);
-	if (status == FAILURE)
-		return (print_error(MEMORY_ERR), 1);
-	//ft_lstiter(obj->tokens, display_token); //tskrt
-	expand(obj);
-	return (SUCCESS);
+	i = -1;
+	while (strs[++i] != NULL)
+		free(strs[i]);
+	free(strs);
 }

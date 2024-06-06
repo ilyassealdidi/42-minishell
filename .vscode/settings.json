@@ -32,6 +32,7 @@
 		"ratio": "c",
 		"tuple": "c",
 		"utility": "c",
-		"parse.h": "c"
+		"parse.h": "c",
+		"fcntl.h": "c"
 	}
 }
