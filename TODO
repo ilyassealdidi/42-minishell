@@ -1,6 +1,12 @@
-Check errors before initilizing tokens
+Required
+
 skrt l expand
 skrt join
 skrt lpath
 Split with pipe
 Check for forbidden functions
+
+Optional
+
+recode strndup and add to libft
+Check errors before initilizing tokens
