@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/06 02:44:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/06 17:34:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int	expand_vars(t_token *token, int exit_status)
 	char	*dollar_sign;
 
 	ptr = "";
+	// echo "$HOME $USER $PWD $?"
+	// echo "$HOME$USER"
+	// echo "$HOME$USER$"
 	while (1)
 	{
 		dollar_sign = ft_strchr(token->content, '$');
@@ -35,7 +38,7 @@ int	expand_vars(t_token *token, int exit_status)
 			}
 			else if (ft_isalpha(*dollar_sign))
 			{
-				var = ft_substr(dollar_sign, 0, ft_strcspn(dollar_sign, " "));
+				var = ft_substr(dollar_sign, 0, ft_strcspn(dollar_sign, " $"));
 				if (var == NULL)
 					return (FAILURE);
 				value = getenv(var);
@@ -46,7 +49,7 @@ int	expand_vars(t_token *token, int exit_status)
 	return (SUCCESS);
 }
 
-void	expand(t_object *obj)
+int	expand(t_object *obj)
 {
 	t_list	*node;
 	t_token	*token;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/06 10:04:34 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/06 16:43:05 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@
 // Consider to use seperate header files, one for parsing, one for executing
 
 /*		Errors Management		*/
-void	print_error(char *str);
+void			print_error(char *str);
 
 /*		Utilities		*/
 char			*join(char *str1, char *str2);
 int				is_valid_syntax(t_list *tokens);
 void			free_array(char **strs);
 // t_token_type	is_separator(char	*str);
+
 
 /*		Tokens utils	*/
 int				ft_appendtoken(t_list **head, t_token *token);
@@ -41,6 +42,8 @@ void			free_token(void *content);
 /*		Tokenization	*/
 int				tokens_init(t_list **tokens, char *line);
 
+/*		Expanding	*/
+int				expand(t_object *obj);
 /*		Barsing			*/
 int 			parse(char *line, t_object *obj);
 

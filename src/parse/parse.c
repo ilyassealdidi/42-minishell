@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/06 02:47:34 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/06 16:42:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	parse(char *line, t_object *obj)
 	if (status == FAILURE)
 		return (print_error(MEMORY_ERR), 1);
 	//ft_lstiter(obj->tokens, display_token); //tskrt
-	expand(obj);
+	if (expand(obj) == FAILURE)
+		return (FAILURE);
 	return (SUCCESS);
 }
