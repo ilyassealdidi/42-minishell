@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_append_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/06 10:15:53 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/07 12:02:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,31 @@ static int	update_token(t_list *head, t_token *token)
 		&& token->type == ARG)
 	{
 		token->type = CMD;
-		var = getenv("PATH");
-		if (var == NULL)
-			return (SUCCESS);
-		paths = ft_split(var, ':');
-		if (paths == NULL)
-			return (FAILURE);
-		while (paths[++i] != NULL)
-		{
-			ptr = ft_strjoin(paths[i], "/");
-			if (ptr == NULL)
-				return (free_array(paths), FAILURE);
-			ptr = join(ptr, token->content);
-			if (ptr == NULL)
-				return (free_array(paths), FAILURE);
-			if (access(ptr, X_OK) != -1)
-			{
-				free(token->content);	
-				token->content = ptr;
-				return (SUCCESS);
-			}
-			free(ptr);
-		}
-		free_array(paths);
+		// var = getenv("PATH");
+		// if (var == NULL)
+		// 	return (SUCCESS);
+		// paths = ft_split(var, ':');
+		// if (paths == NULL)
+		// 	return (FAILURE);
+		// while (paths[++i] != NULL)
+		// {
+		// 	ptr = ft_strjoin(paths[i], "/");
+		// 	if (ptr == NULL)
+		// 		return (free_array(paths), FAILURE);
+		// 	ptr = join(ptr, token->content);
+		// 	if (ptr == NULL)
+		// 		return (free_array(paths), FAILURE);
+		// 	if (access(ptr, X_OK) != -1)
+		// 	{
+		// 		free(token->content);	
+		// 		token->content = ptr;
+		// 		return (SUCCESS);
+		// 	}
+		// 	free(ptr);
+		// }
+		// free_array(paths);
 	}
+	return (SUCCESS);
 }
 
 int	ft_appendtoken(t_list **head, t_token *token)
@@ -58,7 +59,7 @@ int	ft_appendtoken(t_list **head, t_token *token)
 	t_list	*node;
 	t_token	*new;
 
-	update_token_type(*head, token);
+	update_token(*head, token);
 	new = malloc(sizeof(t_token));
 	if (new == NULL)
 		return (FAILURE);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 10:59:11 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/05/31 10:59:27 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/07 20:17:42 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ char	*join(char *str1, char *str2)
 	char	*tmp;
 	char	*joined;
 
-	if (!str1)
+	if (str1 == NULL)
 	{
 		tmp = ft_strdup(str2);
 		if (tmp == NULL)
 			free(str2);
 		return (tmp);
 	}
+	if (str2 == NULL)
+		str2 = "";
 	tmp = str1;
 	joined = ft_strjoin(str1, str2);
 	free(tmp);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/05 22:12:22 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/07 20:12:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		if (argv[1])
-			rl = ft_strdup("echo Hi > file | ls -la");
+			rl = ft_strdup("echo \"ARG : $PATH\" > file | ls -la");
 		else
 			rl = readline(YELLOW"Minishell$ "RESET);
 		if (!rl)

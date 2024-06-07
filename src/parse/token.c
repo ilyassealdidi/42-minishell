@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/05 21:46:36 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/07 13:05:24 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	set_next_token(char **line, t_token *token)
 	return (SUCCESS);
 }
 
-int	tokens_init(t_list **tokens, char *line)
+int	tokens_init(t_object *obj, char *line)
 {
 	int					ret;
 	t_token				token;
@@ -87,14 +87,14 @@ int	tokens_init(t_list **tokens, char *line)
 			line++;
 		if (*line == '\0')
 			break ;
-		ft_memset(&token, 0, sizeof(t_token));
 		ret = set_next_token(&line, &token);
 		if (ret != SUCCESS)
 			return (ret);
-		if (ft_appendtoken(tokens, &token) == FAILURE)
-				return (free(token.content), FAILURE);
+		if ((expand_vars(&token, obj->exit_status) == FAILURE)
+			|| (ft_appendtoken(&obj->tokens, &token) == FAILURE))
+			return (free(token.content), FAILURE);
 	}
-	if (is_valid_syntax(*tokens) == ERROR)
+	if (is_valid_syntax(obj->tokens) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
 }

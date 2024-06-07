@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/06 16:43:05 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/07 12:00:47 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <types.h>
-// # define is_sep is_separator
-
 // Consider to use seperate header files, one for parsing, one for executing
 
 /*		Errors Management		*/
@@ -40,10 +38,11 @@ t_token			*get_last_token(t_list *list);
 void			free_token(void *content);
 
 /*		Tokenization	*/
-int				tokens_init(t_list **tokens, char *line);
+int     		tokens_init(t_object *obj, char *line);
 
 /*		Expanding	*/
-int				expand(t_object *obj);
+int				expand_vars(t_token *token, int exit_status);
+
 /*		Barsing			*/
 int 			parse(char *line, t_object *obj);
 

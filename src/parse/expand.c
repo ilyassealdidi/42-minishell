@@ -6,75 +6,76 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/06 23:36:11 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/07 20:21:20 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// "Home: $HOME, USER: $USER"
-// "$HOME$USER"
-// "$HOME$USER$"
-char	*next_part(char *str, int *index, int exit_status)
+static int	get_part_len(char *str, bool is_var)
 {
-	int		len;
+	int	len;
 
 	len = 0;
-	if (*str == '$' && isalpha(*(str + 1)))
+	if (is_var == true)
 	{
-		while (isalnum(str[++len]))
+		while (ft_isalnum(str[++len]))
 			;
-		*index += len;
-		return (ft_substr(str, 0, len));
+		return (len - 1);
 	}
-	else if (*str == '$' && *(str + 1) == '?')
+	else
+		return (ft_strcspn(str, "$") + (*str == '$'));
+	
+}
+
+static int	next_part(char **str, char **ptr, int exit_status)
+{
+	char	*tmp;
+
+ 	if (**str == '$' && ft_isalpha(*(*str + 1)))
 	{
-		*index += 2;
-		return (ft_itoa(exit_status));
+		tmp = ft_substr(*str + 1, 0, get_part_len(*str, true));
+		if (tmp == NULL)
+			return (FAILURE);
+		return (*str += get_part_len(*str, true), *ptr = getenv(tmp),
+			free(tmp), SUCCESS);
+	}
+	else if (**str == '$' && *(*str + 1) == '?')
+	{
+		*ptr = ft_itoa(exit_status);
+		if (*ptr == NULL)
+			return (FAILURE);
+		return (*str += 2, SUCCESS);
 	}
 	else
 	{
-		len = strcspn(str, "$") + (*str == '$');
-		*index += len;
-		return (ft_substr(str, 0, len));
+		*ptr = ft_substr(*str, 0, get_part_len(*str, false));
+		if (*ptr == NULL) 
+			return (FAILURE);
+		return (*str += get_part_len(*str, false), SUCCESS);
 	}
 }
 
 int	expand_vars(t_token *token, int exit_status)
 {
 	char	*new;
+	char	*old;
 	char	*ptr;
-	int		i;
 
-	i = 0;
+	if (token->is_expandable == false)
+		return (SUCCESS);
 	new = NULL;
-	while (token->content[i] != '\0')
+	old = token->content;
+	while (*token->content != '\0')
 	{
-		ptr = next_part(token->content, i, exit_status);
-		if (ptr == NULL)
+		if (next_part(&token->content, &ptr, exit_status) == FAILURE)
 			return (FAILURE);
 		new = join(new, ptr);
 		free(ptr);
 		if (new == NULL)
 			return (FAILURE);
 	}
-	free(token->content);
+	free(old);
 	token->content = new;
 	return (SUCCESS);
-}
-
-int	expand(t_object *obj)
-{
-	t_list	*node;
-	t_token	*token;
-
-	node = obj->tokens;
-	while (node)
-	{
-		token = node->content;
-		if (token->is_expandable)
-			if (expand_vars(token, obj->exit_status) == FAILURE)
-				return (FAILURE);
-		node = node->next;
-	}
 }
