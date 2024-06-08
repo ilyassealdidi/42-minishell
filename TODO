@@ -1,12 +1,14 @@
-Required
+Urgent
+	skrt l expand					=> Done
+	skrt join						=> Done
+	skrt lpath						=> Done
+	Split with pipe
+	Check for forbidden functions
 
-skrt l expand
-skrt join
-skrt lpath
-Split with pipe
-Check for forbidden functions
+Not Urgent
+	update join() function
 
 Optional
 
-recode strndup and add to libft
-Check errors before initilizing tokens
+	recode strndup and add to libft
+	Check errors before initilizing tokens

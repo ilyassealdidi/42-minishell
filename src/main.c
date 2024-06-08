@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/07 20:12:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/08 11:54:22 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **env)
 	char				*rl;
 	int					status;
 
-	//atexit(func);
+	atexit(func);
 	ft_memset(&obj, 0, sizeof(t_object));
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/07 13:05:24 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/08 11:51:25 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_token_type	get_token_type(char *str)
 	return (NONE);
 }
 
-bool	is_expandable(char *str)
+static bool	is_expandable(char *str)
 {
 	char	*dollar_sign;
 
@@ -42,7 +42,7 @@ bool	is_expandable(char *str)
 	if (*str != '"' && str + ft_strcspn(str, " |><'\"") < dollar_sign) /**/
 		return (false);
 	if (ft_isalpha(*(dollar_sign + 1)) || *(dollar_sign + 1) == '?')
-			return (true);
+		return (true);
 	return (false);
 }
 
@@ -71,7 +71,7 @@ static int	set_next_token(char **line, t_token *token)
 	if (token->content == NULL)
 		return (FAILURE);
 	*line += len + (**line == '"' || **line == '\'') * 2;
-	token->is_joinable = ft_strchr(" |><", **line) == NULL && **line != '\0'
+	token->is_joinable = ft_strchr(" <>|", **line) == NULL && **line != '\0'
 		&& token->type == ARG;
 	return (SUCCESS);
 }
@@ -80,19 +80,17 @@ int	tokens_init(t_object *obj, char *line)
 {
 	int					ret;
 	t_token				token;
-	
+
 	while (*line != '\0')
 	{
-		while (*line == ' ')
-			line++;
-		if (*line == '\0')
-			break ;
 		ret = set_next_token(&line, &token);
 		if (ret != SUCCESS)
 			return (ret);
 		if ((expand_vars(&token, obj->exit_status) == FAILURE)
 			|| (ft_appendtoken(&obj->tokens, &token) == FAILURE))
 			return (free(token.content), FAILURE);
+		while (*line == ' ')
+			line++;
 	}
 	if (is_valid_syntax(obj->tokens) == ERROR)
 		return (ERROR);

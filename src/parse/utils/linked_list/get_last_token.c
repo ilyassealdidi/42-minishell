@@ -6,11 +6,11 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 12:33:22 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/05 12:35:22 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/08 09:43:02 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <minishell.h>
+#include <minishell.h>
 
 t_token	*get_last_token(t_list *list)
 {

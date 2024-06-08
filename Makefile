@@ -1,7 +1,7 @@
 SRCS			= $(shell find src -type f -name "*.c")
 OBJS_DIR		= obj/
 OBJS 			= $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
-INCS_DIR		= includes/
+INCS_DIR		= include/
 INCS			= $(INCS_DIR)minishell.h $(INCS_DIR)types.h
 LIBFT_DIR		= lib/libft/
 LIBFT			= $(LIBFT_DIR)libft.a
