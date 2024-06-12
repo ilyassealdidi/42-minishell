@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/08 11:51:25 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/12 09:39:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static t_token_type	get_token_type(char *str)
 	if (((*str == '\'' || *str == '"') && ft_strchr(str + 1, *str))
 		|| (ft_isprint(*str) && (*str != '\'' && *str != '"')))
 		return (ARG);
-	return (NONE);
 }
 
 static bool	is_expandable(char *str)
@@ -39,9 +38,10 @@ static bool	is_expandable(char *str)
 		return (false);
 	if (*str == '"' && ft_strchr(str + 1, '"') < dollar_sign)
 		return (false);
-	if (*str != '"' && str + ft_strcspn(str, " |><'\"") < dollar_sign) /**/
-		return (false);
-	if (ft_isalpha(*(dollar_sign + 1)) || *(dollar_sign + 1) == '?')
+	// if (*str != '"' && str + ft_strcspn(str, " |><'\"") < dollar_sign) /**/
+	// 	return (false);
+	if (ft_isalpha(*(dollar_sign + 1)) || *(dollar_sign + 1) == '?'
+		|| *(dollar_sign + 1) == '\'' || *(dollar_sign + 1) == '"')
 		return (true);
 	return (false);
 }
@@ -86,8 +86,8 @@ int	tokens_init(t_object *obj, char *line)
 		ret = set_next_token(&line, &token);
 		if (ret != SUCCESS)
 			return (ret);
-		if ((expand_vars(&token, obj->exit_status) == FAILURE)
-			|| (ft_appendtoken(&obj->tokens, &token) == FAILURE))
+		if (expand_vars(obj, &token) == FAILURE
+			|| ft_appendtoken(obj, &token) == FAILURE)
 			return (free(token.content), FAILURE);
 		while (*line == ' ')
 			line++;

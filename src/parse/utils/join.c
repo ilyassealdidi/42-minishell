@@ -6,30 +6,34 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 10:59:11 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/07 20:17:42 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/10 10:41:40 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/*
+NULL ""
+NULL echo
+echo ""
+NULL echo
+echo >
+
+*/
 char	*join(char *str1, char *str2)
 {
-	char	*tmp;
 	char	*joined;
 
-	if (str1 == NULL)
+	if (str1 != NULL && *str1 != '\0' && *str2 == '\0')
+		return (str1);
+	if (*str2 == '\0')
 	{
-		tmp = ft_strdup(str2);
-		if (tmp == NULL)
-			free(str2);
-		return (tmp);
+		str2 = ft_strdup("");
+		if (str2 == NULL)
+			return (free(str1), NULL);
 	}
-	if (str2 == NULL)
-		str2 = "";
-	tmp = str1;
 	joined = ft_strjoin(str1, str2);
-	free(tmp);
-	if (joined == NULL)
-		return (NULL);
+	free(str1);
+	free(str2);
 	return (joined);
 }

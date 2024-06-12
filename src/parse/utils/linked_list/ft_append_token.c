@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/08 21:27:15 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/06/11 16:47:18 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static int	set_cmd_path(t_list *head, t_token *token)
 		&& token->type == ARG && is_built_in(token->content) == false)
 	{
 		token->type = CMD;
+		if (ft_strlen(token->content) == 0)
+			return (SUCCESS);
 		var = getenv("PATH");
 		if (var == NULL)
 			return (SUCCESS);
@@ -59,12 +61,12 @@ static int	set_cmd_path(t_list *head, t_token *token)
 			ptr = ft_strjoin(paths[i], "/");
 			if (ptr == NULL)
 				return (free_array(paths), FAILURE);
-			ptr = join(ptr, token->content);
-			if (ptr == NULL)
-				return (free_array(paths), FAILURE);
-			if (access(ptr, X_OK) != -1)
-				return (free(token->content), token->content = ptr, SUCCESS);
+			var = ft_strjoin(ptr, token->content);
 			free(ptr);
+			if (var == NULL)
+				return (free_array(paths), FAILURE);
+			if (access(var, X_OK) != -1)
+				return (free(token->content), token->content = var, SUCCESS);
 		}
 		free_array(paths);
 	}
@@ -83,8 +85,8 @@ int	ft_appendtoken(t_list **head, t_token *new)
 		token->content = join(token->content, new->content);
 		if (token->content == NULL)
 			return (FAILURE);
-		free(new->content);
 		token->is_joinable = new->is_joinable;
+		// token->is_expandable = new->is_expandable;
 	}
 	else
 	{
