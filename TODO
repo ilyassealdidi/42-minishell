@@ -1,0 +1,5 @@
+env 
+use strtok
+synatx_error-> 258
+ctl+C --> exit 1
+HEREDOC

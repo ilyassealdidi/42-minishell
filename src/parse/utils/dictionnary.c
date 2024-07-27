@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   dictionnary.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 13:11:31 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/24 06:50:28 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/07/26 02:11:56 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/07/27 01:42:43 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <minishell.h>
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+t_dictionnary	*create_element(char *key, char *value)
 {
-	t_list	*last;
+	t_dictionnary	*element;
 
-	if (!lst)
-		return ;
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		last = ft_lstlast(*lst);
-		last->next = new;
-		new->previous = last;
-	}
+	element = (t_dictionnary *)malloc(sizeof(t_dictionnary));
+	if (element == NULL)
+		return (NULL);
+	element->key = key;
+	element->value = value;
+	return (element);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/11 10:45:10 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/26 07:00:55 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,15 @@ typedef enum e_token_type
 {
 	NONE,
 	CMD,
+	BUILTIN,
+	OPTION,
 	ARG,
 	PIPE,
 	REDIR_IN,
 	REDIR_OUT,
 	APPEND,
 	HEREDOC,
+	FFILE,
 }	t_token_type;
 
 typedef struct s_token
@@ -53,10 +56,17 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
+typedef struct s_dictionnary
+{
+	char			*key;
+	char			*value;
+}	t_dictionnary;
+
 typedef struct s_object
 {
-	t_list	*tokens;
-	int		exit_status;
+	t_list			*tokens;
+	t_list			*env;
+	int				exit_status;
 }	t_object;
 
 #endif

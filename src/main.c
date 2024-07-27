@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/11 18:24:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/27 01:41:34 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ int	main(int argc, char **argv, char **env)
 	char				*rl;
 	int					status;
 
-	atexit(func);
-	if (argc != 1)
-		return (ft_printf("Usage: ./minishell\n"), 1);
+	// if (argc != 1)
+	// 	return (ft_printf("Usage: ./minishell\n"), 1);
 	ft_memset(&obj, 0, sizeof(t_object));
 	while (1)
 	{
 		if (argv[1])
-			rl = ft_strdup("echo $PATH$");
+			rl = ft_strdup("echo > file");
 		else
 			rl = readline(YELLOW"Minishell$ "RESET);
 		if (!rl)

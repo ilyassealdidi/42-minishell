@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_append_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/11 16:47:18 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/26 07:05:01 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 #include <fcntl.h> 
 
-static bool is_built_in(char *str)
+static bool	is_built_in(char *str)
 {
 	int		len;
 
@@ -35,42 +35,63 @@ static bool is_built_in(char *str)
 	return (false);
 }
 
-// NORM
+static bool	is_cmd_exists(char *ptr, char *cmd)
+{
+	int		path_len;
+	int		cmd_len;
+
+	cmd_len = ft_strlen(cmd);
+	path_len = ft_strlen(ptr);
+	ft_strlcat(ptr, ptr, path_len + 1);
+	ft_strlcat(ptr, "/", path_len + 2);
+	ft_strlcat(ptr, cmd, path_len + cmd_len + 2);
+	return (access(ptr, X_OK) == 0);
+}
+
 static int	set_cmd_path(t_list *head, t_token *token)
 {
 	char	**paths;
-	char	*var;
 	char	*ptr;
 	int		i;
 
-	i = -1;
-	if ((head == NULL || get_last_token(head)->type == PIPE)
-		&& token->type == ARG && is_built_in(token->content) == false)
+	if (ft_strlen(token->content) == 0 || token->type == CMD)
+		return (SUCCESS);
+	ptr = getenv("PATH");
+	if (ptr == NULL)
+		return (SUCCESS);
+	paths = ft_split(ptr, ':');
+	if (paths == NULL || paths[0] == NULL)
+		return (free(paths), FAILURE);
+	while (paths[++i] != NULL)
 	{
-		token->type = CMD;
-		if (ft_strlen(token->content) == 0)
-			return (SUCCESS);
-		var = getenv("PATH");
-		if (var == NULL)
-			return (SUCCESS);
-		paths = ft_split(var, ':');
-		if (paths == NULL || paths[0] == NULL)
+		ptr = malloc(ft_strlen(paths[i]) + ft_strlen(token->content) + 2);
+		if (ptr == NULL)
 			return (free(paths), FAILURE);
-		while (paths[++i] != NULL)
-		{
-			ptr = ft_strjoin(paths[i], "/");
-			if (ptr == NULL)
-				return (free_array(paths), FAILURE);
-			var = ft_strjoin(ptr, token->content);
-			free(ptr);
-			if (var == NULL)
-				return (free_array(paths), FAILURE);
-			if (access(var, X_OK) != -1)
-				return (free(token->content), token->content = var, SUCCESS);
-		}
-		free_array(paths);
+		if (is_cmd_exists(ptr, token->content))
+			return (free_array(paths), free(token->content), token->content = ptr, SUCCESS);
+		free(ptr);
 	}
+	free_array(paths);
 	return (SUCCESS);
+}
+
+static void	update_token_type(t_list *head, t_token *new)
+{
+	t_token	*last_token;
+
+	last_token = get_last_token(head);
+	if (is_built_in(new->content))
+	{
+		new->type = BUILTIN;
+		return ;
+	}
+	if ((head == NULL || last_token->type == PIPE) && new->type == ARG)
+		new->type = CMD;
+	if (head != NULL && last_token->type == REDIR_OUT)
+		new->type = FFILE;
+	if (head != NULL && last_token->type == BUILTIN)
+		if (*new->content == '-')
+			new->type = OPTION;
 }
 
 int	ft_appendtoken(t_list **head, t_token *new)
@@ -78,6 +99,7 @@ int	ft_appendtoken(t_list **head, t_token *new)
 	t_list	*node;
 	t_token	*token;
 
+	update_token_type(*head, new);
 	set_cmd_path(*head, new);
 	if (ft_lstlast(*head) != NULL && get_last_token(*head)->is_joinable)
 	{
@@ -86,7 +108,6 @@ int	ft_appendtoken(t_list **head, t_token *new)
 		if (token->content == NULL)
 			return (FAILURE);
 		token->is_joinable = new->is_joinable;
-		// token->is_expandable = new->is_expandable;
 	}
 	else
 	{
@@ -95,7 +116,7 @@ int	ft_appendtoken(t_list **head, t_token *new)
 			return (FAILURE);
 		ft_memcpy(token, new, sizeof(t_token));
 		node = ft_lstnew(token);
-		if (!node)
+		if (node == NULL)
 			return (free(token), FAILURE);
 		ft_lstadd_back(head, node);
 	}

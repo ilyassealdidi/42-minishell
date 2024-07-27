@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/12 09:44:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/26 06:34:07 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ static int	get_part_len(char *str, bool is_var)
 
 	len = 0;
 	if (is_var == false)
-		return (ft_strcspn(str, "$") + (*str == '$'));
-	while (ft_isalnum(str[++len]))
+		return (ft_strcspn(str + 1, "$") + (*str == '$') + 1);
+	while (ft_isalnum(str[++len]) && str[len] != '$')
 		;
 	return (len - 1);
 }
 
-// NORM
 static int	next_part(char **str, char **ptr, int exit_status)
 {
 	char	*tmp;
@@ -38,8 +37,8 @@ static int	next_part(char **str, char **ptr, int exit_status)
 		if (tmp == NULL)
 			return (FAILURE);
 		if (getenv(tmp) == NULL)
-			return (free(tmp), *str += get_part_len(*str, true) + 1,
-				*ptr = "", SUCCESS);
+			return (free(tmp), *str += get_part_len(*str, true) + 1, *ptr = "",
+				SUCCESS);
 		*ptr = ft_strdup(getenv(tmp));
 		if (*ptr == NULL)
 			return (free(tmp), FAILURE);
@@ -66,8 +65,8 @@ int	expand_vars(t_object *obj, t_token *token)
 	char	*old;
 	char	*ptr;
 
-	if (token->is_expandable == false
-		|| get_last_token(obj->tokens)->type == HEREDOC)
+	if (!token->is_expandable
+		|| obj->tokens && get_last_token(obj->tokens)->type == HEREDOC)
 		return (SUCCESS);
 	new = NULL;
 	old = token->content;
