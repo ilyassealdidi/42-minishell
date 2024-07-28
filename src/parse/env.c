@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/26 02:16:00 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/28 09:20:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,45 @@ int	init_env(t_object *obj, char **env)
 	}
 	return (SUCCESS);
 }
+
+char	*get_env(t_object *obj, char *key)
+{
+	t_list			*tmp;
+	t_dictionnary	*element;
+
+	tmp = obj->env;
+	while (tmp)
+	{
+		element = tmp->content;
+		if (ft_strcmp(element->key, key) == 0)
+			return (element->value);
+		tmp = tmp->next;
+	}
+	return (""); // to be changed
+}
+
+// int	set_env(t_object *obj, char *key, char *value)
+// {
+// 	t_list			*tmp;
+// 	t_dictionnary	*element;
+
+// 	tmp = obj->env;
+// 	while (tmp)
+// 	{
+// 		element = tmp->content;
+// 		if (ft_strcmp(element->key, key) == 0)
+// 		{
+// 			free(element->value);
+// 			element->value = ft_strdup(value);
+// 			if (element->value == NULL)
+// 				return (FAILURE);
+// 			return (SUCCESS);
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// 	element = create_element(key, value);
+// 	if (element == NULL)
+// 		return (FAILURE);
+// 	ft_lstadd_back(&obj->env, ft_lstnew(element));
+// 	return (SUCCESS);
+// }

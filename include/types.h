@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/26 07:00:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/28 12:09:44 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef enum e_token_type
 	NONE,
 	CMD,
 	BUILTIN,
-	OPTION,
 	ARG,
+	DELIMITER,
 	PIPE,
 	REDIR_IN,
 	REDIR_OUT,
@@ -53,6 +53,7 @@ typedef struct s_token
 	char			*content;
 	bool			is_joinable;
 	bool			is_expandable;
+	bool			is_quoted;
 	t_token_type	type;
 }	t_token;
 

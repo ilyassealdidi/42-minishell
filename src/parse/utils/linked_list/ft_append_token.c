@@ -6,34 +6,12 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/26 07:05:01 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/28 09:05:24 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 #include <fcntl.h> 
-
-static bool	is_built_in(char *str)
-{
-	int		len;
-
-	len = ft_strlen(str);
-	if (len == 4 && ft_strncmp(str, "echo", 4) == 0)
-		return (true);
-	if (len == 2 && ft_strncmp(str, "cd", 2) == 0)
-		return (true);
-	if (len == 3 && ft_strncmp(str, "pwd", 3) == 0)
-		return (true);
-	if (len == 6 && ft_strncmp(str, "export", 6) == 0)
-		return (true);
-	if (len == 5 && ft_strncmp(str, "unset", 5) == 0)
-		return (true);
-	if (len == 3 && ft_strncmp(str, "env", 3) == 0)
-		return (true);
-	if (len == 4 && ft_strncmp(str, "exit", 4) == 0)
-		return (true);
-	return (false);
-}
 
 static bool	is_cmd_exists(char *ptr, char *cmd)
 {
@@ -68,30 +46,12 @@ static int	set_cmd_path(t_list *head, t_token *token)
 		if (ptr == NULL)
 			return (free(paths), FAILURE);
 		if (is_cmd_exists(ptr, token->content))
-			return (free_array(paths), free(token->content), token->content = ptr, SUCCESS);
+			return (free_array(paths), free(token->content),
+				token->content = ptr, SUCCESS);
 		free(ptr);
 	}
 	free_array(paths);
 	return (SUCCESS);
-}
-
-static void	update_token_type(t_list *head, t_token *new)
-{
-	t_token	*last_token;
-
-	last_token = get_last_token(head);
-	if (is_built_in(new->content))
-	{
-		new->type = BUILTIN;
-		return ;
-	}
-	if ((head == NULL || last_token->type == PIPE) && new->type == ARG)
-		new->type = CMD;
-	if (head != NULL && last_token->type == REDIR_OUT)
-		new->type = FFILE;
-	if (head != NULL && last_token->type == BUILTIN)
-		if (*new->content == '-')
-			new->type = OPTION;
 }
 
 int	ft_appendtoken(t_list **head, t_token *new)
@@ -101,7 +61,7 @@ int	ft_appendtoken(t_list **head, t_token *new)
 
 	update_token_type(*head, new);
 	set_cmd_path(*head, new);
-	if (ft_lstlast(*head) != NULL && get_last_token(*head)->is_joinable)
+	if (*head != NULL && get_last_token(*head)->is_joinable)
 	{
 		token = get_last_token(*head);
 		token->content = join(token->content, new->content);
@@ -111,6 +71,8 @@ int	ft_appendtoken(t_list **head, t_token *new)
 	}
 	else
 	{
+		if (new->content[0] == '\0' && new->is_expandable)
+			return (free(new->content), SUCCESS);
 		token = malloc(sizeof(t_token));
 		if (token == NULL)
 			return (FAILURE);

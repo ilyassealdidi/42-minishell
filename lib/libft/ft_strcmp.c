@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_last_token.c                                   :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 12:33:22 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/08 09:43:02 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/07/28 09:16:51 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/07/28 09:17:00 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "libft.h"
 
-t_token	*get_last_token(t_list *list)
+int	ft_strcmp(char *s1, char *s2)
 {
-	if (list == NULL)
-		return (NULL);
-	return ((t_token *)(ft_lstlast(list)->content));
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }

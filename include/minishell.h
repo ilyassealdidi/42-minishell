@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/26 02:22:41 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/28 13:53:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <libft.h>
 # include <stdio.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -28,10 +29,10 @@ void			print_error(char *str);
 char			*join(char *str1, char *str2);
 int				is_valid_syntax(t_list *tokens);
 void			free_array(char **strs);
-// t_token_type	is_separator(char	*str);
 
 /*		Tokens utils	*/
 int				ft_appendtoken(t_list **head, t_token *token);
+void			update_token_type(t_list *head, t_token *new);
 t_token			*get_first_token(t_list *list);
 t_token			*get_last_token(t_list *list);
 void			free_token(void *content);
@@ -50,10 +51,15 @@ t_dictionnary	*create_element(char *key, char *value);
 
 /*		Envirement		*/
 int				init_env(t_object *obj, char **env);
+char			*get_env(t_object *obj, char *key);
 
-/*		tskrt			*/
+/*		Signals			*/
+void			terminate(int sig);
+
+/*		TO BE REMOVED	*/
 void			print_content(void *content);
 void			display_token(void *content);
-void			func();
+void			leaks_func(void);
+void			print_env(void *content);
 
 #endif

@@ -1,5 +1,8 @@
 env 
 use strtok
 synatx_error-> 258
-ctl+C --> exit 1
+Ctrl+C --> exit 1
 HEREDOC
+Use flags to indicate that the input could have errors:
+	red flag
+	warning

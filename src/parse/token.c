@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/24 02:33:02 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/28 11:23:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,21 @@ static t_token_type	get_token_type(char *str)
 
 static bool	is_expandable(char *str)
 {
-	char	*dollar_sign;
+	char	*ptr;
 
-	dollar_sign = ft_strchr(str + (*str == '"'), '$');
-	if (dollar_sign == NULL)
+	if (*str == '\'')
 		return (false);
-	if (*str == '"' && ft_strchr(str + 1, '"') < dollar_sign)
-		return (false);
-	if (*str != '"' && str + ft_strcspn(str, " |><'\"") < dollar_sign) /**/
-		return (false);
-	if (ft_isalpha(*(dollar_sign + 1)) || *(dollar_sign + 1) == '?'
-		|| *(dollar_sign + 1) == '\'' || *(dollar_sign + 1) == '"')
-		return (true);
-	return (false);
+	while (1)
+	{
+		ptr = ft_strchr(str + (*str == '"'), '$');
+		if (ptr == NULL
+			|| (*str == '"' && ft_strchr(str + 1, '"') < ptr)
+			|| (*str != '"' && str + ft_strcspn(str, " |><'\"") < ptr))
+			return (false);
+		if (ft_isalpha(*(ptr + 1)) || *(ptr + 1) == '?' || *(ptr + 1) == '_')
+			return (true);
+		str = ptr + 1;
+	}
 }
 
 static int	get_token_length(char *line, t_token_type type)
@@ -68,10 +70,11 @@ static int	set_next_token(char **line, t_token *token)
 		return (ERROR);
 	len = get_token_length(*line, token->type);
 	token->is_expandable = is_expandable(*line);
-	token->content = ft_substr(*line, (**line == '"' || **line == '\''), len);
+	token->is_quoted = **line == '"' || **line == '\'';
+	token->content = ft_substr(*line, token->is_quoted, len);
 	if (token->content == NULL)
 		return (FAILURE);
-	*line += len + (**line == '"' || **line == '\'') * 2;
+	*line += len + (2 * token->is_quoted);
 	token->is_joinable = ft_strchr(" <>|", **line) == NULL && **line != '\0'
 		&& token->type == ARG;
 	return (SUCCESS);

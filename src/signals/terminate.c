@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_first_token.c                                  :+:      :+:    :+:   */
+/*   terminate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 12:31:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/08 09:43:08 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/07/28 13:48:09 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/07/28 14:09:03 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_token	*get_first_token(t_list *list)
+void	terminate(int sig)
 {
-	if (list == NULL)
-		return (NULL);
-	return ((t_token *)list->content);
+	(void)sig;
+	ft_printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }

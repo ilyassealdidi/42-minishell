@@ -6,57 +6,53 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/26 06:34:07 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/28 07:33:47 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// TODO : Escape dollar sign
-
-static int	get_part_len(char *str, bool is_var)
+static int	set_part_len(char *str, int *len)
 {
-	int	len;
-
-	len = 0;
-	if (is_var == false)
-		return (ft_strcspn(str + 1, "$") + (*str == '$') + 1);
-	while (ft_isalnum(str[++len]) && str[len] != '$')
-		;
-	return (len - 1);
+	if (*str == '$')
+	{
+		str++;
+		if (*str == '?')
+			return (*len = 1);
+		*len = 0;
+		if (ft_isdigit(*str))
+			return (0);
+		while (ft_isalnum(str[*len]) || str[*len] == '_')
+			(*len)++;
+		if (*len == 0)
+			return (*len = 1, 0);
+		return (1);
+	}
+	else
+		return (*len = ft_strcspn(str, "$"), 0);
 }
 
-static int	next_part(char **str, char **ptr, int exit_status)
+static int	set_next_part(t_object *obj, char **str, char **ptr)
 {
-	char	*tmp;
-	char	*var;
+	int		len;
+	int		is_env;
+	char	*substring;
 
-	if (**str == '$' && ft_isalpha(*(*str + 1)))
+	is_env = set_part_len(*str, &len);
+	if (!is_env)
+		*ptr = ft_substr(*str, 0, len);
+	else
 	{
-		tmp = ft_substr(*str + 1, 0, get_part_len(*str, true));
-		if (tmp == NULL)
+		substring = ft_substr(*str, 1, len);
+		if (substring == NULL)
 			return (FAILURE);
-		if (getenv(tmp) == NULL)
-			return (free(tmp), *str += get_part_len(*str, true) + 1, *ptr = "",
-				SUCCESS);
-		*ptr = ft_strdup(getenv(tmp));
-		if (*ptr == NULL)
-			return (free(tmp), FAILURE);
-		return (*str += get_part_len(*str, true) + 1, free(tmp), SUCCESS);
+		*ptr = ft_strdup(get_env(obj, substring));
+		free(substring);
 	}
-	else if (**str == '$' && *(*str + 1) == '?')
-	{
-		*ptr = ft_itoa(exit_status);
-		if (*ptr == NULL)
-			return (FAILURE);
-		return (*str += 2, SUCCESS);
-	}
-	// else if (**str == '$' && *(*str + 1) == '\0')
-	// 	return (*ptr = "", *str += 1, SUCCESS);
-	*ptr = ft_substr(*str, 0, get_part_len(*str, false));
+	*str += len + (is_env);
 	if (*ptr == NULL)
-		return (*str += 1, FAILURE);
-	return (*str += get_part_len(*str, false), SUCCESS);
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 int	expand_vars(t_object *obj, t_token *token)
@@ -72,7 +68,7 @@ int	expand_vars(t_object *obj, t_token *token)
 	old = token->content;
 	while (*token->content != '\0')
 	{
-		if (next_part(&token->content, &ptr, obj->exit_status) == FAILURE)
+		if (set_next_part(obj, &token->content, &ptr) == FAILURE)
 			return (FAILURE);
 		new = join(new, ptr);
 		if (new == NULL)

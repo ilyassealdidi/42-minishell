@@ -3,23 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   join.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 10:59:11 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/10 10:41:40 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/28 12:16:38 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-/*
-NULL ""
-NULL echo
-echo ""
-NULL echo
-echo >
-
-*/
 char	*join(char *str1, char *str2)
 {
 	char	*joined;

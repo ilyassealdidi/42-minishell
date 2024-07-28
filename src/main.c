@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/27 01:41:34 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/28 13:51:49 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ int	main(int argc, char **argv, char **env)
 	// if (argc != 1)
 	// 	return (ft_printf("Usage: ./minishell\n"), 1);
 	ft_memset(&obj, 0, sizeof(t_object));
+	signal(SIGINT, terminate);
+	if (init_env(&obj, env) == FAILURE)
+		return (ft_printf("Error: failed to initialize environment\n"), 1);
+	// ft_lstiter(obj.env, print_env);
 	while (1)
 	{
 		if (argv[1])
