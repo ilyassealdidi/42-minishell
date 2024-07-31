@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/28 13:51:49 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/31 05:03:04 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_object			obj;
-	char				*rl;
 	int					status;
 
 	// if (argc != 1)
@@ -28,16 +27,19 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		if (argv[1])
-			rl = ft_strdup("echo > file");
+			obj.line = ft_strdup("ls -la");
 		else
-			rl = readline(YELLOW"Minishell$ "RESET);
-		if (!rl)
+			obj.line = readline(YELLOW"Minishell$ "RESET);
+		if (!obj.line)
 			continue ;
-		status = parse(rl, &obj);
-		if (*rl != '\0')
-			add_history(rl);
-		free(rl);
+		if (obj.line[0] != '\0')
+			add_history(obj.line);
+		status = generate_commands(&obj);
+		free(obj.line);
 		ft_lstclear(&obj.tokens, free_token);
+		if (status != SUCCESS)
+			continue ;
+		exec(&obj);
 	}
 	return ((void)argc, 0);
 }

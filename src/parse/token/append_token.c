@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_append_token.c                                  :+:      :+:    :+:   */
+/*   append_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/28 09:05:24 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/07/30 07:24:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <fcntl.h> 
 
 static bool	is_cmd_exists(char *ptr, char *cmd)
 {
@@ -54,16 +53,33 @@ static int	set_cmd_path(t_list *head, t_token *token)
 	return (SUCCESS);
 }
 
-int	ft_appendtoken(t_list **head, t_token *new)
+static int	insert_token(t_list **head, t_token *new)
 {
 	t_list	*node;
 	t_token	*token;
 
-	update_token_type(*head, new);
-	set_cmd_path(*head, new);
-	if (*head != NULL && get_last_token(*head)->is_joinable)
+	token = malloc(sizeof(t_token));
+	if (token == NULL)
+		return (FAILURE);
+	ft_memcpy(token, new, sizeof(t_token));
+	node = ft_lstnew(token);
+	if (node == NULL)
+		return (free(token), FAILURE);
+	ft_lstadd_back(head, node);
+	return (SUCCESS);
+}
+
+int	ft_appendtoken(t_object *obj, t_token *new)
+{
+	t_list	*node;
+	t_token	*token;
+
+	update_token_type(obj->tokens, new);
+	if (set_cmd_path(obj->tokens, new) == FAILURE)
+		return (FAILURE);
+	if (obj->tokens != NULL && get_last_token(obj->tokens)->is_joinable)
 	{
-		token = get_last_token(*head);
+		token = get_last_token(obj->tokens);
 		token->content = join(token->content, new->content);
 		if (token->content == NULL)
 			return (FAILURE);
@@ -73,14 +89,8 @@ int	ft_appendtoken(t_list **head, t_token *new)
 	{
 		if (new->content[0] == '\0' && new->is_expandable)
 			return (free(new->content), SUCCESS);
-		token = malloc(sizeof(t_token));
-		if (token == NULL)
-			return (FAILURE);
-		ft_memcpy(token, new, sizeof(t_token));
-		node = ft_lstnew(token);
-		if (node == NULL)
-			return (free(token), FAILURE);
-		ft_lstadd_back(head, node);
+		if (insert_token(&obj->tokens, new) == FAILURE)
+			return (free(new->content), FAILURE);
 	}
 	return (SUCCESS);
 }

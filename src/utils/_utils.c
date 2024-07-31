@@ -22,6 +22,7 @@ void	display_token(void *content)
 	ft_printf("type		: %s%s%s\n", YELLOW, tmp->type == PIPE ? "PIPE"
 										: tmp->type == BUILTIN ? "BUILTIN"
 										: tmp->type == FFILE ? "FFLIE"
+										: tmp->type == DELIMITER ? "DELIMITER"
 										: tmp->type == REDIR_IN ? "REDIR_IN"
 										: tmp->type == REDIR_OUT ? "REDIR_OUT"
 										: tmp->type == APPEND ? "APPEND"
@@ -30,6 +31,7 @@ void	display_token(void *content)
 										: "ARG", RESET);
 	ft_printf("joinable	: %s\n", tmp->is_joinable ? TRUE : FALSE);
 	ft_printf("expandable	: %s\n", tmp->is_expandable ? TRUE : FALSE);
+	ft_printf("quoted		: %s\n", tmp->is_quoted ? TRUE : FALSE);
 	ft_printf("________________________________\n");
 }
 

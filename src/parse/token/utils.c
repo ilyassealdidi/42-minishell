@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 11:11:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/31 01:39:58 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/07/28 08:47:03 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/07/28 20:48:58 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <minishell.h>
 
-char	*ft_strtrim(char const *s1, char const *set)
+t_token	*get_first_token(t_list *list)
 {
-	int		start;
-	int		end;
+	if (list == NULL)
+		return (NULL);
+	return ((t_token *)list->content);
+}
 
-	start = 0;
-	end = ft_strlen(s1) - 1;
-	while (s1[start] && ft_strchr(set, s1[start]))
-		start++;
-	if (start <= end)
-		while (ft_strchr(set, s1[end]))
-			end--;
-	return (ft_substr(s1, start, end - start + 1));
+t_token	*get_last_token(t_list *list)
+{
+	if (list == NULL)
+		return (NULL);
+	return ((t_token *)(ft_lstlast(list)->content));
+}
+
+void	free_token(void *content)
+{
+	t_token	*token;
+
+	token = (t_token *)content;
+	free(token->content);
+	free(token);
 }
