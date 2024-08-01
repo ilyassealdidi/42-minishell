@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/31 04:47:23 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/01 01:16:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,10 @@ typedef struct s_token
 
 typedef struct s_command
 {
-	char			*cmd;
-	char			**args;
+	char			*cmd;	// think about changing to t_token
+	char			**args; // think about changing to t_token
 	int				in;
 	int				out;
-	// char			*input;
-	// char			*output;
-	// char			*append;
-	// char			*heredoc;
 }	t_command;
 
 typedef struct s_dictionnary
@@ -78,6 +74,7 @@ typedef struct s_dictionnary
 typedef struct s_object
 {
 	char			*line;
+	int				num_of_cmds;
 	t_list			*tokens;
 	t_list			*commands;
 	t_list			*env;
