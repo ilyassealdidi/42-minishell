@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/31 05:03:04 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/04 06:31:25 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_object			obj;
-	int					status;
 
 	// if (argc != 1)
 	// 	return (ft_printf("Usage: ./minishell\n"), 1);
@@ -34,7 +33,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (obj.line[0] != '\0')
 			add_history(obj.line);
-		status = generate_commands(&obj);
+		generate_commands(&obj);
 		free(obj.line);
 		ft_lstclear(&obj.tokens, free_token);
 		if (status != SUCCESS)

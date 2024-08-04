@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/01 01:16:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/04 05:52:22 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,32 @@ typedef enum e_token_type
 	FFILE,
 }	t_token_type;
 
+// typedef struct s_token
+// {
+// 	char			*content;
+// 	bool			is_joinable;
+// 	bool			is_expandable;
+// 	bool			is_quoted;
+// 	t_token_type	type;
+// }	t_token;
+
 typedef struct s_token
+{
+	char			*original;
+	char			*content;
+	t_token_type	type;
+	t_list			*parts;
+}	t_token;
+
+
+typedef struct s_part
 {
 	char			*content;
 	bool			is_joinable;
 	bool			is_expandable;
 	bool			is_quoted;
-	t_token_type	type;
-}	t_token;
+	t_token			*container;
+}	t_part;
 
 typedef struct s_command
 {
