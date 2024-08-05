@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/29 02:11:14 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/05 07:18:35 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	update_token_type(t_list *head, t_token *new)
 
 	last = get_last_token(head);
 	if (head != NULL && (last->type == REDIR_OUT || last->type == APPEND))
-		new->type = FFILE;
+		new->type = OUTFILE;
 	else if (is_built_in(new->content) && contains_command (head) == false)
 		new->type = BUILTIN;
 	else if (new->type == ARG && contains_command(head) == false)

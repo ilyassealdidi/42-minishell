@@ -21,7 +21,7 @@ void	display_token(void *content)
 	ft_printf("\ncontent		: %s%s%s\n", WHITE, tmp->content, RESET);
 	ft_printf("type		: %s%s%s\n", YELLOW, tmp->type == PIPE ? "PIPE"
 										: tmp->type == BUILTIN ? "BUILTIN"
-										: tmp->type == FFILE ? "FFLIE"
+										: tmp->type == OUTFILE ? "OUTFILE"
 										: tmp->type == DELIMITER ? "DELIMITER"
 										: tmp->type == REDIR_IN ? "REDIR_IN"
 										: tmp->type == REDIR_OUT ? "REDIR_OUT"

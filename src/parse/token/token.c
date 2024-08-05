@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/01 02:04:07 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/05 02:55:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ static int	set_next_token(char **line, t_token *token)
 	if (token->type == NONE)
 		return (ERROR);
 	len = get_token_length(*line, token->type);
+	if (token->original == NULL)
+		token->original = *line;
 	token->is_expandable = is_expandable(*line);
 	token->is_quoted = **line == '"' || **line == '\'';
 	token->content = ft_substr(*line, token->is_quoted, len);
@@ -93,8 +95,8 @@ int	tokens_init(t_object *obj, char *line)
 		if (expand_vars(obj, &token) == FAILURE
 			|| ft_appendtoken(obj, &token) == FAILURE)
 			return (free(token.content), FAILURE);
-		if (token.type == PIPE || *line == '\0')
-			build_command(obj);
+		// if (token.type == PIPE || *line == '\0')
+		// 	build_command(obj);
 		while (*line == ' ')
 			line++;
 	}

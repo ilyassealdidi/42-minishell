@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/04 05:52:22 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/05 07:18:35 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define MEMORY_ERR "Failed to allocate memory\n"
 # define SYNTAX_ERR "Syntax error\n"
 # define CMD_NOT_FOUND "Command not found\n"
+# define AMBIGUOUS_REDIRECT "minishell: %s: ambiguous redirect\n"
 
 typedef enum e_token_type
 {
@@ -45,35 +46,35 @@ typedef enum e_token_type
 	REDIR_OUT,
 	APPEND,
 	HEREDOC,
-	FFILE,
+	OUTFILE,
 }	t_token_type;
-
-// typedef struct s_token
-// {
-// 	char			*content;
-// 	bool			is_joinable;
-// 	bool			is_expandable;
-// 	bool			is_quoted;
-// 	t_token_type	type;
-// }	t_token;
 
 typedef struct s_token
 {
 	char			*original;
 	char			*content;
-	t_token_type	type;
-	t_list			*parts;
-}	t_token;
-
-
-typedef struct s_part
-{
-	char			*content;
 	bool			is_joinable;
 	bool			is_expandable;
 	bool			is_quoted;
-	t_token			*container;
-}	t_part;
+	t_token_type	type;
+}	t_token;
+
+// typedef struct s_token
+// {
+// 	char			*original;
+// 	char			*content;
+// 	t_token_type	type;
+// 	t_list			*parts;
+// }	t_token;
+
+// typedef struct s_part
+// {
+// 	char			*content;
+// 	bool			is_joinable;
+// 	bool			is_expandable;
+// 	bool			is_quoted;
+// 	t_token			*container;
+// }	t_part;
 
 typedef struct s_command
 {

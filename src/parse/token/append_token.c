@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/30 07:24:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/05 07:51:40 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,51 @@ static int	insert_token(t_list **head, t_token *new)
 	return (SUCCESS);
 }
 
+static int	count_words(const char *s, int c)
+{
+	int	cnt;
+	int	pre;
+
+	cnt = 0;
+	pre = 1;
+	while (*s)
+	{
+		if (*s == c)
+			pre = 1;
+		else if (pre)
+		{
+			pre = 0;
+			cnt++;
+		}
+		s++;
+	}
+	return (cnt);
+}
+
+static int	is_valid_redirection(t_list *tokens, t_token *new)
+{
+	t_token	*prev;
+	int		len;
+
+	prev = get_last_token(tokens);
+	if (prev == NULL || prev->type != REDIR_OUT && prev->type != OUTFILE)
+		return (SUCCESS);
+	if (!new->is_quoted && new->is_expandable)
+	{
+		len = ft_strlen(new->content);
+		if (len == 0 && !new->is_joinable && prev->type == REDIR_OUT
+			|| prev->type == OUTFILE && prev->content[ft_strlen(prev->content) - 1] == ' '	
+			|| count_words(new->content, ' ') > 1
+			|| new->is_joinable && new->content[len - 1] == ' '
+			|| new->content[0] == ' ' && prev->type == OUTFILE)
+			return (FAILURE);
+	}
+	else if (prev->type == OUTFILE && prev->is_expandable)
+		if (new->content[0] == ' ')
+			return (FAILURE);
+	return (SUCCESS);
+}
+
 int	ft_appendtoken(t_object *obj, t_token *new)
 {
 	t_list	*node;
@@ -77,6 +122,9 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	update_token_type(obj->tokens, new);
 	if (set_cmd_path(obj->tokens, new) == FAILURE)
 		return (FAILURE);
+	if (is_valid_redirection(obj->tokens, new) == FAILURE)
+		return (/*free(new->content),*/
+			ft_printf(AMBIGUOUS_REDIRECT, new->original), FAILURE);
 	if (obj->tokens != NULL && get_last_token(obj->tokens)->is_joinable)
 	{
 		token = get_last_token(obj->tokens);
@@ -87,10 +135,12 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	}
 	else
 	{
-		if (new->content[0] == '\0' && new->is_expandable)
+		if (new->content[0] == '\0' && new->is_expandable && !new->is_quoted)
 			return (free(new->content), SUCCESS);
 		if (insert_token(&obj->tokens, new) == FAILURE)
 			return (free(new->content), FAILURE);
+		if (!new->is_joinable)
+			ft_memset(new, 0, sizeof(t_token));
 	}
 	return (SUCCESS);
 }
