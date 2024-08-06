@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/06 15:08:05 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/06 17:50:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ int	split_variable(t_object *obj, t_token *token)
 	int		i;
 	char 	**strs;
 
+	if (is_valid_redirection(obj, token) == FAILURE)
+		return (ft_printf(AMBIGUOUS_REDIRECT, token->original), FAILURE);
 	if (token->content == NULL)
 		return (SUCCESS);
 	strs = ft_split(token->content, ' ');
@@ -164,12 +166,6 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	update_token_type(obj->tokens, new);
 	if (set_cmd_path(obj->tokens, new) == FAILURE)
 		return (FAILURE);
-	if (is_valid_redirection(obj->tokens, new) == FAILURE)
-	{
-		i = 0;
-		// while (new->original[i] != '\0' && new->original[i] != ' ' && new->original[i] != )
-		return (ft_printf(AMBIGUOUS_REDIRECT, new->original), FAILURE);
-	}
 	if (obj->tokens != NULL && get_last_token(obj->tokens)->is_joinable)
 	{
 		token = get_last_token(obj->tokens);
