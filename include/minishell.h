@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/01 07:37:28 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/06 14:29:14 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_dictionnary	*create_element(char *key, char *value);
 /*		Envirement		*/
 int				init_env(t_object *obj, char **env);
 char			*get_env(t_object *obj, char *key);
-
+int				set_env(t_object *obj, char *key, char *value);
 /*		Signals			*/
 void			terminate(int sig);
 

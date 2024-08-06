@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/05 07:18:35 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/06 11:22:11 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define VALID 1
 # define INVALID 0
 
-# define MEMORY_ERR "Failed to allocate memory\n"
+# define MEMORY_ERR "3ata failat malloc\n"
 # define SYNTAX_ERR "Syntax error\n"
 # define CMD_NOT_FOUND "Command not found\n"
 # define AMBIGUOUS_REDIRECT "minishell: %s: ambiguous redirect\n"
