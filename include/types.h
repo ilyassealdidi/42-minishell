@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/06 11:22:11 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/07 11:44:46 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef enum e_token_type
 
 typedef struct s_token
 {
-	char			*original;
 	char			*content;
 	bool			is_joinable;
 	bool			is_expandable;

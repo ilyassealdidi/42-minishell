@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/06 14:28:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/07 14:56:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@ int	main(int argc, char **argv, char **env)
 	if (init_env(&obj, env) == FAILURE)
 		return (ft_printf("Error: failed to initialize environment\n"), 1);
 	// ft_lstiter(obj.env, print_env);
-	set_env(&obj, "var", "ls -l");
 	while (1)
 	{
 		if (argv[1])
-			obj.line = ft_strdup("$var");
+			obj.line = ft_strdup("echo > File Name");
 		else
-			obj.line = readline(YELLOW"Minishell$ "RESET);
+			obj.line = readline(YELLOW"minishell$ "RESET);
 		if (!obj.line)
 			continue ;
 		if (obj.line[0] != '\0')
@@ -39,7 +38,7 @@ int	main(int argc, char **argv, char **env)
 		ft_lstclear(&obj.tokens, free_token);
 		if (status != SUCCESS)
 			continue ;
-		exec(&obj);
+		//exec(&obj);
 	}
 	return ((void)argc, 0);
 }

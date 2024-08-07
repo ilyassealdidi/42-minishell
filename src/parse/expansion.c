@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/06 11:04:16 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/07 12:09:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,7 @@ int	expand_vars(t_object *obj, t_token *token)
 	}
 	free(old);
 	token->content = new;
+	if (token->content == NULL && token->is_expandable)
+		return (token->content = ft_strdup(""), token->content == NULL);
 	return (SUCCESS);
 }

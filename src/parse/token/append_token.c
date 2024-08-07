@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/06 17:50:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/07 14:31:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	set_cmd_path(t_list *head, t_token *token)
 	int		i;
 
 	i = -1;
-	if (ft_strlen(token->content) == 0/* || token->type == CMD*/)
+	if (ft_strlen(token->content) == 0 || token->type != CMD)
 		return (SUCCESS);
 	ptr = getenv("PATH");
 	if (ptr == NULL)
@@ -72,68 +72,12 @@ static int	insert_token(t_list **head, t_token *new)
 	return (SUCCESS);
 }
 
-static int	count_words(const char *s, int c)
-{
-	int	cnt;
-	int	pre;
-
-	cnt = 0;
-	pre = 1;
-	while (*s)
-	{
-		if (*s == c)
-			pre = 1;
-		else if (pre)
-		{
-			pre = 0;
-			cnt++;
-		}
-		s++;
-	}
-	return (cnt);
-}
-
-static int	is_valid_redirection(t_list *tokens, t_token *new)
-{
-	t_token	*prev;
-	int		len;
-
-	prev = get_last_token(tokens);
-	if (prev == NULL || prev->type != REDIR_OUT && prev->type != OUTFILE)
-		return (SUCCESS);
-	if (!new->is_quoted && new->is_expandable)
-	{
-		len = ft_strlen(new->content);
-		if (count_words(new->content, ' ') > 1)
-			return (FAILURE);
-		if (new->content[0] == ' ' && prev->type == OUTFILE
-			&& prev->content[0] != '\0')
-			return (FAILURE);
-		
-		if (new->content[len - 1] == ' ' && new->is_joinable) //!
-			return (FAILURE);
-		if (len == 0 && !new->is_joinable && prev->type == REDIR_OUT
-			// || prev->type == OUTFILE && prev->content[ft_strlen(prev->content) - 1] == ' '	
-			|| count_words(new->content, ' ') > 1
-			|| new->is_joinable && new->content[len - 1] == ' '
-			// || new->content[0] == ' ' && prev->type == OUTFILE
-			)
-			return (FAILURE);
-	}
-	if (prev->type == OUTFILE && prev->is_expandable && !prev->is_quoted)
-		if (prev->content[ft_strlen(prev->content) - 1] == ' ')
-			return (FAILURE);
-	return (SUCCESS);
-}
-
 int	split_variable(t_object *obj, t_token *token)
 {
 	t_token	new;
 	int		i;
 	char 	**strs;
 
-	if (is_valid_redirection(obj, token) == FAILURE)
-		return (ft_printf(AMBIGUOUS_REDIRECT, token->original), FAILURE);
 	if (token->content == NULL)
 		return (SUCCESS);
 	strs = ft_split(token->content, ' ');
@@ -161,9 +105,9 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	t_token	*token;
 	int		i;
 
-	if (new->is_expandable && !new->is_quoted)
-		return (split_variable(obj, new));
 	update_token_type(obj->tokens, new);
+	if (new->is_expandable && !new->is_quoted && new->type != OUTFILE)	
+		return (split_variable(obj, new));
 	if (set_cmd_path(obj->tokens, new) == FAILURE)
 		return (FAILURE);
 	if (obj->tokens != NULL && get_last_token(obj->tokens)->is_joinable)
