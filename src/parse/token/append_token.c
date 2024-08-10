@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/07 14:31:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/10 12:40:50 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 		if (token->content == NULL)
 			return (FAILURE);
 		token->is_joinable = new->is_joinable;
+		if (new->is_quoted)
+			token->is_quoted = new->is_quoted;
 	}
 	else
 	{

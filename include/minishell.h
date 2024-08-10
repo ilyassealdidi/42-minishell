@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/06 14:29:14 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/08 15:10:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <types.h>
 # include <fcntl.h> 
 
+int	g_received_signal;
 // Consider to use seperate header files, one for parsing, one for executing
 
 /*		Errors Management		*/
@@ -55,8 +56,10 @@ t_dictionnary	*create_element(char *key, char *value);
 int				init_env(t_object *obj, char **env);
 char			*get_env(t_object *obj, char *key);
 int				set_env(t_object *obj, char *key, char *value);
+
 /*		Signals			*/
-void			terminate(int sig);
+void			init_signals(void);
+void			exit_shell(t_object *obj);
 
 /*		TO BE REMOVED	*/
 void			print_content(void *content);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/07 11:44:46 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/08 15:20:41 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef enum e_token_type
 	OUTFILE,
 }	t_token_type;
 
+
+
 typedef struct s_token
 {
 	char			*content;
@@ -58,29 +60,18 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
-// typedef struct s_token
-// {
-// 	char			*original;
-// 	char			*content;
-// 	t_token_type	type;
-// 	t_list			*parts;
-// }	t_token;
-
-// typedef struct s_part
-// {
-// 	char			*content;
-// 	bool			is_joinable;
-// 	bool			is_expandable;
-// 	bool			is_quoted;
-// 	t_token			*container;
-// }	t_part;
+typedef struct s_redir
+{
+	int				fd;	
+	char			*file;
+	t_token_type	type;
+}				t_redir;
 
 typedef struct s_command
 {
-	char			*cmd;	// think about changing to t_token
-	char			**args; // think about changing to t_token
-	int				in;
-	int				out;
+	char			*cmd;
+	char			**args;
+	t_list			*redirs;
 }	t_command;
 
 typedef struct s_dictionnary
@@ -92,11 +83,11 @@ typedef struct s_dictionnary
 typedef struct s_object
 {
 	char			*line;
-	int				num_of_cmds;
 	t_list			*tokens;
 	t_list			*commands;
 	t_list			*env;
 	int				exit_status;
+	int				received_signals;
 }	t_object;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/05 02:49:35 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/08 15:28:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,15 @@ static int	parse(t_object *obj)
 	status = tokens_init(obj, line);
 	free(line);
 	if (status == ERROR)
+	{
+		set_env(obj, ft_strdup("?"), ft_strdup("258"));
 		return (print_error(SYNTAX_ERR), 258);
+	}
 	if (status == FAILURE)
+	{
+		set_env(obj, ft_strdup("?"), ft_strdup("1"));
 		return (print_error(MEMORY_ERR), 1);
+	}
 	return (SUCCESS);
 }
 
