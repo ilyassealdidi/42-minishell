@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/08 15:28:27 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/11 00:30:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,17 @@ static int	parse(t_object *obj)
 	return (SUCCESS);
 }
 
+void	open_heredoc(t_object *obj)
+{
+	
+}
+
 int	generate_commands(t_object *obj)
 {
 	obj->exit_status = parse(obj);
 	if (obj->exit_status != SUCCESS)
 		return (FAILURE);
 	ft_lstiter(obj->tokens, display_token);
+	open_heredoc(obj);
 	return (SUCCESS);
 }

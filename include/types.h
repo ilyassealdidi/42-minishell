@@ -6,16 +6,20 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/08 15:20:41 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/11 00:44:31 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
 
-# define YELLOW "\033[0;33m"
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define BLUE "\033[0;34m"
+# define MAGENTA "\033[0;35m"
+# define CYAN "\033[0;36m"
+# define UKN "\033[1;30m"
 # define WHITE "\033[1;97m"
 # define RESET "\033[0m"
 
@@ -40,12 +44,13 @@ typedef enum e_token_type
 	CMD,
 	BUILTIN,
 	ARG,
-	DELIMITER,
 	PIPE,
+	DELIMITER,
 	REDIR_IN,
 	REDIR_OUT,
 	APPEND,
 	HEREDOC,
+	INFILE,
 	OUTFILE,
 }	t_token_type;
 

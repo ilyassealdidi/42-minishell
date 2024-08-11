@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/08 15:10:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/10 17:30:14 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <types.h>
 # include <fcntl.h> 
 
-int	g_received_signal;
+extern int	g_received_signal;
 // Consider to use seperate header files, one for parsing, one for executing
 
 /*		Errors Management		*/

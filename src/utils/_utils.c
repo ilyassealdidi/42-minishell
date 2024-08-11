@@ -19,20 +19,21 @@ void	display_token(void *content)
 	t_token	*tmp = content;
 
 	ft_printf("\ncontent		: %s%s%s\n", WHITE, tmp->content, RESET);
-	ft_printf("type		: %s%s%s\n", YELLOW, tmp->type == PIPE ? "PIPE"
-										: tmp->type == BUILTIN ? "BUILTIN"
-										: tmp->type == OUTFILE ? "OUTFILE"
-										: tmp->type == DELIMITER ? "DELIMITER"
-										: tmp->type == REDIR_IN ? "REDIR_IN"
-										: tmp->type == REDIR_OUT ? "REDIR_OUT"
-										: tmp->type == APPEND ? "APPEND"
-										: tmp->type == CMD ? "CMD"
-										: tmp->type == HEREDOC ? "HEREDOC"
-										: "ARG", RESET);
+	ft_printf("type		: %s%s\n", tmp->type == PIPE ? CYAN"PIPE"
+										: tmp->type == BUILTIN ? BLUE"BUILTIN"
+										: tmp->type == CMD ? MAGENTA"CMD"
+										: tmp->type == OUTFILE ? UKN"OUTFILE"
+										: tmp->type == DELIMITER ? UKN"DELIMITER"
+										: tmp->type == INFILE ? UKN"INFILE"
+										: tmp->type == REDIR_IN ? CYAN"REDIR_IN"
+										: tmp->type == REDIR_OUT ? CYAN"REDIR_OUT"
+										: tmp->type == APPEND ? CYAN"APPEND"
+										: tmp->type == HEREDOC ? CYAN"HEREDOC"
+										: YELLOW"ARG", RESET);
 	ft_printf("joinable	: %s\n", tmp->is_joinable ? TRUE : FALSE);
 	ft_printf("expandable	: %s\n", tmp->is_expandable ? TRUE : FALSE);
-	ft_printf("quoted		: %s\n", tmp->is_quoted ? TRUE : FALSE);
-	ft_printf("________________________________\n");
+	ft_printf("quoted		: %s\n\n", tmp->is_quoted ? TRUE : FALSE);
+	ft_printf("_____________________________\n");
 }
 
 void	leaks_func(void)

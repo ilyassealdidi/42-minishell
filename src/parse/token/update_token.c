@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/06 12:05:53 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/11 00:37:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,16 @@ void	update_token_type(t_list *head, t_token *new)
 {
 	t_token	*last;
 
+	if (new->type == REDIR_IN || new->type == HEREDOC
+		|| new->type == PIPE || new->type == REDIR_OUT
+		|| new->type == APPEND)
+		return ;
 	last = get_last_token(head);
-	if (head != NULL && (last->type == REDIR_OUT || last->type == APPEND))
+	if (last != NULL && last->type == HEREDOC)
+		new->type = DELIMITER;
+	else if (last != NULL && last->type == REDIR_IN)
+		new->type = INFILE;
+	else if (head != NULL && (last->type == REDIR_OUT || last->type == APPEND))
 		new->type = OUTFILE;
 	else if (new->content && is_built_in(new->content) && contains_command(head) == false)
 		new->type = BUILTIN;
@@ -56,6 +64,4 @@ void	update_token_type(t_list *head, t_token *new)
 		new->type = CMD;
 	else if ((head == NULL || last->type == PIPE) && new->type == ARG)
 		new->type = CMD;
-	else if (head != NULL && last->type == HEREDOC)
-		new->type = DELIMITER;
 }
