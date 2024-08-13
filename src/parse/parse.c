@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/12 20:08:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/13 15:57:58 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,24 @@
 // 	return (SUCCESS);
 // }
 
-// h
+// int	write_line(int fd, char *line)
+// {
+// 	static int	tmp;
+
+// 	if (tmp != fd)
+// 	{
+// 		if (tmp != 0)
+// 			close(tmp);
+// 		tmp = open(line, O_CREAT | O_RDWR | O_TRUNC, 0644);
+// 		if (tmp == -1)
+// 		{
+// 			perror(strerror(errno));
+// 			return (FAILURE);
+// 		}
+// 	}
+// 	ft_putendl_fd(line, tmp);
+// 	return (SUCCESS);
+// }
 
 static int	parse(t_object *obj)
 {
@@ -94,7 +111,7 @@ static int	parse(t_object *obj)
 	int		status;
 	char	*line;
 
-	line = ft_strtrim(obj->line, " ");
+	line = ft_strtrim(obj->line, " \t");
 	if (line == NULL)
 		return (print_error(FAILURE), 1);
 	status = tokens_init(obj, line);
@@ -105,25 +122,6 @@ static int	parse(t_object *obj)
 	return (status);
 }
 
-int	write_line(int fd, char *line)
-{
-	static int	tmp;
-
-	if (tmp != fd)
-	{
-		if (tmp != 0)
-			close(tmp);
-		tmp = open(line, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		if (tmp == -1)
-		{
-			perror(strerror(errno));
-			return (FAILURE);
-		}
-	}
-	ft_putstr_fd(line, tmp);
-	ft_putchar_fd('\n', tmp);
-	return (SUCCESS);
-}
 
 int	heredoc(t_object *obj, t_list *node)
 {
@@ -133,17 +131,23 @@ int	heredoc(t_object *obj, t_list *node)
 	int		writer;
 
 	token = node->content;
-	fd = open("heredoc", O_RDONLY | O_TRUNC, 0644);
+	fd = open("heredoc", O_CREAT | O_RDONLY, 0644);
 	unlink("heredoc");
 	if (fd == -1)
 	{
 		perror(strerror(errno));
-		return ;
+		return (FAILURE);
 	}
-	writer = open("heredoc", O_RDONLY | O_TRUNC, 0644);
+	writer = open("heredoc", O_WRONLY, 0644);
 	while (1)
 	{
 		line = readline("> ");
+		if (line == NULL && g_received_signal != obj->received_signals)
+		{
+			update_exit_status(obj);
+			free(line);
+			break ;
+		}
 		if (line == NULL || ft_strcmp(line, token->content) == 0)
 		{
 			free(line);
@@ -153,6 +157,7 @@ int	heredoc(t_object *obj, t_list *node)
 		free(line);
 	}
 	close(writer);
+	return (SUCCESS);
 }
 
 void	redirections(t_object *obj)

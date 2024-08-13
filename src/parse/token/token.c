@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/11 00:27:39 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/13 15:18:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	is_expandable(char *str)
 			|| (*str == '"' && ft_strchr(str + 1, '"') < ptr)
 			|| (*str != '"' && str + ft_strcspn(str, " |><'\"") < ptr))
 			return (false);
-		if (ft_isalpha(*(ptr + 1)) || *(ptr + 1) == '?' || *(ptr + 1) == '_')
+		if (ft_isalpha(*(ptr + 1)) || *(ptr + 1) == '?')
 			return (true);
 		str = ptr + 1;
 	}
@@ -58,7 +58,7 @@ static int	get_token_length(char *line, t_token_type type)
 	else if (*line == '"' || *line == '\'')
 		return (ft_strchr(line + 1, *line) - line - 1);
 	else
-		return (ft_strcspn(line, " |><'\""));
+		return (ft_strcspn(line, " |><'\"\t"));
 }
 
 static int	set_next_token(char **line, t_token *token)
@@ -75,7 +75,7 @@ static int	set_next_token(char **line, t_token *token)
 	if (token->content == NULL)
 		return (FAILURE);
 	*line += len + (2 * token->is_quoted);
-	token->is_joinable = ft_strchr(" <>|", **line) == NULL && **line != '\0'
+	token->is_joinable = ft_strchr(" <>|\t", **line) == NULL && **line != '\0'
 		&& token->type == ARG;
 	return (SUCCESS);
 }
@@ -95,7 +95,7 @@ int	tokens_init(t_object *obj, char *line)
 			return (free(token.content), FAILURE);
 		// if (token.type == PIPE || *line == '\0')
 		// 	build_command(obj);
-		while (*line == ' ')
+		while (*line == ' ' || *line == '\t')
 			line++;
 	}
 	if (is_valid_syntax(obj->tokens) == ERROR)

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/11 00:38:20 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/13 15:15:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		if (argv[1])
-			obj.line = ft_strdup("< file");
+			obj.line = ft_strdup("	echo	hey");
 		else
 			obj.line = readline("$> ");
 		if (!obj.line)

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/12 19:20:10 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/13 12:04:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void			print_content(void *content);
 void			display_token(void *content);
 void			leaks_func(void);
 void			print_env(void *content);
+
+void			update_exit_status(t_object *obj);
 
 void			exec(t_object *obj);
 
