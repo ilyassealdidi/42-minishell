@@ -1,10 +1,17 @@
-Use Subtoknes or tokens parts
+Required :
+	Heredoc
 
-env 
-use strtok
-synatx_error-> 258
-Ctrl+C --> exit 1
-HEREDOC
-Use flags to indicate that the input could have errors:
-	red flag
-	warning
+Recommended :
+	Use FLAGS
+
+Optimazation :
+	use errno
+
+Optional :
+	Ambigious Redirection
+
+Suggestions :
+	use strtok
+
+Ideas :
+	Use Subtoknes or tokens parts

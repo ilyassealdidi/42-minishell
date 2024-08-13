@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/11 00:44:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/12 17:54:37 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 # define SUCCESS 0
 # define FAILURE 1
-# define ERROR -1
+# define ERROR 258
 
 # define VALID 1
 # define INVALID 0

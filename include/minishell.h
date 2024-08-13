@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/10 17:30:14 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/12 19:20:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <libft.h>
+# include <errno.h>
 # include <stdio.h>
 # include <signal.h>
 # include <stdbool.h>
@@ -26,7 +27,7 @@ extern int	g_received_signal;
 // Consider to use seperate header files, one for parsing, one for executing
 
 /*		Errors Management		*/
-void			print_error(char *str);
+void			print_error(int status);
 
 /*		Utilities		*/
 char			*join(char *str1, char *str2);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/11 00:30:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/12 20:08:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,25 +96,93 @@ static int	parse(t_object *obj)
 
 	line = ft_strtrim(obj->line, " ");
 	if (line == NULL)
-		return (print_error(MEMORY_ERR), 1);
+		return (print_error(FAILURE), 1);
 	status = tokens_init(obj, line);
 	free(line);
-	if (status == ERROR)
+	set_env(obj, ft_strdup("?"), ft_itoa(status));
+	if (status != SUCCESS)
+		print_error(status);
+	return (status);
+}
+
+int	write_line(int fd, char *line)
+{
+	static int	tmp;
+
+	if (tmp != fd)
 	{
-		set_env(obj, ft_strdup("?"), ft_strdup("258"));
-		return (print_error(SYNTAX_ERR), 258);
+		if (tmp != 0)
+			close(tmp);
+		tmp = open(line, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (tmp == -1)
+		{
+			perror(strerror(errno));
+			return (FAILURE);
+		}
 	}
-	if (status == FAILURE)
-	{
-		set_env(obj, ft_strdup("?"), ft_strdup("1"));
-		return (print_error(MEMORY_ERR), 1);
-	}
+	ft_putstr_fd(line, tmp);
+	ft_putchar_fd('\n', tmp);
 	return (SUCCESS);
 }
 
-void	open_heredoc(t_object *obj)
+int	heredoc(t_object *obj, t_list *node)
 {
-	
+	t_token	*token;
+	char	*line;
+	int		fd;
+	int		writer;
+
+	token = node->content;
+	fd = open("heredoc", O_RDONLY | O_TRUNC, 0644);
+	unlink("heredoc");
+	if (fd == -1)
+	{
+		perror(strerror(errno));
+		return ;
+	}
+	writer = open("heredoc", O_RDONLY | O_TRUNC, 0644);
+	while (1)
+	{
+		line = readline("> ");
+		if (line == NULL || ft_strcmp(line, token->content) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write_line(writer, line);
+		free(line);
+	}
+	close(writer);
+}
+
+void	redirections(t_object *obj)
+{
+	t_list	*tmp;
+	t_token	*token;
+
+	tmp = obj->tokens;
+	while (tmp)
+	{
+		token = tmp->content;
+		if (token->type == DELIMITER)
+		{
+			heredoc(obj, tmp);
+		}
+		// else if (token->type == REDIR_IN)
+		// {
+		// 	redir_in(obj, tmp);
+		// }
+		// else if (token->type == REDIR_OUT)
+		// {
+		// 	redir_out(obj, tmp);
+		// }
+		// else if (token->type == APPEND)
+		// {
+		// 	append_out(obj, tmp);
+		
+		// }
+		tmp = tmp->next;
+	}
 }
 
 int	generate_commands(t_object *obj)
@@ -122,7 +190,7 @@ int	generate_commands(t_object *obj)
 	obj->exit_status = parse(obj);
 	if (obj->exit_status != SUCCESS)
 		return (FAILURE);
+	redirections(obj);
 	ft_lstiter(obj->tokens, display_token);
-	open_heredoc(obj);
 	return (SUCCESS);
 }

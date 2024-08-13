@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/10 12:40:50 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/12 18:51:31 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,12 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 {
 	t_list	*node;
 	t_token	*token;
-	int		i;
 
 	update_token_type(obj->tokens, new);
 	if (new->is_expandable && !new->is_quoted && new->type != OUTFILE)	
 		return (split_variable(obj, new));
-	if (set_cmd_path(obj->tokens, new) == FAILURE)
-		return (FAILURE);
+	// if (set_cmd_path(obj->tokens, new) == FAILURE)
+	// 	return (FAILURE);
 	if (obj->tokens != NULL && get_last_token(obj->tokens)->is_joinable)
 	{
 		token = get_last_token(obj->tokens);
