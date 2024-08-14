@@ -18,7 +18,8 @@ void	display_token(void *content)
 {
 	t_token	*tmp = content;
 
-	ft_printf("\ncontent		: %s%s%s\n", WHITE, tmp->content, RESET);
+	ft_printf(RED"_____________________________\n\n"RESET);
+
 	ft_printf("type		: %s%s\n", tmp->type == PIPE ? CYAN"PIPE"
 										: tmp->type == BUILTIN ? BLUE"BUILTIN"
 										: tmp->type == CMD ? MAGENTA"CMD"
@@ -30,10 +31,26 @@ void	display_token(void *content)
 										: tmp->type == APPEND ? CYAN"APPEND"
 										: tmp->type == HEREDOC ? CYAN"HEREDOC"
 										: YELLOW"ARG", RESET);
-	ft_printf("joinable	: %s\n", tmp->is_joinable ? TRUE : FALSE);
-	ft_printf("expandable	: %s\n", tmp->is_expandable ? TRUE : FALSE);
-	ft_printf("quoted		: %s\n\n", tmp->is_quoted ? TRUE : FALSE);
-	ft_printf("_____________________________\n");
+
+	if (tmp->type != PIPE && tmp->type != DELIMITER && tmp->type != APPEND
+		&& tmp->type != HEREDOC && tmp->type != REDIR_IN && tmp->type != REDIR_OUT)
+		ft_printf("content		: %s%s%s\n", WHITE, tmp->content, RESET);
+		
+	if (tmp->type != PIPE && tmp->type != APPEND && tmp->type != HEREDOC
+		&& tmp->type != REDIR_IN && tmp->type != REDIR_OUT)
+	{
+		if (tmp->is_expandable || tmp->is_quoted || tmp->is_joinable)
+		{
+			ft_printf("state\t\t: ");
+			if (tmp->is_joinable)
+				ft_printf("Joinable, ");
+			if (tmp->type != DELIMITER && tmp->is_expandable)
+				ft_printf("Expandable, ");
+			if (tmp->is_quoted)
+				ft_printf("Quoted\n");
+		}
+	}
+	ft_printf(RED"_____________________________\n"RESET);
 }
 
 void	leaks_func(void)

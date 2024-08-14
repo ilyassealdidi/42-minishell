@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   create_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/13 15:18:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/14 15:43:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,14 @@ static int	set_next_token(char **line, t_token *token)
 	len = get_token_length(*line, token->type);
 	token->is_expandable = is_expandable(*line);
 	token->is_quoted = **line == '"' || **line == '\'';
-	token->content = ft_substr(*line, token->is_quoted, len);
-	if (token->content == NULL)
-		return (FAILURE);
+	if (token->type == ARG)
+	{
+		token->content = ft_substr(*line, token->is_quoted, len);
+		if (token->content == NULL)
+			return (FAILURE);
+	}
+	else
+		token->content = NULL;
 	*line += len + (2 * token->is_quoted);
 	token->is_joinable = ft_strchr(" <>|\t", **line) == NULL && **line != '\0'
 		&& token->type == ARG;
@@ -89,16 +94,14 @@ int	tokens_init(t_object *obj, char *line)
 	{
 		ret = set_next_token(&line, &token);
 		if (ret != SUCCESS)
-			return (ft_lstclear(&obj->tokens, free_token), ret);
+			return (ft_lstclear(&obj->tokens, destroy_token), ret);
 		if (expand_vars(obj, &token) == FAILURE
 			|| ft_appendtoken(obj, &token) == FAILURE)
 			return (free(token.content), FAILURE);
-		// if (token.type == PIPE || *line == '\0')
-		// 	build_command(obj);
 		while (*line == ' ' || *line == '\t')
 			line++;
 	}
 	if (is_valid_syntax(obj->tokens) == ERROR)
-		return (ft_lstclear(&obj->tokens, free_token), ERROR);
+		return (ft_lstclear(&obj->tokens, destroy_token), ERROR);
 	return (SUCCESS);
 }

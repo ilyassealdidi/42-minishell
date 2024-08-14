@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/06 14:29:50 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/14 08:31:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_env(t_object *obj, char *key)
 			return (element->value);
 		tmp = tmp->next;
 	}
-	return (NULL); // to be changed
+	return (NULL);
 }
 
 int	set_env(t_object *obj, char *key, char *value)

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/13 12:04:45 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/14 15:58:16 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,21 @@ extern int	g_received_signal;
 /*		Errors Management		*/
 void			print_error(int status);
 
-/*		Utilities		*/
+/*		Utilities				*/
 char			*join(char *str1, char *str2);
 int				is_valid_syntax(t_list *tokens);
 void			free_array(char **strs);
 
-/*		Tokens utils	*/
-int				ft_appendtoken(t_object *obj, t_token *token);
-void			update_token_type(t_list *head, t_token *new);
+/*		Tokens utils			*/
+t_token			*get_token(t_list *list);
 t_token			*get_first_token(t_list *list);
 t_token			*get_last_token(t_list *list);
-void			free_token(void *content);
 
-/*		Tokenization	*/
+int				ft_appendtoken(t_object *obj, t_token *token);
+void			update_token_type(t_list *head, t_token *new);
+void			destroy_token(void *content);
 int				tokens_init(t_object *obj, char *line);
+
 
 /*		Expanding	*/
 int				expand_vars(t_object *obj, t_token *token);
@@ -67,6 +68,11 @@ void			print_content(void *content);
 void			display_token(void *content);
 void			leaks_func(void);
 void			print_env(void *content);
+
+/*		Command			*/
+int				new_command(t_list *tokens, t_command *command);
+void			destroy_command(t_command *command);
+int				commands_init(t_object *obj);
 
 void			update_exit_status(t_object *obj);
 

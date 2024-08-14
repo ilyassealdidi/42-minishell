@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/13 23:09:47 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/14 11:39:55 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	heredoc(t_object *obj, t_list *node)
 	filename = generate_filename();
 	if (filename == NULL)
 		return (FAILURE);
-	fd = open(filename, O_CREAT | O_WRONLY, 0644);
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		free(filename);
@@ -112,6 +112,8 @@ int	generate_commands(t_object *obj)
 		return (FAILURE);
 	if (open_heredocs(obj) == FAILURE)
 		return (FAILURE);
+	// if (commands_init(obj) == FAILURE)
+	// 	return (FAILURE);
 	ft_lstiter(obj->tokens, display_token);
 	return (SUCCESS);
 }

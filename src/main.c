@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/13 15:15:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/14 15:43:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **env)
 		update_exit_status(&obj);
 		status = generate_commands(&obj);
 		free(obj.line);
-		ft_lstclear(&obj.tokens, free_token);
+		ft_lstclear(&obj.tokens, destroy_token);
 		if (status != SUCCESS)
 			continue ;
 		//exec(&obj);

@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   append_token.c                                     :+:      :+:    :+:   */
+/*   ft_append_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/12 18:51:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/14 10:55:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+// To be moved
 static bool	is_cmd_exists(char *ptr, char *path,char *cmd)
 {
 	int		path_len;
@@ -25,6 +26,7 @@ static bool	is_cmd_exists(char *ptr, char *path,char *cmd)
 	return (access(ptr, X_OK) == 0);
 }
 
+// To be moved
 static int	set_cmd_path(t_list *head, t_token *token)
 {
 	char	**paths;

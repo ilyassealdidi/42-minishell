@@ -1,6 +1,7 @@
 Required :
 	Heredoc
 	Tab
+	Align variables declarations
 
 Recommended :
 	Use FLAGS
