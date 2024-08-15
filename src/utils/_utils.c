@@ -2,25 +2,25 @@
 
 void	print_content(void *content)
 {
-	ft_printf("%s\n", ((t_token *)content)->content);
+	printf("%s\n", ((t_token *)content)->content);
 }
 
 void	print_env(void *content)
 {
 	t_dictionnary	*tmp = content;
 
-	ft_printf("key		: %s%s%s\n", YELLOW, tmp->key, RESET);
-	ft_printf("value		: %s%s%s\n", WHITE, tmp->value, RESET);
-	ft_printf("________________________________\n");
+	printf("key		: %s%s%s\n", YELLOW, tmp->key, RESET);
+	printf("value		: %s%s%s\n", WHITE, tmp->value, RESET);
+	printf("________________________________\n");
 }
 
 void	display_token(void *content)
 {
 	t_token	*tmp = content;
 
-	ft_printf(RED"_____________________________\n\n"RESET);
+	printf(RED"_____________________________\n\n"RESET);
 
-	ft_printf("type		: %s%s\n", tmp->type == PIPE ? CYAN"PIPE"
+	printf("type		: %s%s\n", tmp->type == PIPE ? CYAN"PIPE"
 										: tmp->type == BUILTIN ? BLUE"BUILTIN"
 										: tmp->type == CMD ? MAGENTA"CMD"
 										: tmp->type == OUTFILE ? UKN"OUTFILE"
@@ -34,23 +34,41 @@ void	display_token(void *content)
 
 	if (tmp->type != PIPE && tmp->type != DELIMITER && tmp->type != APPEND
 		&& tmp->type != HEREDOC && tmp->type != REDIR_IN && tmp->type != REDIR_OUT)
-		ft_printf("content		: %s%s%s\n", WHITE, tmp->content, RESET);
+		printf("content		: %s%s%s\n", WHITE, tmp->content, RESET);
 		
 	if (tmp->type != PIPE && tmp->type != APPEND && tmp->type != HEREDOC
 		&& tmp->type != REDIR_IN && tmp->type != REDIR_OUT)
 	{
 		if (tmp->is_expandable || tmp->is_quoted || tmp->is_joinable)
 		{
-			ft_printf("state\t\t: ");
+			printf("state\t\t: ");
 			if (tmp->is_joinable)
-				ft_printf("Joinable, ");
+				printf("Joinable, ");
 			if (tmp->type != DELIMITER && tmp->is_expandable)
-				ft_printf("Expandable, ");
+				printf("Expandable, ");
 			if (tmp->is_quoted)
-				ft_printf("Quoted\n");
+				printf("Quoted\n");
 		}
 	}
-	ft_printf(RED"_____________________________\n"RESET);
+	printf(RED"_____________________________\n"RESET);
+}
+
+void	display_command(void *content)
+{
+	t_command	*tmp = content;
+	int			i;
+
+	printf("cmd		: %s%s%s\n", YELLOW, tmp->cmd, RESET);
+	i = 0;
+	while (tmp->args[i])
+	{
+		printf("args[%d]		: %s%s%s\n", i, WHITE, tmp->args[i], RESET);
+		i++;
+	}
+	printf("in		: %d\n", tmp->in);
+	printf("out		: %d\n", tmp->out);
+
+	printf("_____________________________\n");
 }
 
 void	leaks_func(void)

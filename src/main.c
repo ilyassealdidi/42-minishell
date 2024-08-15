@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 15:43:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/15 14:21:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		if (argv[1])
-			obj.line = ft_strdup("	echo	hey");
+			obj.line = ft_strdup("echo Hello");
 		else
 			obj.line = readline("$> ");
 		if (!obj.line)
@@ -51,6 +51,7 @@ int	main(int argc, char **argv, char **env)
 		status = generate_commands(&obj);
 		free(obj.line);
 		ft_lstclear(&obj.tokens, destroy_token);
+		ft_lstclear(&obj.commands, destroy_command);
 		if (status != SUCCESS)
 			continue ;
 		//exec(&obj);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 09:14:09 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/15 12:58:39 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,13 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
-// typedef struct s_redir
-// {
-// 	int				fd;	
-// 	char			*file;
-// 	t_token_type	type;
-// }				t_redir;
+typedef struct s_cmd_type
+{
+	// char			*cmd;
+	// int				(*func)(t_object *obj, t_list *node);
+	// t_token_type	type;
+	
+}	t_cmd_type;
 
 typedef struct s_command
 {
@@ -81,7 +82,7 @@ typedef struct s_command
 	char			**args;
 	int				in;
 	int				out;
-	t_token_type	type;
+	bool			is_builtin;
 }	t_command;
 
 typedef struct s_dictionnary

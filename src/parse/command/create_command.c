@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 16:00:36 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/15 12:46:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,26 @@ static char	**get_args(t_list *tokens)
 			args[i * !is_cmd] = ft_strdup(token->content);
 			if (args[i * !is_cmd] == NULL)
 				return (free_array(args), NULL);
-			i++;
+			i += !is_cmd;
 		}
 		else if (token->type == PIPE)
 			break ;
-		tokens = (tokens)->next;
+		tokens = tokens->next;
 	}
 	return (args);
 }
 
-static int	redir_init(t_token *token, t_command *command)
+static int	redir_init(t_list *node, t_command *command)
 {
 	int		fd;
+	t_token *token;
 
+	token = get_token(node);
 	if (token->type == REDIR_IN)
 	{
 		if (command->in != 0)
 			close(command->in);
-		fd = open(token->content, O_RDONLY);
+		fd = open(get_token(node->next)->content, O_RDONLY);
 		command->in = fd;
 	}
 	if (token->type == APPEND || token->type == REDIR_OUT)
@@ -77,9 +79,9 @@ static int	redir_init(t_token *token, t_command *command)
 		if (command->out != 1)
 			close(command->out);
 		if (token->type == APPEND)
-			fd = open(token->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd = open(get_token(node->next)->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
-			fd = open(token->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd = open(get_token(node->next)->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		command->out = fd;
 	}
 	if (fd == -1)
@@ -95,16 +97,16 @@ int	new_command(t_list *tokens, t_command *command)
 	while (tokens)
 	{
 		token = get_token(tokens);
-		if (token->type == CMD || token->type == ARG || token->type == BUILTIN)
+		if (command->args == NULL)
 		{
 			command->args = get_args(tokens);
 			if (command->args == NULL)
 				return (FAILURE);
 			command->cmd = command->args[0];
 		}
-		else if (token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND)
+		if (token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND)
 		{
-			if (redir_init(tokens->next->content, command) == FAILURE)
+			if (redir_init(tokens, command) == FAILURE)
 				return (FAILURE); // Check if it's the right way to handle the error
 		}
 		else if (token->type == PIPE)

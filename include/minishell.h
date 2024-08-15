@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 15:58:16 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/15 13:04:03 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,12 @@ void			exit_shell(t_object *obj);
 void			print_content(void *content);
 void			display_token(void *content);
 void			leaks_func(void);
+void			display_command(void *content);
 void			print_env(void *content);
 
 /*		Command			*/
 int				new_command(t_list *tokens, t_command *command);
-void			destroy_command(t_command *command);
+void			destroy_command(void *content);
 int				commands_init(t_object *obj);
 
 void			update_exit_status(t_object *obj);
