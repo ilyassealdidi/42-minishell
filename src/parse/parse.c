@@ -3,137 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/05/30 11:10:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/15 14:22:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-# define is_sep is_seperator
 
-char	*join(char *str1, char *str2)
+static int	parse(t_object *obj)
 {
-	char	*tmp;
-	char	*joined;
+	t_list	*list;
+	int		status;
+	char	*line;
 
-	if (!str1)
+	line = ft_strtrim(obj->line, " \t");
+	if (line == NULL)
+		return (print_error(FAILURE), 1);
+	status = tokens_init(obj, line);
+	free(line);
+	set_env(obj, ft_strdup("?"), ft_itoa(status));
+	if (status != SUCCESS)
+		print_error(status);
+	return (status);
+}
+
+char	*generate_filename(void)
+{
+	static int	i;
+	char		*number;
+	char		*name;
+
+	number = ft_itoa(i);
+	if (number == NULL)
+		return (i = 0, NULL);
+	name = ft_strjoin("/tmp/heredoc_", number);
+	free(number);
+	if (name == NULL)
+		return (i = 0, NULL);
+	i++;
+	return (name);
+}
+
+int	heredoc(t_object *obj, t_list *node)
+{
+	t_token	*token;
+	int		fd;
+	char	*line;
+	char	*filename;
+
+	token = node->content;
+	filename = generate_filename();
+	if (filename == NULL)
+		return (FAILURE);
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
 	{
-		tmp = ft_strdup(str2);
-		if (tmp == NULL)
-			free(str2);
-		return (tmp);
+		free(filename);
+		perror(strerror(errno));
+		return (FAILURE);
 	}
-	tmp = str1;
-	joined = ft_strjoin(str1, str2);
-	free(tmp);
-	if (joined == NULL)
-		return (NULL);
-	return (joined);
-}
-
-char	*handle_alpha(char **line, char *buffer)
-{
-	char	*extracted;
-	char	*ptr;
-
-	ptr = *line;
-	while (ft_isalnum(*ptr))
-		ptr++;
-	extracted = ft_substr(*line, 0, ptr - *line);
-	if (!extracted)
-		return (free(buffer), NULL);
-	*line = ptr;
-	buffer = join(buffer, extracted);
-	free(extracted);
-	return (buffer);
-}
-
-char	*handle_quote(char **line, char *buffer)
-{
-	char	*extracted;
-	char	*start;
-	char	*end;
-
-	start = (*line) + 1;
-	end = ft_strchr(start, **line);
-	if (!end)
-		return (NULL);
-	extracted = ft_substr(start, 0, end - start);
-	if (!extracted)
-		return (NULL);
-	*line = end + 1;
-	buffer = join(buffer, extracted);
-	free(extracted);
-	return (buffer);
-}
-
-int	handle_sep(char **line, char **buffer, t_list **list)
-{
-	*buffer = ft_strdup(is_seperator(*line));
-	if (!*buffer)
-		return (0);
-	*line += ft_strlen(is_seperator(*line));
-	if (ft_appendtoken(list, buffer) == 0)
-		return (free(*buffer), 0);
-	return (1);
-}
-
-// t_lexer	*create_token(char	*content, t_token_type type)
-// {
-// 	t_lexer	*lex;
-
-// 	lex = malloc(sizeof(t_lexer));
-// 	if (lex == NULL)
-// 		return (NULL);
-// 	lex->str = content;
-// 	lex->type = type;
-// 	return (lex);
-// }
-
-int	tokens_init(t_object *obj, char *line)
-{
-	char	*buffer;
-
-	buffer = NULL;
 	while (1)
 	{
-		if (buffer != NULL && ft_appendtoken(&obj->tokens, &buffer) == 0)
-			return (0);
-		if (*line == '\0')
-			break ;
-		if (is_sep(line) && !handle_sep(&line, &buffer, &obj->tokens))
-			return (0);
-		while (*line == ' ')
-			line++;
-		while (*line != '\0' && (ft_isalnum(*line) || ft_strchr("'\"", *line)))
+		line = readline("> ");
+		// if (line == NULL && g_received_signal != obj->received_signals)
+		// {
+		// 	update_exit_status(obj);
+		// 	free(line);
+		// 	break ;
+		// }
+		if (line == NULL || ft_strcmp(line, token->content) == 0)
 		{
-			if (ft_isalnum(*line))
-				buffer = handle_alpha(&line, buffer);
-			else
-				buffer = handle_quote(&line, buffer);
-			if (buffer == NULL)
-				return (0);
+			free(line);
+			break ;
 		}
+		ft_putendl_fd(line, fd);
+		free(line);
 	}
-	return 1;
+	close(fd);
+	free(token->content);
+	token->content = filename;
+	token->type = INFILE;
+	((t_token *)(node->previous->content))->type = REDIR_IN;
+	return (SUCCESS);
 }
 
-void	print_content(void *content)
+int	open_heredocs(t_object *obj)
 {
-	ft_printf("%s\n", ((t_lexer *)content)->str);
+	t_list	*tmp;
+	t_token	*token;
+
+	tmp = obj->tokens;
+	while (tmp)
+	{
+		token = tmp->content;
+		if (token->type == DELIMITER)
+			heredoc(obj, tmp);
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
 }
 
-int	parse(char *line, t_object *obj)
+int	generate_commands(t_object *obj)
 {
-	line = ft_strtrim(line, " ");
-	if (line == NULL)
-		return (0);
-	if (tokens_init(obj, line) == 0 || !obj->tokens)
-		return (ft_printf("Syntax Error"), ft_lstclear(&obj->tokens, free),
-			free(line), 0);
-	free(line);
-	ft_lstiter(obj->tokens, print_content);
-	return (1);
+	obj->exit_status = parse(obj);
+	if (obj->exit_status != SUCCESS)
+		return (FAILURE);
+	if (open_heredocs(obj) == FAILURE)
+		return (FAILURE);
+	if (commands_init(obj) == FAILURE)
+		return (FAILURE);
+	ft_lstiter(obj->commands, display_command);
+	//ft_lstiter(obj->tokens, display_token);
+	return (SUCCESS);
 }

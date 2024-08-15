@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 13:11:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/05 17:00:43 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/06/04 11:47:26 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/14 08:47:19 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <minishell.h>
 
-t_list	*ft_lstnew(void *content)
+void	print_error(int status)
 {
-	t_list	*new;
-
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->content = content;
-	new->previous = NULL;
-	new->next = NULL;
-	return (new);
+	if (status == ERROR)
+		ft_putstr_fd(SYNTAX_ERR, 2);
+	else if (status == FAILURE)
+		ft_putstr_fd(MEMORY_ERR, 2);
 }

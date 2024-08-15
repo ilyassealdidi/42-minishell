@@ -1,0 +1,15 @@
+/*
+var=
+> $var
+> ""$var""
+> $var""
+var="ls -l"
+> $var
+var="file "
+> $var"name"
+> $var$USER
+var="file"
+var2=" name"
+> $var" name"
+> $var$var2
+*/

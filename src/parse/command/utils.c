@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 13:11:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/06/05 17:00:43 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/14 09:07:28 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/15 14:19:09 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <minishell.h>
 
-t_list	*ft_lstnew(void *content)
+void	destroy_command(void *content)
 {
-	t_list	*new;
+	t_command	*command;
 
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->content = content;
-	new->previous = NULL;
-	new->next = NULL;
-	return (new);
+	command = (t_command *)content;
+	free_array(command->args);
+	free(command);
 }
+

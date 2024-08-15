@@ -1,0 +1,19 @@
+Required :
+	Heredoc
+	Tab
+	Align variables declarations
+
+Recommended :
+	Use FLAGS
+
+Optimazation :
+	use errno
+
+Optional :
+	Ambigious Redirection
+
+Suggestions :
+	use strtok
+
+Ideas :
+	Use Subtoknes or tokens parts

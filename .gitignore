@@ -2,7 +2,14 @@
 minishell
 *.o
 *.a
+minishell
+smyat
+.vscode/
 minishell_db
 minishell_db.dSYM/
-private/
+main.dSYM/
+test_db.dSYM/
+main
+test_db
+#private/
 obj/
