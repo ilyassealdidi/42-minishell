@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/07 12:09:45 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/16 21:26:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	expand_vars(t_object *obj, t_token *token)
 	char	*old;
 	char	*ptr;
 
-	if (!token->is_expandable
+	if (!(token->state & EXPANDABLE)
 		|| obj->tokens && get_last_token(obj->tokens)->type == HEREDOC)
 		return (SUCCESS);
 	new = NULL;
@@ -83,7 +83,7 @@ int	expand_vars(t_object *obj, t_token *token)
 	}
 	free(old);
 	token->content = new;
-	if (token->content == NULL && token->is_expandable)
+	if (token->content == NULL && token->state & EXPANDABLE)
 		return (token->content = ft_strdup(""), token->content == NULL);
 	return (SUCCESS);
 }

@@ -107,7 +107,7 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	t_token	*token;
 
 	update_token_type(obj->tokens, new);
-	if (new->is_expandable && !new->is_quoted && new->type != OUTFILE)	
+	if (new->state & EXPANDABLE && !new->is_quoted && new->type != OUTFILE)	
 		return (split_variable(obj, new));
 	// if (set_cmd_path(obj->tokens, new) == FAILURE)
 	// 	return (FAILURE);

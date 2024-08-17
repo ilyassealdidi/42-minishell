@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/15 12:58:39 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/16 21:01:03 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef struct s_command
 	char			**args;
 	int				in;
 	int				out;
-	bool			is_builtin;
 }	t_command;
 
 typedef struct s_dictionnary
@@ -90,6 +89,12 @@ typedef struct s_dictionnary
 	char			*key;
 	char			*value;
 }	t_dictionnary;
+
+// typedef struct s_env
+// {
+// 	t_dictionnary	*element;
+// 	bool			is_hidden;
+// }	t_env;
 
 typedef struct s_object
 {

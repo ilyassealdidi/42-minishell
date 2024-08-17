@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/15 12:46:10 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/15 20:03:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,27 @@ static int	count_args(t_list *tokens)
 	return (i);
 }
 
-static char	**get_args(t_list *tokens)
+static char	**get_args(t_list *tokens, int num_args)
 {
 	t_token	*token;
 	char	**args;
 	bool	is_cmd;
-	int		i;
 
-	i = count_args(tokens);
-	args = malloc(sizeof(char *) * (i + 1));
+	args = malloc(sizeof(char *) * (num_args + 1));
 	if (args == NULL)
 		return (NULL);
-	args[i] = NULL;
-	i = 1;
+	args[num_args] = NULL;
+	num_args = 1;
 	while (tokens)
 	{
 		token = get_token(tokens);
 		is_cmd = token->type == CMD || token->type == BUILTIN;
 		if (token->type == ARG || is_cmd)
 		{
-			args[i * !is_cmd] = ft_strdup(token->content);
-			if (args[i * !is_cmd] == NULL)
+			args[num_args * !is_cmd] = ft_strdup(token->content);
+			if (args[num_args * !is_cmd] == NULL)
 				return (free_array(args), NULL);
-			i += !is_cmd;
+			num_args += !is_cmd;
 		}
 		else if (token->type == PIPE)
 			break ;
@@ -92,18 +90,19 @@ static int	redir_init(t_list *node, t_command *command)
 int	new_command(t_list *tokens, t_command *command)
 {
 	t_token		*token;
+	int			number_args;
 
-	command->out = 1;
+	number_args = count_args(tokens);
+	if (number_args > 0)
+	{
+		command->args = get_args(tokens, number_args);
+		if (command->args == NULL)
+			return (FAILURE);
+		command->cmd = command->args[0];
+	}
 	while (tokens)
 	{
 		token = get_token(tokens);
-		if (command->args == NULL)
-		{
-			command->args = get_args(tokens);
-			if (command->args == NULL)
-				return (FAILURE);
-			command->cmd = command->args[0];
-		}
 		if (token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND)
 		{
 			if (redir_init(tokens, command) == FAILURE)

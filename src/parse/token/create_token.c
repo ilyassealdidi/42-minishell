@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 15:43:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/16 21:03:01 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ static int	set_next_token(char **line, t_token *token)
 	if (token->type == NONE)
 		return (ERROR);
 	len = get_token_length(*line, token->type);
-	token->is_expandable = is_expandable(*line);
-	token->is_quoted = **line == '"' || **line == '\'';
+	token->state |= EXPANDABLE * is_expandable(*line);
+	token->state |= QUOTED * (*line == '"' || *line == '\'');
+	// token->is_expandable = is_expandable(*line);
+	// token->is_quoted = **line == '"' || **line == '\'';
 	if (token->type == ARG)
 	{
 		token->content = ft_substr(*line, token->is_quoted, len);
@@ -80,8 +82,10 @@ static int	set_next_token(char **line, t_token *token)
 	else
 		token->content = NULL;
 	*line += len + (2 * token->is_quoted);
-	token->is_joinable = ft_strchr(" <>|\t", **line) == NULL && **line != '\0'
-		&& token->type == ARG;
+	token->state |= JOINABLE * (ft_strchr(" <>|\t", **line) == NULL
+		&& **line != '\0' && token->type == ARG);
+	// token->is_joinable = ft_strchr(" <>|\t", **line) == NULL && **line != '\0'
+	// 	&& token->type == ARG;
 	return (SUCCESS);
 }
 
