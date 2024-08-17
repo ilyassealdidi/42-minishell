@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   bitwise.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 18:45:48 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/17 15:09:54 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/17 17:54:20 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/17 17:55:11 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	interrupt(int sig)
+void	set_bit(int *n, int pos)
 {
-	g_received_signal++;
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	//rl_replace_line("", 0);
-	rl_redisplay();
+	*n |= (1 << pos);
 }
 
-void	init_signals(void)
+void	clear_bit(int *n, int pos)
 {
-	//rl_catch_signals = 0;
-	signal(SIGINT, interrupt);
-	signal(SIGQUIT, SIG_IGN);
+	*n &= ~(1 << pos);
+}
+
+bool	check_bit(int n, int pos)
+{
+	return ((n & (1 << pos)) != 0);
+}
+
+int		toggle_bit(int n, int pos)
+{
+	return (n ^ (1 << pos));
+}
+
+void	unset_bit(int *n, int pos)
+{
+	*n &= ~(1 << pos);
 }

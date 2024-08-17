@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   token_state.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 18:45:48 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/17 15:09:54 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/17 15:20:01 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/17 18:38:53 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	interrupt(int sig)
+bool	is_quoted(t_token *token)
 {
-	g_received_signal++;
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	//rl_replace_line("", 0);
-	rl_redisplay();
+	return ((token->state & QUOTED) != 0);
 }
 
-void	init_signals(void)
+bool	is_expandable(t_token *token)
 {
-	//rl_catch_signals = 0;
-	signal(SIGINT, interrupt);
-	signal(SIGQUIT, SIG_IGN);
+	return ((token->state & EXPANDABLE) != 0);
+}
+
+bool	is_joinable(t_token *token)
+{
+	return ((token->state & JOINABLE) != 0);
+}
+
+void	set_flag(t_token *token, int flag)
+{
+	token->state |= flag;
 }

@@ -42,11 +42,11 @@ void	display_token(void *content)
 		if (tmp->state)
 		{
 			printf("state\t\t: ");
-			if (tmp->state & JOINABLE)
+			if (is_joinable(tmp))
 				printf("Joinable, ");
-			if (tmp->type != DELIMITER && tmp->state & EXPANDABLE)
+			if (tmp->type != DELIMITER && is_expandable(tmp))
 				printf("Expandable, ");
-			if (tmp->state & QUOTED)
+			if (is_quoted(tmp))
 				printf("Quoted\n");
 		}
 	}

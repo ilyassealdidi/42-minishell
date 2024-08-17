@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_append_token.c                                     :+:      :+:    :+:   */
+/*   insert_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 10:55:32 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/17 16:13:24 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <minishell.h>
 
@@ -93,8 +94,8 @@ int	split_variable(t_object *obj, t_token *token)
 		ft_memset(&new, 0, sizeof(t_token));
 		new.content = strs[i];
 		new.type = ARG;
-		if (strs[i + 1] == NULL && token->is_joinable)
-			new.is_joinable = true;
+		if (strs[i + 1] == NULL && is_joinable(token))
+			new.state |= JOINABLE;
 		ft_appendtoken(obj, &new);
 		i++;
 	}
@@ -107,25 +108,25 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	t_token	*token;
 
 	update_token_type(obj->tokens, new);
-	if (new->state & EXPANDABLE && !new->is_quoted && new->type != OUTFILE)	
+	if (is_expandable(new) && !is_quoted(new) && new->type != OUTFILE)	
 		return (split_variable(obj, new));
 	// if (set_cmd_path(obj->tokens, new) == FAILURE)
 	// 	return (FAILURE);
-	if (obj->tokens != NULL && get_last_token(obj->tokens)->is_joinable)
+	if (obj->tokens != NULL && is_joinable(get_last_token(obj->tokens)))
 	{
 		token = get_last_token(obj->tokens);
 		token->content = join(token->content, new->content);
 		if (token->content == NULL)
 			return (FAILURE);
-		token->is_joinable = new->is_joinable;
-		if (new->is_quoted)
-			token->is_quoted = new->is_quoted;
+		token->state |= new->state & JOINABLE;
+		if (is_quoted(new))
+			token->state |= new->state & QUOTED;
 	}
 	else
 	{
 		if (insert_token(&obj->tokens, new) == FAILURE)
 			return (free(new->content), FAILURE);
-		if (!new->is_joinable)
+		if (!is_joinable(new))
 			ft_memset(new, 0, sizeof(t_token));
 	}
 	return (SUCCESS);

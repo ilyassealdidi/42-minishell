@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/15 13:04:03 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/17 16:14:12 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ void			free_array(char **strs);
 t_token			*get_token(t_list *list);
 t_token			*get_first_token(t_list *list);
 t_token			*get_last_token(t_list *list);
+
+bool			is_quoted(t_token *token);
+bool			is_expandable(t_token *token);
+bool			is_joinable(t_token *token);
 
 int				ft_appendtoken(t_object *obj, t_token *token);
 void			update_token_type(t_list *head, t_token *new);

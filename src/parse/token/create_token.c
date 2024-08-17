@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/16 21:03:01 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/17 17:52:55 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_token_type	get_token_type(char *str)
 	return (NONE);
 }
 
-static bool	is_expandable(char *str)
+static bool	contains_env(char *str)
 {
 	char	*ptr;
 
@@ -69,23 +69,19 @@ static int	set_next_token(char **line, t_token *token)
 	if (token->type == NONE)
 		return (ERROR);
 	len = get_token_length(*line, token->type);
-	token->state |= EXPANDABLE * is_expandable(*line);
-	token->state |= QUOTED * (*line == '"' || *line == '\'');
-	// token->is_expandable = is_expandable(*line);
-	// token->is_quoted = **line == '"' || **line == '\'';
+	token->state |= EXPANDABLE * contains_env(*line);
+	token->state |= QUOTED * (**line == '"' || **line == '\'');
 	if (token->type == ARG)
 	{
-		token->content = ft_substr(*line, token->is_quoted, len);
+		token->content = ft_substr(*line, is_quoted(token), len);
 		if (token->content == NULL)
 			return (FAILURE);
 	}
 	else
 		token->content = NULL;
-	*line += len + (2 * token->is_quoted);
+	*line += len + 2 * is_quoted(token);
 	token->state |= JOINABLE * (ft_strchr(" <>|\t", **line) == NULL
 		&& **line != '\0' && token->type == ARG);
-	// token->is_joinable = ft_strchr(" <>|\t", **line) == NULL && **line != '\0'
-	// 	&& token->type == ARG;
 	return (SUCCESS);
 }
 
@@ -94,6 +90,7 @@ int	tokens_init(t_object *obj, char *line)
 	int					ret;
 	t_token				token;
 
+	token = (t_token){0};
 	while (*line != '\0')
 	{
 		ret = set_next_token(&line, &token);
