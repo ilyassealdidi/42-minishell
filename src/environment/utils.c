@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bitwise.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 17:54:20 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 09:19:18 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/18 10:04:05 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/18 11:51:44 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	set_bit(unsigned *var, int flag, bool value)
+t_environment	*create_env(t_dictionnary dict, bool is_visible)
 {
-	if (value)
-		*var |= flag;
-	else
-		*var &= ~flag;
+	t_environment	*env;
+
+	env = (t_environment *)malloc(sizeof(t_environment));
+	if (env == NULL)
+		return (NULL);
+	env->element = dict;
+	env->is_visible = is_visible;
+	return (env);
 }
 
-void	clear_bit(int *n, int pos)
+void	destroy_env(void *content)
 {
-	*n &= ~(1 << pos);
-}
+	t_environment	*env;
 
-bool	check_bit(int n, int pos)
-{
-	return ((n & (1 << pos)) != 0);
-}
-
-int		toggle_bit(int n, int pos)
-{
-	return (n ^ (1 << pos));
-}
-
-void	unset_bit(int *n, int pos)
-{
-	*n &= ~(1 << pos);
+	env = (t_environment *)content;
+	destroy_dictionnary(&env->element);
+	free(env);
 }

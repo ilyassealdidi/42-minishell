@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/17 17:52:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/18 00:36:47 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int	set_next_token(char **line, t_token *token)
 {
 	int					len;
 
+	ft_memset(token, 0, sizeof(t_token));
 	token->type = get_token_type(*line);
 	if (token->type == NONE)
 		return (ERROR);
@@ -90,7 +91,6 @@ int	tokens_init(t_object *obj, char *line)
 	int					ret;
 	t_token				token;
 
-	token = (t_token){0};
 	while (*line != '\0')
 	{
 		ret = set_next_token(&line, &token);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/17 14:53:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/18 16:07:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	parse(t_object *obj)
 {
-	t_list	*list;
 	int		status;
 	char	*line;
 
@@ -23,7 +22,8 @@ static int	parse(t_object *obj)
 		return (print_error(FAILURE), 1);
 	status = tokens_init(obj, line);
 	free(line);
-	set_env(obj, ft_strdup("?"), ft_itoa(status));
+	update_exit_status(obj);
+	set_env(&obj->env, (t_dictionnary){"?", ft_itoa(status)});
 	if (status != SUCCESS)
 		print_error(status);
 	return (status);
@@ -67,12 +67,12 @@ int	heredoc(t_object *obj, t_list *node)
 	while (1)
 	{
 		line = readline("> ");
-		// if (line == NULL && g_received_signal != obj->received_signals)
-		// {
-		// 	update_exit_status(obj);
-		// 	free(line);
-		// 	break ;
-		// }
+		if (line == NULL && g_received_signal != obj->received_signals)
+		{
+			update_exit_status(obj);
+			free(line);
+			break ;
+		}
 		if (line == NULL || ft_strcmp(line, token->content) == 0)
 		{
 			free(line);
@@ -114,8 +114,8 @@ int	generate_commands(t_object *obj)
 		return (FAILURE);
 	if (commands_init(obj) == FAILURE)
 		return (FAILURE);
-	ft_lstiter(obj->tokens, display_token);
-	ft_lstclear(&obj->tokens, destroy_token);
+	// ft_lstiter(obj->tokens, display_token);
+	// ft_lstclear(&obj->tokens, destroy_token);
 	// ft_lstiter(obj->commands, display_command);
 	return (SUCCESS);
 }

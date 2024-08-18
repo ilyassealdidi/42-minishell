@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/17 16:14:12 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/18 15:57:14 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <types.h>
 # include <fcntl.h> 
 
-extern int	g_received_signal;
+extern int		g_received_signal;
 // Consider to use seperate header files, one for parsing, one for executing
 
 /*		Errors Management		*/
@@ -34,7 +34,7 @@ char			*join(char *str1, char *str2);
 int				is_valid_syntax(t_list *tokens);
 void			free_array(char **strs);
 
-/*		Tokens utils			*/
+/*		Token utils				*/
 t_token			*get_token(t_list *list);
 t_token			*get_first_token(t_list *list);
 t_token			*get_last_token(t_list *list);
@@ -43,31 +43,33 @@ bool			is_quoted(t_token *token);
 bool			is_expandable(t_token *token);
 bool			is_joinable(t_token *token);
 
+void			set_token_state(t_token *token, int flag, bool value);
 int				ft_appendtoken(t_object *obj, t_token *token);
 void			update_token_type(t_list *head, t_token *new);
 void			destroy_token(void *content);
 int				tokens_init(t_object *obj, char *line);
 
-
-/*		Expanding	*/
+/*		Expanding				*/
 int				expand_vars(t_object *obj, t_token *token);
 
-/*		Parsing			*/
+/*		Parsing					*/
 int				generate_commands(t_object *obj);
 
-/*		Dictionnary		*/
-t_dictionnary	*create_element(char *key, char *value);
+/*		Dictionnary				*/
+void			destroy_dictionnary(void *content);
+t_environment	*create_env(t_dictionnary dict, bool is_visible);
 
-/*		Envirement		*/
-int				init_env(t_object *obj, char **env);
-char			*get_env(t_object *obj, char *key);
-int				set_env(t_object *obj, char *key, char *value);
+/*		Envirement				*/
+char			*get_env(t_list *env, char *key);
+int				set_env(t_list **env_list, t_dictionnary dict);
+void			destroy_env(void *content);
+int				init_env(t_list **env, char **envp);
 
-/*		Signals			*/
+/*		Signals	Mangement		*/
 void			init_signals(void);
 void			exit_shell(t_object *obj);
 
-/*		TO BE REMOVED	*/
+/*		TO BE REMOVED			*/
 void			print_content(void *content);
 void			display_token(void *content);
 void			leaks_func(void);

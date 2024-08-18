@@ -5,21 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 02:11:56 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/07/27 01:42:43 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/18 11:48:18 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/18 11:49:11 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_dictionnary	*create_element(char *key, char *value)
+void	destroy_dictionnary(void *content)
 {
-	t_dictionnary	*element;
+	t_dictionnary	*dict;
 
-	element = (t_dictionnary *)malloc(sizeof(t_dictionnary));
-	if (element == NULL)
-		return (NULL);
-	element->key = key;
-	element->value = value;
-	return (element);
+	dict = (t_dictionnary *)content;
+	free(dict->key);
+	free(dict->value);
 }

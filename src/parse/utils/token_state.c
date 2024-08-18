@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:20:01 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/17 18:38:53 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/18 09:21:44 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ bool	is_joinable(t_token *token)
 	return ((token->state & JOINABLE) != 0);
 }
 
-void	set_flag(t_token *token, int flag)
+void	set_token_state(t_token *token, int flag, bool value)
 {
-	token->state |= flag;
+	if (value)
+		token->state |= flag;
+	else
+		token->state &= ~flag;
 }

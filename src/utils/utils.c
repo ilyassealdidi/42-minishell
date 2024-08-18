@@ -1,41 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bitwise.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/17 17:54:20 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 09:19:18 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/18 16:31:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	set_bit(unsigned *var, int flag, bool value)
+// int	update_exit_status(t_object *obj, int status)
+// {
+// 	obj->exit_status = status;
+// 	return (status);
+// }
+
+bool	isset(void *ptr)
 {
-	if (value)
-		*var |= flag;
-	else
-		*var &= ~flag;
+	return (ptr != NULL);
 }
 
-void	clear_bit(int *n, int pos)
+char	*ft_strjoin_free(char *s1, char *s2, int to_free)
 {
-	*n &= ~(1 << pos);
-}
+	char	*str;
 
-bool	check_bit(int n, int pos)
-{
-	return ((n & (1 << pos)) != 0);
-}
-
-int		toggle_bit(int n, int pos)
-{
-	return (n ^ (1 << pos));
-}
-
-void	unset_bit(int *n, int pos)
-{
-	*n &= ~(1 << pos);
+	str = ft_strjoin(s1, s2);
+	if (str == NULL)
+		return (NULL);
+	if (to_free == LEFT)
+		free(s1);
+	else if (to_free == RIGHT)
+		free(s2);
+	else if (to_free == BOTH)
+	{
+		free(s1);
+		free(s2);
+	}
+	return (str);
 }

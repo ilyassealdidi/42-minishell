@@ -6,13 +6,14 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/16 21:01:03 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/18 16:30:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
 
+/*		For Debug	*/
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
 # define YELLOW "\033[0;33m"
@@ -33,6 +34,10 @@
 # define JOINABLE 0b00000001
 # define EXPANDABLE 0b00000010
 # define QUOTED 0b00000100
+
+# define LEFT 0
+# define RIGHT 1
+# define BOTH 2
 
 # define VALID 1
 # define INVALID 0
@@ -61,20 +66,9 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			*content;
-	int				state;
-	bool			is_joinable;
-	bool			is_expandable;
-	bool			is_quoted;
+	unsigned 		state;
 	t_token_type	type;
 }	t_token;
-
-typedef struct s_cmd_type
-{
-	// char			*cmd;
-	// int				(*func)(t_object *obj, t_list *node);
-	// t_token_type	type;
-	
-}	t_cmd_type;
 
 typedef struct s_command
 {
@@ -90,15 +84,15 @@ typedef struct s_dictionnary
 	char			*value;
 }	t_dictionnary;
 
-// typedef struct s_env
-// {
-// 	t_dictionnary	*element;
-// 	bool			is_hidden;
-// }	t_env;
+typedef struct s_environment
+{
+	t_dictionnary	element;
+	bool			is_visible;
+}	t_environment;
 
 typedef struct s_object
 {
-	char			*line;
+	char			*line;		// To be removed later
 	t_list			*tokens;	// To be removed later
 	t_list			*commands;
 	t_list			*env;
