@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/15 20:03:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 13:06:09 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	redir_init(t_list *node, t_command *command)
 		command->out = fd;
 	}
 	if (fd == -1)
-		return (print_error(errno), FAILURE);
+		return (print_error(errno, NULL), FAILURE); //! Check if it's the right way to handle the error
 	return (SUCCESS);
 }
 

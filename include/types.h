@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 11:04:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 14:12:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define SUCCESS 0
 # define FAILURE 1
 # define ERROR 258
+# define INVALID_IDENTIFIER 2
 
 # define JOINABLE 0b00000001
 # define EXPANDABLE 0b00000010
@@ -43,8 +44,9 @@
 # define VALID 1
 # define INVALID 0
 
-# define MEMORY_ERR "minishell: for no particular reason malloc has failed!\n"
-# define SYNTAX_ERR "minishell: syntax error\n"
+# define MEMORY_ERR "for no particular reason, malloc has failed!\n"
+# define SYNTAX_ERR "syntax error\n"
+# define INVALID_IDENTIFIER_ERR "': not a valid identifier\n"
 // # define AMBIGUOUS_REDIRECT "minishell: %s: ambiguous redirect\n" //! to be removed
 
 typedef enum e_token_type
@@ -95,6 +97,7 @@ typedef struct s_object
 	t_list			*tokens;	//!~ To be removed later
 	t_list			*commands;
 	t_list			*env;
+	char			*debug_line;
 	int				exit_status;
 	int				received_signals;
 }	t_object;

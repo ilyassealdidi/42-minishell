@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/28 23:47:33 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 12:43:35 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/19 13:27:10 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/19 13:34:58 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	echo(t_command *cmd)
+static void	print_env(void *content)
 {
-	int	i;
-	int	nl;
+	t_environment	*env;
 
-	i = 1;
-	nl = 0;
-	while (cmd->args[i] != NULL && cmd->args[i][0] == '-')
-	{
-		if (ft_strspn(&cmd->args[i][1], "n") == ft_strlen(cmd->args[i]) - 1)
- 			nl = 1;
-		else
-			break ;
-		i++;
-	}
-	while (cmd->args[i] != NULL)
-	{
-		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
-		if (cmd->args[i + 1] != NULL)
-			ft_putstr_fd(" ", STDOUT_FILENO);
-		i++;
-	}
-	if (nl == 0)
-		ft_putstr_fd("\n", STDOUT_FILENO);
+	env = content;
+	if (env->hidden == false)
+		printf("%s=%s\n", env->element.key, env->element.value);
+}
+
+int	env(t_object *obj)
+{
+	ft_lstiter(obj->env, print_env);
 	return (SUCCESS);
 }

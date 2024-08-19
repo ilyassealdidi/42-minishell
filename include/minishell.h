@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 11:05:12 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 13:33:17 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ extern int		g_received_signal;
 // Consider to use seperate header files, one for parsing, one for executing
 
 /*		Errors Management		*/
-void			print_error(int status);
+void			print_error(int status, char *arg);
 
 /*		Utilities				*/
 char			*ft_strjoin_free(char *s1, char *s2, int to_free);
 char			*join(char *str1, char *str2);				//! to be removed
 int				is_valid_syntax(t_list *tokens);
 void			free_array(char **strs);
+bool			is_builtin(char *str);
 
 /*		Token utils				*/
 t_token			*get_token(t_list *list);
@@ -61,6 +62,7 @@ t_environment	*create_env(t_dictionnary dict, bool hidden);
 
 /*		Environment				*/
 char			*get_env(t_list *env, char *key);
+int				 insert_env(t_list **env_list, t_dictionnary dict, bool hidden);
 int				set_env(t_list **env_list, t_dictionnary dict);
 void			destroy_env(void *content);
 int				init_env(t_list **env, char **envp);
@@ -74,7 +76,14 @@ void			print_content(void *content);
 void			display_token(void *content);
 void			leaks_func(void);
 void			display_command(void *content);
-void			print_env(void *content);
+
+/*		Builtins				*/
+int				echo(t_command *cmd);
+int				cd(t_object *obj, t_command *cmd);
+int				pwd(t_command *cmd);
+int				export(t_object *obj, t_command *cmd);
+int				unset(t_object *obj, t_command *cmd);
+int				env(t_object *obj);
 
 /*		Command					*/
 int				new_command(t_list *tokens, t_command *command);

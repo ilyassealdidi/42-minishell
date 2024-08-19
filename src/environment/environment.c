@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 11:16:27 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 15:42:09 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
 	t_environment   *env;
 	t_dictionnary   newdict;
 
+	if (dict.key == NULL || dict.value == NULL)
+		return (FAILURE);
 	newdict.key = ft_strdup(dict.key);
 	newdict.value = ft_strdup(dict.value);
 	if (newdict.key == NULL || newdict.value == NULL)
@@ -95,7 +97,7 @@ int set_env(t_list **env_list, t_dictionnary dict)
 		}
 		tmp = tmp->next;
 	}
-	if (insert_env(env_list, dict, true) == FAILURE)
+	if (insert_env(env_list, dict, false) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -128,7 +130,7 @@ int append_env(t_list **env_list, t_dictionnary dict)
 		}
 		tmp = tmp->next;
 	}
-	if (insert_env(env_list, dict, true) == FAILURE)
+	if (insert_env(env_list, dict, false) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -151,14 +153,14 @@ int	init_env(t_list **env_list, char **envp)
 	{
 		dict.key = ft_substr(*envp, 0, ft_strchr(*envp, '=') - *envp);
 		dict.value = ft_strdup(ft_strchr(*envp, '=') + 1);
-		if (dict.key == NULL || dict.value == NULL)
-			return (destroy_dictionnary(&dict), FAILURE);
-		if (insert_env(env_list, dict, true) == FAILURE)
-			return (destroy_dictionnary(&dict), FAILURE);
+		if (insert_env(env_list, dict, false) == FAILURE)
+			return (ft_lstclear(env_list, destroy_env),
+				destroy_dictionnary(&dict), FAILURE);
 		destroy_dictionnary(&dict);
 		envp++;
 	}
-	if (insert_env(env_list, (t_dictionnary){"?", "0"}, false) == FAILURE)
+	if (insert_env(env_list, (t_dictionnary){"?", "0"}, true) == FAILURE
+		|| insert_env(env_list, (t_dictionnary){"OLDPWD", ""}, true) == FAILURE)
 		return (ft_lstclear(env_list, destroy_env), FAILURE);
 	return (SUCCESS);
 }

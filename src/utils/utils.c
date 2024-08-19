@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 10:25:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 12:26:31 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,17 @@ char	*ft_strjoin_free(char *s1, char *s2, int to_free)
 		free(s2);
 	}
 	return (str);
+}
+
+bool	is_builtin(char *str)
+{
+	if (ft_strcmp(str, "echo") == 0
+		|| ft_strcmp(str, "cd") == 0
+		|| ft_strcmp(str, "pwd") == 0
+		|| ft_strcmp(str, "export") == 0
+		|| ft_strcmp(str, "unset") == 0
+		|| ft_strcmp(str, "env") == 0
+		|| ft_strcmp(str, "exit") == 0)
+		return (true);
+	return (false);
 }

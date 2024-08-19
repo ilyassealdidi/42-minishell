@@ -9,6 +9,7 @@ Mandatory :
 	Align variables declarations
 
 Recommended :
+	seperate header files
 	Open heredoc in childs
 
 Optimazation :
