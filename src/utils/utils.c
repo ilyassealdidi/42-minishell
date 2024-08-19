@@ -6,17 +6,24 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 16:31:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:25:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// int	update_exit_status(t_object *obj, int status)
-// {
-// 	obj->exit_status = status;
-// 	return (status);
-// }
+int	set_exit_status(t_object *obj)
+{
+	char	*value;
+
+	value = ft_itoa(obj->exit_status);
+	if (value == NULL)
+		return (FAILURE);
+	if (set_env(&obj->env, (t_dictionnary){"?", value}) == FAILURE)
+		return (free(value), FAILURE);
+	free(value);
+	return (SUCCESS);
+}
 
 bool	isset(void *ptr)
 {

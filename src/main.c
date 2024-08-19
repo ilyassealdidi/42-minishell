@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 16:19:16 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:05:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	main(int argc, char **argv, char **env)
 {
 	t_object			obj;
 	int					status;
+
 	// if (argc != 1)
 	// 	return (printf("Usage: ./minishell\n"), 1);
 	ft_memset(&obj, 0, sizeof(t_object));
 	init_signals();
 	if (init_env(&obj.env, env) == FAILURE)
-		return (printf("Error: failed to initialize environment\n"), 1);
-	// ft_lstiter(obj.env, print_env);
+		return (print_error(FAILURE), 1);
 	while (1)
 	{
 		if (argv[1])
@@ -48,7 +48,6 @@ int	main(int argc, char **argv, char **env)
 		update_exit_status(&obj);
 		status = generate_commands(&obj);
 		free(obj.line);
-		ft_lstclear(&obj.commands, destroy_command);
 		if (status != SUCCESS)
 			continue ;
 		//exec(&obj);

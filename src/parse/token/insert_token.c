@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 16:05:13 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 09:56:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,15 @@ int	split_variable(t_object *obj, t_token *token)
 
 int	ft_appendtoken(t_object *obj, t_token *new)
 {
-	t_list	*node;
 	t_token	*token;
 
 	update_token_type(obj->tokens, new);
-	if (is_expandable(new) && !is_quoted(new) && new->type != OUTFILE)	
+	if (is_expandable(new) && !is_quoted(new))	/* && new->type != OUTFILE*/
 		return (split_variable(obj, new));
 	if (obj->tokens != NULL && is_joinable(get_last_token(obj->tokens)))
 	{
 		token = get_last_token(obj->tokens);
-		token->content = join(token->content, new->content);
+		token->content = ft_strjoin_free(token->content, new->content, BOTH);
 		if (token->content == NULL)
 			return (FAILURE);
 		set_token_state(token, JOINABLE, new->state & JOINABLE);

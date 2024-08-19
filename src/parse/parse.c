@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 16:07:15 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:25:57 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,11 @@
 
 static int	parse(t_object *obj)
 {
-	int		status;
-	char	*line;
-
-	line = ft_strtrim(obj->line, " \t");
-	if (line == NULL)
-		return (print_error(FAILURE), 1);
-	status = tokens_init(obj, line);
-	free(line);
-	update_exit_status(obj);
-	set_env(&obj->env, (t_dictionnary){"?", ft_itoa(status)});
-	if (status != SUCCESS)
-		print_error(status);
-	return (status);
+	obj->exit_status = tokens_init(obj);
+	set_exit_status(obj);
+	if (obj->exit_status != SUCCESS)
+		print_error(obj->exit_status);
+	return (obj->exit_status);
 }
 
 char	*generate_filename(void)
@@ -114,8 +106,7 @@ int	generate_commands(t_object *obj)
 		return (FAILURE);
 	if (commands_init(obj) == FAILURE)
 		return (FAILURE);
-	// ft_lstiter(obj->tokens, display_token);
-	// ft_lstclear(&obj->tokens, destroy_token);
-	// ft_lstiter(obj->commands, display_command);
+	ft_lstiter(obj->tokens, display_token);
+	ft_lstclear(&obj->tokens, destroy_token);
 	return (SUCCESS);
 }

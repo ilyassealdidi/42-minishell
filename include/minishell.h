@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 15:57:14 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:08:03 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ extern int		g_received_signal;
 void			print_error(int status);
 
 /*		Utilities				*/
-char			*join(char *str1, char *str2);
+char			*ft_strjoin_free(char *s1, char *s2, int to_free);
+char			*join(char *str1, char *str2);				//! to be removed
 int				is_valid_syntax(t_list *tokens);
 void			free_array(char **strs);
 
 /*		Token utils				*/
 t_token			*get_token(t_list *list);
-t_token			*get_first_token(t_list *list);
 t_token			*get_last_token(t_list *list);
 
 bool			is_quoted(t_token *token);
@@ -47,7 +47,7 @@ void			set_token_state(t_token *token, int flag, bool value);
 int				ft_appendtoken(t_object *obj, t_token *token);
 void			update_token_type(t_list *head, t_token *new);
 void			destroy_token(void *content);
-int				tokens_init(t_object *obj, char *line);
+int				tokens_init(t_object *obj);
 
 /*		Expanding				*/
 int				expand_vars(t_object *obj, t_token *token);
@@ -57,9 +57,9 @@ int				generate_commands(t_object *obj);
 
 /*		Dictionnary				*/
 void			destroy_dictionnary(void *content);
-t_environment	*create_env(t_dictionnary dict, bool is_visible);
+t_environment	*create_env(t_dictionnary dict, bool hidden);
 
-/*		Envirement				*/
+/*		Environment				*/
 char			*get_env(t_list *env, char *key);
 int				set_env(t_list **env_list, t_dictionnary dict);
 void			destroy_env(void *content);
@@ -76,7 +76,7 @@ void			leaks_func(void);
 void			display_command(void *content);
 void			print_env(void *content);
 
-/*		Command			*/
+/*		Command					*/
 int				new_command(t_list *tokens, t_command *command);
 void			destroy_command(void *content);
 int				commands_init(t_object *obj);

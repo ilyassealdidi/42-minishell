@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 16:26:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:27:33 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_env(t_list *env_list, char *key)
 	return (NULL);
 }
 
-int	insert_env(t_list **env_list, t_dictionnary dict, bool is_visible)
+int	insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
 {
 	t_list			*new;
 	t_environment	*env;
@@ -36,7 +36,7 @@ int	insert_env(t_list **env_list, t_dictionnary dict, bool is_visible)
 	newdict.value = ft_strdup(dict.value);
 	if (newdict.key == NULL || newdict.value == NULL)
 		return (destroy_dictionnary(&newdict), FAILURE);	
-	env = create_env(newdict, is_visible);
+	env = create_env(newdict, hidden);
 	if (env == NULL)
 		return (destroy_dictionnary(&newdict), FAILURE);
 	new = ft_lstnew(env);
@@ -81,7 +81,7 @@ int	append_env(t_list **env_list, t_dictionnary dict)
 		element = tmp->content;
 		if (ft_strcmp(element->key, dict.key) == 0)
 		{
-			element->value = ft_strjoin_free(element->value, dict.value, 1);
+			element->value = ft_strjoin_free(element->value, dict.value, LEFT);
 			if (element->value == NULL)
 				return (FAILURE);
 			return (SUCCESS);
@@ -92,7 +92,6 @@ int	append_env(t_list **env_list, t_dictionnary dict)
 		return (FAILURE);
 	return (SUCCESS);
 }
-
 
 int	init_env(t_list **env_list, char **envp)
 {
@@ -114,6 +113,3 @@ int	init_env(t_list **env_list, char **envp)
 		return (ft_lstclear(env_list, destroy_env), FAILURE);
 	return (SUCCESS);
 }
-
-
-

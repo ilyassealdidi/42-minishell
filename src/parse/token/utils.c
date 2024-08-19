@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 08:47:03 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 15:43:13 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 09:03:06 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@ t_token	*get_token(t_list *list)
 {
 	if (list == NULL)
 		return (NULL);
-	return ((t_token *)list->content);
-}
-
-t_token	*get_first_token(t_list *list)
-{
-	if (list == NULL)
-		return (NULL);
-	while (list->previous != NULL)
-		list = list->previous;
 	return ((t_token *)list->content);
 }
 

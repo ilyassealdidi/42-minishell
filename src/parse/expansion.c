@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 09:51:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 09:52:57 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 			*ptr = NULL;
 	}
 	*str += len + (is_var);
-	if (*ptr == NULL && (!is_var || is_var && value != NULL))
+	if (*ptr == NULL && (!is_var || value != NULL))
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -77,7 +77,7 @@ int	expand_vars(t_object *obj, t_token *token)
 			return (FAILURE);
 		if (ptr == NULL)
 			continue ;
-		new = join(new, ptr);
+		new = ft_strjoin_free(new, ptr, BOTH);
 		if (new == NULL)
 			return (FAILURE);
 	}

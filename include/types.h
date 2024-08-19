@@ -6,14 +6,14 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/18 16:30:52 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:34:42 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
 
-/*		For Debug	*/
+/*		Debug - start		*/
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
 # define YELLOW "\033[0;33m"
@@ -26,6 +26,7 @@
 
 # define TRUE GREEN"true"RESET
 # define FALSE RED"false"RESET
+/*		Debug - end		*/
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -42,10 +43,9 @@
 # define VALID 1
 # define INVALID 0
 
-# define MEMORY_ERR "3ata failat malloc\n"
-# define SYNTAX_ERR "Syntax error\n"
-# define CMD_NOT_FOUND "Command not found\n"
-# define AMBIGUOUS_REDIRECT "minishell: %s: ambiguous redirect\n"
+# define MEMORY_ERR "minishell: for no particular reason malloc has failed!\n"
+# define SYNTAX_ERR "minishell: syntax error\n"
+// # define AMBIGUOUS_REDIRECT "minishell: %s: ambiguous redirect\n" //! to be removed
 
 typedef enum e_token_type
 {
@@ -87,12 +87,12 @@ typedef struct s_dictionnary
 typedef struct s_environment
 {
 	t_dictionnary	element;
-	bool			is_visible;
+	bool			hidden;
 }	t_environment;
 
 typedef struct s_object
 {
-	char			*line;		// To be removed later
+	char			*line;
 	t_list			*tokens;	// To be removed later
 	t_list			*commands;
 	t_list			*env;
