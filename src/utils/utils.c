@@ -5,32 +5,46 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/28 08:47:03 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 09:03:06 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/19 10:25:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_token	*get_token(t_list *list)
+int	set_exit_status(t_object *obj)
 {
-	if (list == NULL)
-		return (NULL);
-	return ((t_token *)list->content);
+	char	*value;
+
+	value = ft_itoa(obj->exit_status);
+	if (value == NULL)
+		return (FAILURE);
+	if (set_env(&obj->env, (t_dictionnary){"?", value}) == FAILURE)
+		return (free(value), FAILURE);
+	free(value);
+	return (SUCCESS);
 }
 
-t_token	*get_last_token(t_list *list)
+bool	isset(void *ptr)
 {
-	if (list == NULL)
-		return (NULL);
-	return ((t_token *)(ft_lstlast(list)->content));
+	return (ptr != NULL);
 }
 
-void	destroy_token(void *content)
+char	*ft_strjoin_free(char *s1, char *s2, int to_free)
 {
-	t_token	*token;
+	char	*str;
 
-	token = (t_token *)content;
-	free(token->content);
-	free(token);
+	str = ft_strjoin(s1, s2);
+	if (str == NULL)
+		return (NULL);
+	if (to_free == LEFT)
+		free(s1);
+	else if (to_free == RIGHT)
+		free(s2);
+	else if (to_free == BOTH)
+	{
+		free(s1);
+		free(s2);
+	}
+	return (str);
 }

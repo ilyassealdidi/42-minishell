@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   token_state.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/28 08:47:03 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 09:03:06 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/17 15:20:01 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/18 09:21:44 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_token	*get_token(t_list *list)
+bool	is_quoted(t_token *token)
 {
-	if (list == NULL)
-		return (NULL);
-	return ((t_token *)list->content);
+	return ((token->state & QUOTED) != 0);
 }
 
-t_token	*get_last_token(t_list *list)
+bool	is_expandable(t_token *token)
 {
-	if (list == NULL)
-		return (NULL);
-	return ((t_token *)(ft_lstlast(list)->content));
+	return ((token->state & EXPANDABLE) != 0);
 }
 
-void	destroy_token(void *content)
+bool	is_joinable(t_token *token)
 {
-	t_token	*token;
+	return ((token->state & JOINABLE) != 0);
+}
 
-	token = (t_token *)content;
-	free(token->content);
-	free(token);
+void	set_token_state(t_token *token, int flag, bool value)
+{
+	if (value)
+		token->state |= flag;
+	else
+		token->state &= ~flag;
 }

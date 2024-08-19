@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 15:43:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:07:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_token_type	get_token_type(char *str)
 	return (NONE);
 }
 
-static bool	is_expandable(char *str)
+static bool	contains_env(char *str)
 {
 	char	*ptr;
 
@@ -65,41 +65,42 @@ static int	set_next_token(char **line, t_token *token)
 {
 	int					len;
 
+	ft_memset(token, 0, sizeof(t_token));
 	token->type = get_token_type(*line);
 	if (token->type == NONE)
 		return (ERROR);
 	len = get_token_length(*line, token->type);
-	token->is_expandable = is_expandable(*line);
-	token->is_quoted = **line == '"' || **line == '\'';
+	token->state |= EXPANDABLE * contains_env(*line);
+	token->state |= QUOTED * (**line == '"' || **line == '\'');
 	if (token->type == ARG)
 	{
-		token->content = ft_substr(*line, token->is_quoted, len);
+		token->content = ft_substr(*line, is_quoted(token), len);
 		if (token->content == NULL)
 			return (FAILURE);
 	}
 	else
 		token->content = NULL;
-	*line += len + (2 * token->is_quoted);
-	token->is_joinable = ft_strchr(" <>|\t", **line) == NULL && **line != '\0'
-		&& token->type == ARG;
+	*line += len + 2 * is_quoted(token);
+	token->state |= JOINABLE * (ft_strchr(" <>|\t", **line) == NULL
+		&& **line != '\0' && token->type == ARG);
 	return (SUCCESS);
 }
 
-int	tokens_init(t_object *obj, char *line)
+int	tokens_init(t_object *obj)
 {
 	int					ret;
 	t_token				token;
 
-	while (*line != '\0')
+	while (*obj->line != '\0')
 	{
-		ret = set_next_token(&line, &token);
+		while (*obj->line == ' ' || *obj->line == '\t')
+			obj->line++;
+		ret = set_next_token(&obj->line, &token);
 		if (ret != SUCCESS)
 			return (ft_lstclear(&obj->tokens, destroy_token), ret);
 		if (expand_vars(obj, &token) == FAILURE
 			|| ft_appendtoken(obj, &token) == FAILURE)
 			return (free(token.content), FAILURE);
-		while (*line == ' ' || *line == '\t')
-			line++;
 	}
 	if (is_valid_syntax(obj->tokens) == ERROR)
 		return (ft_lstclear(&obj->tokens, destroy_token), ERROR);

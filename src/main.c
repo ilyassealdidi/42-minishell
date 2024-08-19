@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/15 14:21:15 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:05:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	update_exit_status(t_object *obj)
 	if (g_received_signal != obj->received_signals)
 	{
 		obj->exit_status = 1;
-		set_env(obj, "?", "1");
+		set_env(&obj->env, (t_dictionnary){"?", ft_itoa(obj->exit_status)});
 		obj->received_signals = g_received_signal;
 	}
 }
@@ -28,19 +28,17 @@ int	main(int argc, char **argv, char **env)
 {
 	t_object			obj;
 	int					status;
+
 	// if (argc != 1)
-	// 	return (ft_printf("Usage: ./minishell\n"), 1);
+	// 	return (printf("Usage: ./minishell\n"), 1);
 	ft_memset(&obj, 0, sizeof(t_object));
 	init_signals();
-
-	if (init_env(&obj, env) == FAILURE)
-		return (ft_printf("Error: failed to initialize environment\n"), 1);
-	// ft_lstiter(obj.env, print_env);
-	set_env(&obj, ft_strdup("?"), ft_strdup("0"));
+	if (init_env(&obj.env, env) == FAILURE)
+		return (print_error(FAILURE), 1);
 	while (1)
 	{
 		if (argv[1])
-			obj.line = ft_strdup("echo Hello");
+			obj.line = ft_strdup("echo \"Hello\"Aldidi");
 		else
 			obj.line = readline("$> ");
 		if (!obj.line)
@@ -50,8 +48,6 @@ int	main(int argc, char **argv, char **env)
 		update_exit_status(&obj);
 		status = generate_commands(&obj);
 		free(obj.line);
-		ft_lstclear(&obj.tokens, destroy_token);
-		ft_lstclear(&obj.commands, destroy_command);
 		if (status != SUCCESS)
 			continue ;
 		//exec(&obj);

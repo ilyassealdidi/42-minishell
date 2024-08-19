@@ -39,14 +39,14 @@ void	display_token(void *content)
 	if (tmp->type != PIPE && tmp->type != APPEND && tmp->type != HEREDOC
 		&& tmp->type != REDIR_IN && tmp->type != REDIR_OUT)
 	{
-		if (tmp->is_expandable || tmp->is_quoted || tmp->is_joinable)
+		if (tmp->state)
 		{
 			printf("state\t\t: ");
-			if (tmp->is_joinable)
+			if (is_joinable(tmp))
 				printf("Joinable, ");
-			if (tmp->type != DELIMITER && tmp->is_expandable)
+			if (tmp->type != DELIMITER && is_expandable(tmp))
 				printf("Expandable, ");
-			if (tmp->is_quoted)
+			if (is_quoted(tmp))
 				printf("Quoted\n");
 		}
 	}

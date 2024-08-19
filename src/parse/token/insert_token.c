@@ -1,62 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_append_token.c                                     :+:      :+:    :+:   */
+/*   insert_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 20:27:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 10:55:32 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/19 09:56:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include <minishell.h>
-
-// To be moved
-static bool	is_cmd_exists(char *ptr, char *path,char *cmd)
-{
-	int		path_len;
-	int		cmd_len;
-
-	cmd_len = ft_strlen(cmd);
-	path_len = ft_strlen(path);
-	ft_strlcat(ptr, path, path_len + 1);
-	ft_strlcat(ptr, "/", path_len + 2);
-	ft_strlcat(ptr, cmd, path_len + cmd_len + 2);
-	return (access(ptr, X_OK) == 0);
-}
-
-// To be moved
-static int	set_cmd_path(t_list *head, t_token *token)
-{
-	char	**paths;
-	char	*ptr;
-	int		i;
-
-	i = -1;
-	if (ft_strlen(token->content) == 0 || token->type != CMD)
-		return (SUCCESS);
-	ptr = getenv("PATH");
-	if (ptr == NULL)
-		return (SUCCESS);
-	paths = ft_split(ptr, ':');
-	if (paths == NULL)
-		return (FAILURE);
-	if (*paths == NULL)
-		return (free(*paths), SUCCESS);
-	while (paths[++i] != NULL)
-	{
-		ptr = malloc(ft_strlen(paths[i]) + ft_strlen(token->content) + 2);
-		if (ptr == NULL)
-			return (free(paths), FAILURE);
-		if (is_cmd_exists(ptr, paths[i], token->content))
-			return (free_array(paths), free(token->content),
-				token->content = ptr, SUCCESS);
-		free(ptr);
-	}
-	free_array(paths);
-	return (SUCCESS);
-}
 
 static int	insert_token(t_list **head, t_token *new)
 {
@@ -93,8 +48,8 @@ int	split_variable(t_object *obj, t_token *token)
 		ft_memset(&new, 0, sizeof(t_token));
 		new.content = strs[i];
 		new.type = ARG;
-		if (strs[i + 1] == NULL && token->is_joinable)
-			new.is_joinable = true;
+		if (strs[i + 1] == NULL && is_joinable(token))
+			new.state |= JOINABLE;
 		ft_appendtoken(obj, &new);
 		i++;
 	}
@@ -103,30 +58,24 @@ int	split_variable(t_object *obj, t_token *token)
 
 int	ft_appendtoken(t_object *obj, t_token *new)
 {
-	t_list	*node;
 	t_token	*token;
 
 	update_token_type(obj->tokens, new);
-	if (new->is_expandable && !new->is_quoted && new->type != OUTFILE)	
+	if (is_expandable(new) && !is_quoted(new))	/* && new->type != OUTFILE*/
 		return (split_variable(obj, new));
-	// if (set_cmd_path(obj->tokens, new) == FAILURE)
-	// 	return (FAILURE);
-	if (obj->tokens != NULL && get_last_token(obj->tokens)->is_joinable)
+	if (obj->tokens != NULL && is_joinable(get_last_token(obj->tokens)))
 	{
 		token = get_last_token(obj->tokens);
-		token->content = join(token->content, new->content);
+		token->content = ft_strjoin_free(token->content, new->content, BOTH);
 		if (token->content == NULL)
 			return (FAILURE);
-		token->is_joinable = new->is_joinable;
-		if (new->is_quoted)
-			token->is_quoted = new->is_quoted;
+		set_token_state(token, JOINABLE, new->state & JOINABLE);
+		set_token_state(token, QUOTED, new->state & QUOTED);
 	}
 	else
 	{
 		if (insert_token(&obj->tokens, new) == FAILURE)
 			return (free(new->content), FAILURE);
-		if (!new->is_joinable)
-			ft_memset(new, 0, sizeof(t_token));
 	}
 	return (SUCCESS);
 }

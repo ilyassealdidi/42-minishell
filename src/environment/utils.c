@@ -5,32 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/28 08:47:03 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 09:03:06 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/18 10:04:05 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/19 09:09:00 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_token	*get_token(t_list *list)
+t_environment	*create_env(t_dictionnary dict, bool hidden)
 {
-	if (list == NULL)
+	t_environment	*env;
+
+	env = (t_environment *)malloc(sizeof(t_environment));
+	if (env == NULL)
 		return (NULL);
-	return ((t_token *)list->content);
+	env->element = dict;
+	env->hidden = hidden;
+	return (env);
 }
 
-t_token	*get_last_token(t_list *list)
+void	destroy_env(void *content)
 {
-	if (list == NULL)
-		return (NULL);
-	return ((t_token *)(ft_lstlast(list)->content));
-}
+	t_environment	*env;
 
-void	destroy_token(void *content)
-{
-	t_token	*token;
-
-	token = (t_token *)content;
-	free(token->content);
-	free(token);
+	env = (t_environment *)content;
+	destroy_dictionnary(&env->element);
+	free(env);
 }

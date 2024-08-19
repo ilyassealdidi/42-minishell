@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/07 12:09:45 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 09:52:57 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 		variable = ft_substr(*str, 1, len);
 		if (variable == NULL)
 			return (FAILURE);
-		value = get_env(obj, variable);
+		value = get_env(obj->env, variable);
 		free(variable);
 		if (value != NULL)
 			*ptr = ft_strdup(value);
@@ -55,7 +55,7 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 			*ptr = NULL;
 	}
 	*str += len + (is_var);
-	if (*ptr == NULL && (!is_var || is_var && value != NULL))
+	if (*ptr == NULL && (!is_var || value != NULL))
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -66,7 +66,7 @@ int	expand_vars(t_object *obj, t_token *token)
 	char	*old;
 	char	*ptr;
 
-	if (!token->is_expandable
+	if (!is_expandable(token)
 		|| obj->tokens && get_last_token(obj->tokens)->type == HEREDOC)
 		return (SUCCESS);
 	new = NULL;
@@ -77,13 +77,13 @@ int	expand_vars(t_object *obj, t_token *token)
 			return (FAILURE);
 		if (ptr == NULL)
 			continue ;
-		new = join(new, ptr);
+		new = ft_strjoin_free(new, ptr, BOTH);
 		if (new == NULL)
 			return (FAILURE);
 	}
 	free(old);
 	token->content = new;
-	if (token->content == NULL && token->is_expandable)
+	if (token->content == NULL && is_expandable(token))
 		return (token->content = ft_strdup(""), token->content == NULL);
 	return (SUCCESS);
 }

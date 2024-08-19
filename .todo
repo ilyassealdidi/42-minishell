@@ -1,10 +1,9 @@
 Required :
 	Heredoc
-	Tab
 	Align variables declarations
 
 Recommended :
-	Use FLAGS
+	Open heredoc in childs
 
 Optimazation :
 	use errno

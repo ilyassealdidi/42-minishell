@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/15 12:49:06 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/15 19:35:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	commands_init(t_object *obj)
 		if (command == NULL)
 			return (FAILURE);
 		ft_memset(command, 0, sizeof(t_command));
+		command->out = STDOUT_FILENO;
 		if (new_command(tokens, command) == FAILURE)
 			return (FAILURE);
 		new = ft_lstnew(command);
