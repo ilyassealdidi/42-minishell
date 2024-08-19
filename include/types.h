@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 10:34:42 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 11:04:31 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ typedef struct s_environment
 
 typedef struct s_object
 {
-	char			*line;
-	t_list			*tokens;	// To be removed later
+	t_list			*tokens;	//!~ To be removed later
 	t_list			*commands;
 	t_list			*env;
 	int				exit_status;

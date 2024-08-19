@@ -1,4 +1,10 @@
-Required :
+Next :
+	Done with Signals
+	Redirections
+	Builtins
+
+Mandatory :
+	decide to exit or to continue whenever malloc failed
 	Heredoc
 	Align variables declarations
 

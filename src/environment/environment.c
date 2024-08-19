@@ -6,15 +6,22 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 10:27:33 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 11:16:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*get_env(t_list *env_list, char *key)
+/**
+ * Retrieves the value of an environment variable given its key.
+ *
+ * @param env_list The linked list of environment variables.
+ * @param key The key of the environment variable to retrieve.
+ * @return The value of the environment variable if found, NULL otherwise.
+ */
+char *get_env(t_list *env_list, char *key)
 {
-	t_environment	*env;
+	t_environment *env;
 
 	while (env_list)
 	{
@@ -26,16 +33,30 @@ char	*get_env(t_list *env_list, char *key)
 	return (NULL);
 }
 
-int	insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
+/**
+ * Inserts a new environment variable into the environment list.
+ * 
+ * @attention the values of the dictionary *dict* are duplicated.
+ * so you have to free them after calling this function.
+ *
+ * @param env_list The pointer to the environment list.
+ * @param dict The dictionary containing the key-value pair
+ * of the environment variable.
+ * @param hidden A boolean value indicating whether the environment
+ * variable is hidden.
+ * @return Returns SUCCESS if the environment variable is successfully inserted,
+ * otherwise FAILURE.
+ */
+int insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
 {
-	t_list			*new;
-	t_environment	*env;
-	t_dictionnary	newdict;
+	t_list          *new;
+	t_environment   *env;
+	t_dictionnary   newdict;
 
 	newdict.key = ft_strdup(dict.key);
 	newdict.value = ft_strdup(dict.value);
 	if (newdict.key == NULL || newdict.value == NULL)
-		return (destroy_dictionnary(&newdict), FAILURE);	
+		return (destroy_dictionnary(&newdict), FAILURE);
 	env = create_env(newdict, hidden);
 	if (env == NULL)
 		return (destroy_dictionnary(&newdict), FAILURE);
@@ -46,10 +67,19 @@ int	insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
 	return (SUCCESS);
 }
 
-int	set_env(t_list **env_list, t_dictionnary dict)
+/**
+ * Sets the value of an environment variable in the given environment list.
+ * If the variable does not exist, it gets created.
+ *
+ * @param env_list The pointer to the environment list.
+ * @param dict The dictionary containing the key-value pair to set.
+ * @return Returns SUCCESS if the variable is successfully set,
+ * FAILURE otherwise.
+ */
+int set_env(t_list **env_list, t_dictionnary dict)
 {
-	t_list			*tmp;
-	t_environment	*env;
+	t_list          *tmp;
+	t_environment   *env;
 
 	tmp = *env_list;
 	while (tmp)
@@ -70,10 +100,20 @@ int	set_env(t_list **env_list, t_dictionnary dict)
 	return (SUCCESS);
 }
 
-int	append_env(t_list **env_list, t_dictionnary dict)
+/**
+ * Appends a key-value pair to the environment list or updates the value
+ * if the key already exists.
+ *
+ * @param env_list The pointer to the environment list.
+ * @param dict The dictionary containing the key-value pair to be appended
+ * or updated.
+ * @return Returns SUCCESS if the operation is successful,
+ * otherwise returns FAILURE.
+ */
+int append_env(t_list **env_list, t_dictionnary dict)
 {
-	t_list			*tmp;
-	t_dictionnary	*element;
+	t_list          *tmp;
+	t_dictionnary   *element;
 
 	tmp = *env_list;
 	while (tmp)
@@ -93,6 +133,15 @@ int	append_env(t_list **env_list, t_dictionnary dict)
 	return (SUCCESS);
 }
 
+/**
+ * Initializes the environment list with the given environment variables.
+ * The environment contains also the exit status of the last command.
+ *
+ * @param env_list The pointer to the environment list.
+ * @param envp The array of environment variables.
+ * @return Returns SUCCESS if the initialization is successful,
+ * otherwise returns FAILURE.
+ */
 int	init_env(t_list **env_list, char **envp)
 {
 	t_environment	*env;

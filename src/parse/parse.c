@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 10:25:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 11:04:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,19 @@
 
 static int	parse(t_object *obj)
 {
-	obj->exit_status = tokens_init(obj);
-	set_exit_status(obj);
+	char	*line;
+
+	line = readline("$> ");
+	if (line == NULL)
+		exit_shell(obj);
+	if (line[0] != '\0')
+		add_history(line);
+	if (update_exit_status(obj) == FAILURE)
+		return (FAILURE);
+	obj->exit_status = tokens_init(obj, line);
+	//! Check if line has to be freed
+	if (set_exit_status(obj) == FAILURE)
+		return (FAILURE);
 	if (obj->exit_status != SUCCESS)
 		print_error(obj->exit_status);
 	return (obj->exit_status);

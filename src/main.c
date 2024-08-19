@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 10:05:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 11:01:12 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,32 @@
 
 int g_received_signal = 0;
 
-void	update_exit_status(t_object *obj)
+int	update_exit_status(t_object *obj)
 {
 	if (g_received_signal != obj->received_signals)
 	{
-		obj->exit_status = 1;
-		set_env(&obj->env, (t_dictionnary){"?", ft_itoa(obj->exit_status)});
 		obj->received_signals = g_received_signal;
+		obj->exit_status = 1;
+		if (set_exit_status(obj) == FAILURE)
+			return (FAILURE);
 	}
+	return (SUCCESS);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_object			obj;
-	int					status;
 
-	// if (argc != 1)
-	// 	return (printf("Usage: ./minishell\n"), 1);
+	if (argc != 1)
+		return (printf("Usage: ./minishell\n"), 1);
 	ft_memset(&obj, 0, sizeof(t_object));
 	init_signals();
 	if (init_env(&obj.env, env) == FAILURE)
 		return (print_error(FAILURE), 1);
 	while (1)
 	{
-		if (argv[1])
-			obj.line = ft_strdup("echo \"Hello\"Aldidi");
-		else
-			obj.line = readline("$> ");
-		if (!obj.line)
-			exit_shell(&obj);
-		if (obj.line[0] != '\0')
-			add_history(obj.line);
-		update_exit_status(&obj);
-		status = generate_commands(&obj);
-		free(obj.line);
-		if (status != SUCCESS)
+		if (generate_commands(&obj) != SUCCESS)
 			continue ;
-		//exec(&obj);
 	}
 	return ((void)argc, 0);
 }
