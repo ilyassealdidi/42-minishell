@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 13:33:17 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 19:38:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ t_environment	*create_env(t_dictionnary dict, bool hidden);
 
 /*		Environment				*/
 char			*get_env(t_list *env, char *key);
-int				 insert_env(t_list **env_list, t_dictionnary dict, bool hidden);
+int				insert_env(t_list **env_list, t_dictionnary dict, bool hidden);
+int 			append_env(t_list **env_list, t_dictionnary dict);
 int				set_env(t_list **env_list, t_dictionnary dict);
 void			destroy_env(void *content);
 int				init_env(t_list **env, char **envp);
@@ -84,6 +85,7 @@ int				pwd(t_command *cmd);
 int				export(t_object *obj, t_command *cmd);
 int				unset(t_object *obj, t_command *cmd);
 int				env(t_object *obj);
+void			builtin_exit(t_object *obj);
 
 /*		Command					*/
 int				new_command(t_list *tokens, t_command *command);

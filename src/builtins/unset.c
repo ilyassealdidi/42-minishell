@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 13:27:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 18:56:38 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/19 19:30:50 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/19 19:32:12 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	print_env(void *content)
+int	unset(t_object *obj, t_command *command)
 {
-	t_environment	*env;
+	int	i;
 
-	env = content;
-	if (env->hidden == true || env->element.value == NULL)
-		return ;
-	printf("%s=%s\n", env->element.key, env->element.value);
-}
-
-int	env(t_object *obj)
-{
-	ft_lstiter(obj->env, print_env);
+	i = 1;
+	while (command->args[i])
+	{
+		if (is_valid_identifier(command->args[i]) == INVALID)
+		{
+			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+			ft_putstr_fd(command->args[i], STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+			obj->exit_status = 1;
+		}
+		else
+			delete_env(&obj->env, command->args[i]);
+		i++;
+	}
 	return (SUCCESS);
 }

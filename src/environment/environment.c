@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 15:42:09 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 19:31:54 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,12 @@ int insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
 	t_environment   *env;
 	t_dictionnary   newdict;
 
-	if (dict.key == NULL || dict.value == NULL)
-		return (FAILURE);
 	newdict.key = ft_strdup(dict.key);
-	newdict.value = ft_strdup(dict.value);
-	if (newdict.key == NULL || newdict.value == NULL)
+	if (dict.value != NULL)
+		newdict.value = ft_strdup(dict.value);
+	else
+		newdict.value = NULL;
+	if (newdict.key == NULL || newdict.value == NULL && dict.value != NULL)
 		return (destroy_dictionnary(&newdict), FAILURE);
 	env = create_env(newdict, hidden);
 	if (env == NULL)
@@ -90,8 +91,11 @@ int set_env(t_list **env_list, t_dictionnary dict)
 		if (ft_strcmp(env->element.key, dict.key) == 0)
 		{
 			free(env->element.value);
-			env->element.value = ft_strdup(dict.value);
-			if (env->element.value == NULL)
+			if (dict.value == NULL)
+				env->element.value = NULL;
+			else
+				env->element.value = ft_strdup(dict.value);
+			if (env->element.value == NULL && dict.value != NULL)
 				return (FAILURE);
 			return (SUCCESS);
 		}
@@ -123,6 +127,8 @@ int append_env(t_list **env_list, t_dictionnary dict)
 		element = tmp->content;
 		if (ft_strcmp(element->key, dict.key) == 0)
 		{
+			if (dict.value == NULL)
+				return (SUCCESS);
 			element->value = ft_strjoin_free(element->value, dict.value, LEFT);
 			if (element->value == NULL)
 				return (FAILURE);
@@ -153,7 +159,8 @@ int	init_env(t_list **env_list, char **envp)
 	{
 		dict.key = ft_substr(*envp, 0, ft_strchr(*envp, '=') - *envp);
 		dict.value = ft_strdup(ft_strchr(*envp, '=') + 1);
-		if (insert_env(env_list, dict, false) == FAILURE)
+		if (dict.key == NULL || dict.value == NULL ||
+			insert_env(env_list, dict, false) == FAILURE)
 			return (ft_lstclear(env_list, destroy_env),
 				destroy_dictionnary(&dict), FAILURE);
 		destroy_dictionnary(&dict);
@@ -163,4 +170,31 @@ int	init_env(t_list **env_list, char **envp)
 		|| insert_env(env_list, (t_dictionnary){"OLDPWD", ""}, true) == FAILURE)
 		return (ft_lstclear(env_list, destroy_env), FAILURE);
 	return (SUCCESS);
+}
+
+int	delete_env(t_list **env_list, char *key)
+{
+	t_list			*tmp;
+	t_list			*prev;
+	t_environment	*env;
+
+	tmp = *env_list;
+	prev = NULL;
+	while (tmp)
+	{
+		env = tmp->content;
+		if (ft_strcmp(env->element.key, key) == 0)
+		{
+			if (prev == NULL)
+				*env_list = tmp->next;
+			else
+				prev->next = tmp->next;
+			destroy_env(env);
+			free(tmp);
+			return (SUCCESS);
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	return (FAILURE);
 }

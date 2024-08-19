@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 14:30:14 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 19:37:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ int	builtin(t_object *obj, t_list *node)
 		status = env(obj);
 	// else if (ft_strcmp(command->args[0], "unset") == 0)
 	// 	status = unset(obj, command);
+	else if (ft_strcmp(command->args[0], "exit") == 0)
+		status = builtin_exit(obj);
+	else
+		status = execute_command(obj, node);
 	return (status);
 }
 
@@ -88,7 +92,7 @@ int	main(int argc, char **argv, char **env)
 		return (print_error(FAILURE, NULL), 1);
 	while (1)
 	{
-		obj.debug_line = "export name=Ilyasse Aldidi";
+		// obj.debug_line = "export name=Ilyasse Aldidi";
 		if (generate_commands(&obj) != SUCCESS)
 			continue ;
 		if (execute_commands(&obj) == FAILURE)

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 15:28:47 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 19:29:20 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,24 @@ static void	print_env(void *content)
 	t_environment	*env;
 
 	env = content;
-	if (env->hidden == false)
-		printf("declare -x %s=%s\n", env->element.key, env->element.value);
+	if (env->hidden == true)
+		return ;
+	printf("declare -x %s", env->element.key);
+	if (env->element.value != NULL)
+		printf("=\"%s\"", env->element.value);
+	printf("\n");
 }
 
 static bool	is_valid_identifier(char *str)
 {
 	int	i;
 
-	i = 0;
-	if (!ft_isalpha(str[i]) && str[i] != '_')
+	if (!ft_isalpha(*str) && *str != '_')
 		return (INVALID);
-	i++;
+	i = 1;
 	while (str[i])
 	{
-		if (str[i] == '=' || str[i] == '+')
+		if (str[i] == '=' || ft_strncmp(&str[i], "+=", 2) == 0)
 			break ;
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (INVALID);
@@ -40,10 +43,30 @@ static bool	is_valid_identifier(char *str)
 	return (VALID);
 }
 
+static int	set_env2_dict(t_dictionnary *dict, char *env, char *equal) //update the function's name
+{
+	if (equal == NULL)
+	{
+		dict->key = ft_strdup(env);
+		if (dict->key == NULL)
+			return (FAILURE);
+		dict->value = NULL;
+	}
+	else
+	{
+		dict->key = ft_substr(env, 0, equal - (equal[-1] == '+') - env);
+		dict->value = ft_strdup(ft_strchr(env, '=') + 1);
+		if (dict->key == NULL || dict->value == NULL)
+			return (destroy_dictionnary(dict), FAILURE);
+	}
+	return (SUCCESS);
+}
+
 int	export(t_object *obj, t_command *cmd)
 {
 	int				i;
 	t_dictionnary	dict;
+	char			*equal;
 
 	i = 0;
 	if (cmd->args[1] == NULL)
@@ -56,18 +79,13 @@ int	export(t_object *obj, t_command *cmd)
 			print_error(INVALID_IDENTIFIER, cmd->args[i]);
 			continue ;
 		}
-		if (ft_strchr(cmd->args[i], '=') == NULL)
-		{
-			dict.key = ft_strdup(cmd->args[i]);
-			dict.value = ft_strdup("");
-		}
-		else
-		{
-			dict.key = ft_substr(cmd->args[i], 0, ft_strchr(cmd->args[i], '=') - cmd->args[i]);
-			dict.value = ft_strdup(ft_strchr(cmd->args[i], '=') + 1);
-		}
-		if (insert_env(&obj->env, dict, false) == FAILURE)
-			return (destroy_dictionnary(&dict), FAILURE);
+		equal = ft_strchr(cmd->args[i], '=');
+		if (set_env2_dict(&dict, cmd->args[i], equal) == FAILURE)
+			return (FAILURE);
+		if (equal != NULL && equal[-1] == '+' && append_env(&obj->env, dict) == FAILURE)
+				return (destroy_dictionnary(&dict), FAILURE);
+		else if (set_env(&obj->env, dict) == FAILURE)
+				return (destroy_dictionnary(&dict), FAILURE);
 		destroy_dictionnary(&dict);
 	}
 	return (SUCCESS);
