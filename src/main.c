@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 22:29:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:53:58 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ int	builtin(t_object *obj, t_list *node)
 
 	command = node->content;
 	if (ft_strcmp(command->args[0], "exit") == 0)
-		builtin_exit(obj, command);
+		status = builtin_exit(obj, command);
 	else if (ft_strcmp(command->args[0], "echo") == 0)
-		status = echo(command);
+		status = builtin_echo(command);
 	else if (ft_strcmp(command->args[0], "export") == 0)
-		status = export(obj, command);
+		status = builtin_export(obj, command);
 	else if (ft_strcmp(command->args[0], "cd") == 0)
-		status = cd(obj, command);
+		status = builtin_cd(obj, command);
 	else if (ft_strcmp(command->args[0], "pwd") == 0)
-		status = pwd(obj);
+		status = builtin_pwd(obj);
 	else if (ft_strcmp(command->args[0], "env") == 0)
-		status = env(obj);
+		status = builtin_env(obj);
 	else if (ft_strcmp(command->args[0], "unset") == 0)
-		status = unset(obj, command);
+		status = builtin_unset(obj, command);
 	// else
 	// 	status = execute_command(obj, node);
 	return (status);
