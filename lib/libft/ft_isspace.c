@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 11:47:26 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/20 15:12:23 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/21 18:25:49 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/21 18:26:02 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-
-void	print_error(int status, char *arg)
+int	ft_isspace(int c)
 {
-	ft_putstr_fd("minishell: ", 2);
-	if (status == ERROR)
-		ft_putstr_fd(SYNTAX_ERR, 2);
-	else if (status == FAILURE)
-		ft_putstr_fd(MEMORY_ERR, 2);
+	return (c == ' ' || (c >= 9 && c <= 13));
 }

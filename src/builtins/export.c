@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 19:29:20 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/20 15:36:25 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	is_valid_identifier(char *str)
 	return (VALID);
 }
 
-static int	set_env2_dict(t_dictionnary *dict, char *env, char *equal) //update the function's name
+static int	set_dict(t_dictionnary *dict, char *env, char *equal) //update the function's name
 {
 	if (equal == NULL)
 	{
@@ -62,31 +62,41 @@ static int	set_env2_dict(t_dictionnary *dict, char *env, char *equal) //update t
 	return (SUCCESS);
 }
 
+static int	export_env(t_object *obj, char *arg)
+{
+	t_dictionnary	dict;
+	char			*equal;
+
+	equal = ft_strchr(arg, '=');
+	if (set_dict(&dict, arg, equal) == FAILURE)
+		return (FAILURE);
+	if (equal != NULL && equal[-1] == '+' && append_env(&obj->env, dict) == FAILURE)
+			return (destroy_dictionnary(&dict), FAILURE);
+	else if (set_env(&obj->env, dict) == FAILURE)
+			return (destroy_dictionnary(&dict), FAILURE);
+	destroy_dictionnary(&dict);
+	return (SUCCESS);
+}
+
 int	export(t_object *obj, t_command *cmd)
 {
 	int				i;
-	t_dictionnary	dict;
-	char			*equal;
 
 	i = 0;
 	if (cmd->args[1] == NULL)
 		return (ft_lstiter(obj->env, print_env), SUCCESS);
-	while (cmd->args[++i]) // Handle appending to the environment variables
+	while (cmd->args[++i])
 	{
 		if (is_valid_identifier(cmd->args[i]) == INVALID)
 		{
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+			ft_putstr_fd(cmd->args[i], STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 			obj->exit_status = 1;
-			print_error(INVALID_IDENTIFIER, cmd->args[i]);
 			continue ;
 		}
-		equal = ft_strchr(cmd->args[i], '=');
-		if (set_env2_dict(&dict, cmd->args[i], equal) == FAILURE)
+		if (export_env(obj, cmd->args[i]) == FAILURE)
 			return (FAILURE);
-		if (equal != NULL && equal[-1] == '+' && append_env(&obj->env, dict) == FAILURE)
-				return (destroy_dictionnary(&dict), FAILURE);
-		else if (set_env(&obj->env, dict) == FAILURE)
-				return (destroy_dictionnary(&dict), FAILURE);
-		destroy_dictionnary(&dict);
 	}
 	return (SUCCESS);
 }

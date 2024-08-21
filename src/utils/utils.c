@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 12:26:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:01:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,30 @@ bool	is_builtin(char *str)
 		return (true);
 	return (false);
 }
+
+unsigned long	ft_strtoul(char *str, char **endptr)
+{
+	unsigned long	nb;
+	int				sign;
+
+	nb = 0;
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '-' || *str == '+')
+		sign = 1 - 2 * (*str++ == '-');
+	if (sign == -1)
+		errno = EINVAL;
+	while (ft_isdigit(*str))
+	{
+		nb = nb * 10 + *str++ - '0';
+		if (nb > ULONG_MAX)
+		{
+			*endptr = str;
+			errno = ERANGE;
+			return (ULONG_MAX);
+		}
+	}
+	return (nb * sign);
+}
+
+

@@ -1,7 +1,6 @@
 Next :
 	Done with Signals
 	Redirections
-	Builtins
 
 Mandatory :
 	decide to exit or to continue whenever malloc failed
@@ -23,3 +22,6 @@ Suggestions :
 
 Ideas :
 	Use Subtoknes or tokens parts
+
+Warning :
+	Avoid freeing string literals in dict
