@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:19:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/20 01:52:43 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:42:05 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	pwd(t_object *obj)
+int	builtin_pwd(t_object *obj)
 {
 	char	*pwd;
 

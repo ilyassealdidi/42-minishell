@@ -19,6 +19,7 @@ Optional :
 
 Suggestions :
 	use strtok
+	seperate header files, one for parsing, one for executing
 
 Ideas :
 	Use Subtoknes or tokens parts

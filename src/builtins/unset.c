@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:30:50 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/20 15:12:17 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:42:08 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static bool	is_valid_identifier(char *str)
 	return (VALID);
 }
 
-int	unset(t_object *obj, t_command *command)
+int	builtin_unset(t_object *obj, t_command *command)
 {
 	int	i;
 

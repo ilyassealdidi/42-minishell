@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/20 15:36:25 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:42:02 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	export_env(t_object *obj, char *arg)
 	return (SUCCESS);
 }
 
-int	export(t_object *obj, t_command *cmd)
+int	builtin_export(t_object *obj, t_command *cmd)
 {
 	int				i;
 

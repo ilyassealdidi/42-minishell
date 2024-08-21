@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 02:49:25 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:43:00 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <fcntl.h> 
 
 extern int		g_received_signal;
-// Consider to use seperate header files, one for parsing, one for executing
 
 /*		Errors Management		*/
 void			print_error(int status, char *arg);
@@ -80,12 +79,12 @@ void			leaks_func(void);
 void			display_command(void *content);
 
 /*		Builtins				*/
-int				echo(t_command *cmd);
-int				cd(t_object *obj, t_command *cmd);
-int				pwd(t_object *obj);
-int				export(t_object *obj, t_command *cmd);
-int				unset(t_object *obj, t_command *cmd);
-int				env(t_object *obj);
+int				builtin_echo(t_command *cmd);
+int				builtin_cd(t_object *obj, t_command *cmd);
+int				builtin_pwd(t_object *obj);
+int				builtin_export(t_object *obj, t_command *cmd);
+int				builtin_unset(t_object *obj, t_command *cmd);
+int				builtin_env(t_object *obj);
 int				builtin_exit(t_object *obj, t_command *command);
 
 /*		Command					*/

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 01:58:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:41:55 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	update_pwd(t_object *obj)
 	return (SUCCESS);
 }
 
-int	cd(t_object *obj, t_command *command)
+int	builtin_cd(t_object *obj, t_command *command)
 {
 	char	*path;
 

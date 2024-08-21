@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:47:33 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 12:43:35 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:41:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	echo(t_command *cmd)
+int	builtin_echo(t_command *cmd)
 {
 	int	i;
 	int	nl;

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 13:27:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 18:56:38 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:41:49 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	print_env(void *content)
 	printf("%s=%s\n", env->element.key, env->element.value);
 }
 
-int	env(t_object *obj)
+int	builtin_env(t_object *obj)
 {
 	ft_lstiter(obj->env, print_env);
 	return (SUCCESS);
