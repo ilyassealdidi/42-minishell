@@ -1,10 +1,8 @@
 Next :
-	Sort export
 	Done with Signals
 	Redirections
 
 Mandatory :
-	decide to exit or to continue whenever malloc failed
 	Heredoc
 	Align variables declarations
 
