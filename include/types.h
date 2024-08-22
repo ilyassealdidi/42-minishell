@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 22:23:39 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/22 18:45:22 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_environment
 {
 	t_dictionnary	element;
 	bool			hidden;
+	int				index;
 }	t_environment;
 
 typedef struct s_object

@@ -6,11 +6,44 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:19:36 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/20 15:23:33 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/22 18:16:50 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+/**
+ * Sets the index values for the given environment variable and its
+ * corresponding linked list.
+ * The index value represents the position of the environment
+ * variable in the list.
+ * 
+ * @param env The environment variable to set the index for.
+ * @param env_list The linked list containing the environment variables.
+ */
+void	set_index(t_environment *new, t_list *env_list)
+{
+	t_environment	*node;
+	int				index;
+	int				ret;
+
+	if (new->hidden == true)
+		return ;
+	index = 0;
+	while (env_list)
+	{
+		node = env_list->content;
+		if (node->hidden == false)
+		{
+			ret = ft_strcmp(node->element.key, new->element.key);
+			if (ret > 0)
+				node->index++;
+			else if (ret < 0)
+				new->index++;
+		}
+		env_list = env_list->next;
+	}
+}
 
 /**
  * Inserts a new environment variable into the environment list.
@@ -42,6 +75,7 @@ int insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
 	env = create_env(newdict, hidden);
 	if (env == NULL)
 		return (destroy_dictionnary(&newdict), FAILURE);
+	set_index(env, *env_list);
 	new = ft_lstnew(env);
 	if (new == NULL)
 		return (destroy_env(env), FAILURE);

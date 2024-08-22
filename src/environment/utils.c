@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 10:04:05 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 09:09:00 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/22 18:15:40 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ t_environment	*create_env(t_dictionnary dict, bool hidden)
 		return (NULL);
 	env->element = dict;
 	env->hidden = hidden;
+	if (hidden)
+		env->index = 0;
+	else
+		env->index = 1;
 	return (env);
 }
 

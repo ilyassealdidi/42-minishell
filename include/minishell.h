@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 22:43:00 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/22 17:02:44 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ bool			is_joinable(t_token *token);
 
 void			set_token_state(t_token *token, int flag, bool value);
 int				ft_appendtoken(t_object *obj, t_token *token);
-void			update_token_type(t_list *head, t_token *new);
+void			update_token(t_list *head, t_token *new);
 void			destroy_token(void *content);
 int				tokens_init(t_object *obj, char *line);
 

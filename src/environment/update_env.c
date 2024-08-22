@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update_environment.c                               :+:      :+:    :+:   */
+/*   update_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:20:43 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/20 15:20:58 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/22 13:43:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,10 @@ int set_env(t_list **env_list, t_dictionnary dict)
 		env = tmp->content;
 		if (ft_strcmp(env->element.key, dict.key) == 0)
 		{
-			free(env->element.value);
 			if (dict.value == NULL)
-				env->element.value = NULL;
-			else
-				env->element.value = ft_strdup(dict.value);
+				return (SUCCESS);
+			free(env->element.value);
+			env->element.value = ft_strdup(dict.value);
 			if (env->element.value == NULL && dict.value != NULL)
 				return (FAILURE);
 			return (SUCCESS);

@@ -6,23 +6,37 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 22:42:02 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/22 18:45:04 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	print_env(void *content)
+static void	print_env(t_list *head)
 {
+	t_list			*node;
 	t_environment	*env;
+	int				list_size;
+	int				i;
 
-	env = content;
-	if (env->hidden == true)
-		return ;
-	printf("declare -x %s", env->element.key);
-	if (env->element.value != NULL)
-		printf("=\"%s\"", env->element.value);
-	printf("\n");
+	i = 1;
+	list_size = ft_lstsize(head) - 1;
+	node = head;
+	while (i <= list_size)
+	{
+		env = node->content;
+		if (env->hidden == false && env->index == i)
+		{
+			printf("%d declare -x %s", env->index, env->element.key);
+			if (env->element.value != NULL)
+				printf("=\"%s\"", env->element.value);
+			printf("\n");
+			i++;
+		}
+		node = node->next;
+		if (node == NULL)
+			node = head;
+	}
 }
 
 static bool	is_valid_identifier(char *str)
@@ -83,8 +97,8 @@ int	builtin_export(t_object *obj, t_command *cmd)
 	int				i;
 
 	i = 0;
-	if (cmd->args[1] == NULL)
-		return (ft_lstiter(obj->env, print_env), SUCCESS);
+	if (cmd->args_count == 1)
+		return (print_env(obj->env), SUCCESS);
 	while (cmd->args[++i])
 	{
 		if (is_valid_identifier(cmd->args[i]) == INVALID)
