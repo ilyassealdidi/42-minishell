@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:26:17 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:26:39 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ typedef struct s_token
 typedef struct s_command
 {
 	char			*cmd;
-	char			**args;
-	char			**envp;
 	int				argc;
+	char			**argv;
+	char			**envp;
 	bool			is_builtin;
 	int				in;
 	int				out;
