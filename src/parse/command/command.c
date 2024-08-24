@@ -6,11 +6,25 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:24:43 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:25:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static char	*dict_toenv(t_dictionnary *dict)
+{
+	char	*key;
+	char	*env;
+
+	key = ft_strjoin(dict->key, "=");
+	if (key == NULL)
+		return (NULL);
+	env = ft_strjoin_free(key, dict->value, LEFT);
+	if (env == NULL)
+		return (free(key), NULL);
+	return (env);
+}
 
 static int	set_envp(t_list *list, t_command *command)
 {
