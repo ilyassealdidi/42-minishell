@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 22:52:28 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:26:17 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	builtin_exit(t_object *obj, t_command *command)
 	// ft_lstclear(&obj->env, destroy_env);
 	// ft_lstclear(&obj->commands, destroy_command);
 	printf("exit\n");
-	if (command->args_count >= 2)
+	if (command->argc >= 2)
 	{
 		value = ft_strtrim(command->args[1], " \t");
 		if (!value)
@@ -74,7 +74,7 @@ int	builtin_exit(t_object *obj, t_command *command)
 			print_exit_error(command->args[1]);
 			exit(255);
 		}
-		if (command->args_count > 2)
+		if (command->argc > 2)
 			return (print_exit_error(NULL), obj->exit_status = 1, SUCCESS);
 	}
 	exit(nb);

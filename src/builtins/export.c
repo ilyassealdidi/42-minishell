@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/22 18:45:04 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:26:17 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	builtin_export(t_object *obj, t_command *cmd)
 	int				i;
 
 	i = 0;
-	if (cmd->args_count == 1)
+	if (cmd->argc == 1)
 		return (print_env(obj->env), SUCCESS);
 	while (cmd->args[++i])
 	{

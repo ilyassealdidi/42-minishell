@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:25:04 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:26:17 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static int	set_args(t_list *tokens, t_command *command)
 	bool	is_cmd;
 	int		i;
 
-	command->args = malloc(sizeof(char *) * (command->args_count + 1));
+	command->args = malloc(sizeof(char *) * (command->argc + 1));
 	if (command->args == NULL)
 		return (FAILURE);
-	command->args[command->args_count] = NULL;
+	command->args[command->argc] = NULL;
 	i = 1;
 	while (tokens)
 	{
@@ -92,8 +92,8 @@ int	new_command(t_list *tokens, t_command *command)
 	t_token		*token;
 
 	command->out = STDOUT_FILENO;
-	command->args_count = count_args(tokens);
-	if (command->args_count > 0)
+	command->argc = count_args(tokens);
+	if (command->argc > 0)
 	{
 		if (set_args(tokens, command) == FAILURE)
 			return (FAILURE);
