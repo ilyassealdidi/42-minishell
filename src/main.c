@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 22:53:58 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:13:25 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,8 @@ int	builtin(t_object *obj, t_list *node)
 		status = builtin_pwd(obj);
 	else if (ft_strcmp(command->args[0], "env") == 0)
 		status = builtin_env(obj);
-	else if (ft_strcmp(command->args[0], "unset") == 0)
+	else
 		status = builtin_unset(obj, command);
-	// else
-	// 	status = execute_command(obj, node);
 	return (status);
 }
 
