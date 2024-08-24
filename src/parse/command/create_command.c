@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 02:51:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:25:04 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	new_command(t_list *tokens, t_command *command)
 {
 	t_token		*token;
 
+	command->out = STDOUT_FILENO;
 	command->args_count = count_args(tokens);
 	if (command->args_count > 0)
 	{

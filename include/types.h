@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/22 18:45:22 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:19:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_command
 {
 	char			*cmd;
 	char			**args;
+	char			**envp;
 	int				args_count;
 	bool			is_builtin;
 	int				in;
