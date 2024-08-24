@@ -7,6 +7,7 @@ LIBFT_DIR		= lib/libft/
 LIBFT			= $(LIBFT_DIR)libft.a
 CFLAGS			= -I$(INCS_DIR) -I$(LIBFT_DIR) 
 #CFLAGS			+= -Wall -Werror -Wextra
+CFLAGS			+= -fsanitize=address
 NAME			= minishell
 RM				= rm -rf
 

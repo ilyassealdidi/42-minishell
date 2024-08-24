@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:26:17 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:36:40 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,17 @@ int	builtin_export(t_object *obj, t_command *cmd)
 	i = 0;
 	if (cmd->argc == 1)
 		return (print_env(obj->env), SUCCESS);
-	while (cmd->args[++i])
+	while (cmd->argv[++i])
 	{
-		if (is_valid_identifier(cmd->args[i]) == INVALID)
+		if (is_valid_identifier(cmd->argv[i]) == INVALID)
 		{
 			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-			ft_putstr_fd(cmd->args[i], STDERR_FILENO);
+			ft_putstr_fd(cmd->argv[i], STDERR_FILENO);
 			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 			obj->exit_status = 1;
 			continue ;
 		}
-		if (export_env(obj, cmd->args[i]) == FAILURE)
+		if (export_env(obj, cmd->argv[i]) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);

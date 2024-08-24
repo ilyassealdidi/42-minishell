@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:28 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 14:15:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 22:52:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	destroy_command(void *content)
 	t_command	*command;
 
 	command = (t_command *)content;
-	free_array(command->args);
+	free_array(command->argv);
+	free_array(command->envp);
 	free(command);
 }
 

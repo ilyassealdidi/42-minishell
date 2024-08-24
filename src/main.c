@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:13:25 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 22:36:23 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ int	builtin(t_object *obj, t_list *node)
 	int			status;
 
 	command = node->content;
-	if (ft_strcmp(command->args[0], "exit") == 0)
+	if (ft_strcmp(command->argv[0], "exit") == 0)
 		status = builtin_exit(obj, command);
-	else if (ft_strcmp(command->args[0], "echo") == 0)
+	else if (ft_strcmp(command->argv[0], "echo") == 0)
 		status = builtin_echo(command);
-	else if (ft_strcmp(command->args[0], "export") == 0)
+	else if (ft_strcmp(command->argv[0], "export") == 0)
 		status = builtin_export(obj, command);
-	else if (ft_strcmp(command->args[0], "cd") == 0)
+	else if (ft_strcmp(command->argv[0], "cd") == 0)
 		status = builtin_cd(obj, command);
-	else if (ft_strcmp(command->args[0], "pwd") == 0)
+	else if (ft_strcmp(command->argv[0], "pwd") == 0)
 		status = builtin_pwd(obj);
-	else if (ft_strcmp(command->args[0], "env") == 0)
+	else if (ft_strcmp(command->argv[0], "env") == 0)
 		status = builtin_env(obj);
 	else
 		status = builtin_unset(obj, command);
@@ -43,7 +43,7 @@ int	execute_command(t_object *obj, t_list *node)
 	int			status;
 
 	command = node->content;
-	if (command->args[0] != NULL && is_builtin(command->args[0]))
+	if (command->argv[0] != NULL && is_builtin(command->argv[0]))
 		status = builtin(obj, node);
 	return (status);
 }
@@ -87,7 +87,7 @@ int	main(int argc, char **argv, char **env)
 		return (print_error(FAILURE, NULL), EXIT_FAILURE);
 	while (1)
 	{
-		// obj.debug_line = "export name=Ilyasse Aldidi";
+		// obj.debug_line = "ls";
 		if (generate_commands(&obj) != SUCCESS)
 			continue ;
 		if (execute_commands(&obj) == FAILURE)

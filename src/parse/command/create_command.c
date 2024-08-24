@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:26:17 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 22:56:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static int	set_args(t_list *tokens, t_command *command)
 	bool	is_cmd;
 	int		i;
 
-	command->args = malloc(sizeof(char *) * (command->argc + 1));
-	if (command->args == NULL)
+	command->argv = malloc(sizeof(char *) * (command->argc + 1));
+	if (command->argv == NULL)
 		return (FAILURE);
-	command->args[command->argc] = NULL;
+	command->argv[command->argc] = NULL;
 	i = 1;
 	while (tokens)
 	{
@@ -47,9 +47,9 @@ static int	set_args(t_list *tokens, t_command *command)
 		is_cmd = token->type == CMD || token->type == BUILTIN;
 		if (token->type == ARG || is_cmd)
 		{
-			command->args[i * !is_cmd] = ft_strdup(token->content);
-			if (command->args[i * !is_cmd] == NULL)
-				return (free_array(command->args), FAILURE);
+			command->argv[i * !is_cmd] = ft_strdup(token->content);
+			if (command->argv[i * !is_cmd] == NULL)
+				return (free_array(command->argv), FAILURE);
 			i += !is_cmd;
 		}
 		else if (token->type == PIPE)
@@ -87,7 +87,48 @@ static int	redir_init(t_list *node, t_command *command)
 	return (SUCCESS);
 }
 
-int	new_command(t_list *tokens, t_command *command)
+static char	*dict_toenv(t_dictionnary *dict)
+{
+	char	*key;
+	char	*env;
+
+	key = ft_strjoin(dict->key, "=");
+	if (key == NULL)
+		return (NULL);
+	env = ft_strjoin_free(key, dict->value, LEFT);
+	if (env == NULL)
+		return (free(key), NULL);
+	return (env);
+}
+
+static int	set_envp(t_list *list, t_command *command)
+{
+	int				i;
+	int				count;
+	t_environment	*env;
+
+	count = ft_lstsize(list);
+	command->envp = malloc(sizeof(char *) * (count + 1));
+	if (command->envp == NULL)
+		return (FAILURE);
+	command->envp[count] = NULL;
+	i = 0;
+	while (list)
+	{
+		env = list->content;
+		if (env->hidden == false)
+		{
+			command->envp[i] = dict_toenv(&env->element);
+			if (command->envp[i] == NULL)
+				return (free_array(command->envp), FAILURE);
+			i++;
+		}
+		list = list->next;
+	}
+	return (SUCCESS);
+}
+
+int	new_command(t_object *obj, t_list *tokens, t_command *command)
 {
 	t_token		*token;
 
@@ -97,20 +138,20 @@ int	new_command(t_list *tokens, t_command *command)
 	{
 		if (set_args(tokens, command) == FAILURE)
 			return (FAILURE);
-		command->cmd = command->args[0];
+		command->cmd = command->argv[0];
 		command->is_builtin = is_builtin(command->cmd);
 	}
 	while (tokens)
 	{
 		token = get_token(tokens);
-		if (token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND)
-		{
-			if (redir_init(tokens, command) == FAILURE)
+		if ((token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND)
+			&& redir_init(tokens, command) == FAILURE)
 				return (FAILURE); // Check if it's the right way to handle the error
-		}
 		else if (token->type == PIPE)
 			break ;
 		tokens = tokens->next;
 	}
+	if (set_envp(obj->env, command) == FAILURE)
+		return (FAILURE);
 	return (SUCCESS);
 }

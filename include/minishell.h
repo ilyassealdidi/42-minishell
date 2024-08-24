@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:20:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 22:44:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <types.h>
-# include <fcntl.h> 
+# include <fcntl.h>
 
 extern int		g_received_signal;
 
@@ -88,7 +88,7 @@ int				builtin_env(t_object *obj);
 int				builtin_exit(t_object *obj, t_command *command);
 
 /*		Command					*/
-int				new_command(t_list *tokens, t_command *command);
+int				new_command(t_object *obj, t_list *tokens, t_command *command);
 void			destroy_command(void *content);
 char			**generate_envp(t_list *list);
 int				commands_init(t_object *obj);

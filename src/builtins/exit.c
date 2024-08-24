@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:26:17 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 17:45:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-long	ft_atol(const char *str)
+static long	get_number(const char *str)
 {
 	size_t	num;
 	int		sign;
@@ -41,7 +41,7 @@ long	ft_atol(const char *str)
 	return (num * sign);
 }
 
-void	print_exit_error(char *arg)
+static void	print_exit_error(char *arg)
 {
 	if (errno == ERANGE || errno == EINVAL)
 	{
@@ -64,14 +64,14 @@ int	builtin_exit(t_object *obj, t_command *command)
 	printf("exit\n");
 	if (command->argc >= 2)
 	{
-		value = ft_strtrim(command->args[1], " \t");
+		value = ft_strtrim(command->argv[1], " \t");
 		if (!value)
 			return (obj->exit_status = 1, FAILURE);
 		errno = 0;
-		nb = ft_atol(value);
+		nb = get_number(value);
 		if (errno == ERANGE || errno == EINVAL)
 		{
-			print_exit_error(command->args[1]);
+			print_exit_error(command->argv[1]);
 			exit(255);
 		}
 		if (command->argc > 2)

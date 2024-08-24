@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/22 17:02:01 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 19:26:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	insert_token(t_list **head, t_token *new)
 	return (SUCCESS);
 }
 
-int	split_variable(t_object *obj, t_token *token)
+static int	split_variable(t_object *obj, t_token *token)
 {
 	t_token	new;
 	int		i;
@@ -55,6 +55,7 @@ int	split_variable(t_object *obj, t_token *token)
 	}
 	return (SUCCESS);
 }
+
 
 int	ft_appendtoken(t_object *obj, t_token *new)
 {

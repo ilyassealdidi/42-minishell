@@ -6,13 +6,11 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:28:33 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:25:28 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:28:47 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-
 
 // char	**generate_envp(t_list *list)
 // {
