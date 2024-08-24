@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/18 10:04:05 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/22 18:15:40 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/19 13:27:10 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/21 22:41:49 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_environment	*create_env(t_dictionnary dict, bool hidden)
+static void	print_env(void *content)
 {
 	t_environment	*env;
 
-	env = (t_environment *)malloc(sizeof(t_environment));
-	if (env == NULL)
-		return (NULL);
-	env->element = dict;
-	env->hidden = hidden;
-	if (hidden)
-		env->index = 0;
-	else
-		env->index = 1;
-	return (env);
+	env = content;
+	if (env->hidden == true || env->element.value == NULL)
+		return ;
+	printf("%s=%s\n", env->element.key, env->element.value);
 }
 
-void	destroy_env(void *content)
+int	builtin_env(t_object *obj)
 {
-	t_environment	*env;
-
-	env = (t_environment *)content;
-	destroy_dictionnary(&env->element);
-	free(env);
+	ft_lstiter(obj->env, print_env);
+	return (SUCCESS);
 }

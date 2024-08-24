@@ -6,15 +6,25 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 22:37:35 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/10 18:21:50 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/21 22:00:47 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ctype.h>
 
 
-int	main(int ac, char **av)
+#include <unistd.h>
+#include <limits.h>
+#include <string.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <stdio.h>
+
+
+int main(int ac, char **av)
 {
-	printf("%s\n", getenv("?"));
-	return ((void)ac, (void)av, 0);	
+  char *ptr;
+  unsigned char num = atol(av[1]);
+  printf("Errno :%d\nNum :%d\n", errno, num);
+  return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 10:34:42 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:26:39 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@
 # define VALID 1
 # define INVALID 0
 
-# define MEMORY_ERR "minishell: for no particular reason malloc has failed!\n"
-# define SYNTAX_ERR "minishell: syntax error\n"
+# define MEMORY_ERR "for no particular reason, malloc has failed!\n"
+# define SYNTAX_ERR "syntax error\n"
 // # define AMBIGUOUS_REDIRECT "minishell: %s: ambiguous redirect\n" //! to be removed
 
 typedef enum e_token_type
@@ -73,7 +73,10 @@ typedef struct s_token
 typedef struct s_command
 {
 	char			*cmd;
-	char			**args;
+	int				argc;
+	char			**argv;
+	char			**envp;
+	bool			is_builtin;
 	int				in;
 	int				out;
 }	t_command;
@@ -88,14 +91,16 @@ typedef struct s_environment
 {
 	t_dictionnary	element;
 	bool			hidden;
+	int				index;
 }	t_environment;
 
 typedef struct s_object
 {
-	char			*line;
-	t_list			*tokens;	// To be removed later
+	// Add the read line by readline here: char *line;
+	t_list			*tokens;	//!~ To be removed later
 	t_list			*commands;
 	t_list			*env;
+	char			*debug_line;
 	int				exit_status;
 	int				received_signals;
 }	t_object;

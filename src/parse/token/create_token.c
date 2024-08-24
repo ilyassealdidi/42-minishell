@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 10:07:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/19 14:29:11 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,18 @@ static int	set_next_token(char **line, t_token *token)
 	return (SUCCESS);
 }
 
-int	tokens_init(t_object *obj)
+int	tokens_init(t_object *obj, char *line)
 {
 	int					ret;
 	t_token				token;
 
-	while (*obj->line != '\0')
+	while (1)
 	{
-		while (*obj->line == ' ' || *obj->line == '\t')
-			obj->line++;
-		ret = set_next_token(&obj->line, &token);
+		while (*line != '\0' && *line == ' ' || *line == '\t')
+			line++;
+		if (*line == '\0')
+			break ;
+		ret = set_next_token(&line, &token);
 		if (ret != SUCCESS)
 			return (ft_lstclear(&obj->tokens, destroy_token), ret);
 		if (expand_vars(obj, &token) == FAILURE

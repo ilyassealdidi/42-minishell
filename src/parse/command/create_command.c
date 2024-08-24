@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/15 20:03:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:26:17 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,33 @@ static int	count_args(t_list *tokens)
 	return (i);
 }
 
-static char	**get_args(t_list *tokens, int num_args)
+static int	set_args(t_list *tokens, t_command *command)
 {
 	t_token	*token;
-	char	**args;
 	bool	is_cmd;
+	int		i;
 
-	args = malloc(sizeof(char *) * (num_args + 1));
-	if (args == NULL)
-		return (NULL);
-	args[num_args] = NULL;
-	num_args = 1;
+	command->args = malloc(sizeof(char *) * (command->argc + 1));
+	if (command->args == NULL)
+		return (FAILURE);
+	command->args[command->argc] = NULL;
+	i = 1;
 	while (tokens)
 	{
 		token = get_token(tokens);
 		is_cmd = token->type == CMD || token->type == BUILTIN;
 		if (token->type == ARG || is_cmd)
 		{
-			args[num_args * !is_cmd] = ft_strdup(token->content);
-			if (args[num_args * !is_cmd] == NULL)
-				return (free_array(args), NULL);
-			num_args += !is_cmd;
+			command->args[i * !is_cmd] = ft_strdup(token->content);
+			if (command->args[i * !is_cmd] == NULL)
+				return (free_array(command->args), FAILURE);
+			i += !is_cmd;
 		}
 		else if (token->type == PIPE)
 			break ;
 		tokens = tokens->next;
 	}
-	return (args);
+	return (SUCCESS);
 }
 
 static int	redir_init(t_list *node, t_command *command)
@@ -83,22 +83,22 @@ static int	redir_init(t_list *node, t_command *command)
 		command->out = fd;
 	}
 	if (fd == -1)
-		return (print_error(errno), FAILURE);
+		return (print_error(errno, NULL), FAILURE); //! Check if it's the right way to handle the error
 	return (SUCCESS);
 }
 
 int	new_command(t_list *tokens, t_command *command)
 {
 	t_token		*token;
-	int			number_args;
 
-	number_args = count_args(tokens);
-	if (number_args > 0)
+	command->out = STDOUT_FILENO;
+	command->argc = count_args(tokens);
+	if (command->argc > 0)
 	{
-		command->args = get_args(tokens, number_args);
-		if (command->args == NULL)
+		if (set_args(tokens, command) == FAILURE)
 			return (FAILURE);
 		command->cmd = command->args[0];
+		command->is_builtin = is_builtin(command->cmd);
 	}
 	while (tokens)
 	{

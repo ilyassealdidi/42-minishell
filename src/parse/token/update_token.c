@@ -6,24 +6,11 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/11 00:37:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/22 17:05:46 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static bool	is_built_in(char *str)
-{
-	if (ft_strcmp(str, "echo") == 0
-		|| ft_strcmp(str, "cd") == 0
-		|| ft_strcmp(str, "pwd") == 0
-		|| ft_strcmp(str, "export") == 0
-		|| ft_strcmp(str, "unset") == 0
-		|| ft_strcmp(str, "env") == 0
-		|| ft_strcmp(str, "exit") == 0)
-		return (true);
-	return (false);
-}
 
 static bool	contains_command(t_list *head)
 {
@@ -43,7 +30,7 @@ static bool	contains_command(t_list *head)
 	return (false);
 }
 
-void	update_token_type(t_list *head, t_token *new)
+static void	update_token_type(t_list *head, t_token *new)
 {
 	t_token	*last;
 
@@ -58,10 +45,22 @@ void	update_token_type(t_list *head, t_token *new)
 		new->type = INFILE;
 	else if (head != NULL && (last->type == REDIR_OUT || last->type == APPEND))
 		new->type = OUTFILE;
-	else if (new->content && is_built_in(new->content) && contains_command(head) == false)
+	else if (new->content && is_builtin(new->content) && contains_command(head) == false)
 		new->type = BUILTIN;
 	else if (new->type == ARG && contains_command(head) == false)
 		new->type = CMD;
 	else if ((head == NULL || last->type == PIPE) && new->type == ARG)
 		new->type = CMD;
+}
+
+static void	lower_case(unsigned int i, char *c)
+{
+	*c = ft_tolower(*c);
+}
+
+void	update_token(t_list *head, t_token *new)
+{
+	update_token_type(head, new);
+	if (new->type == CMD || new->type == BUILTIN)
+		ft_striteri(new->content, lower_case);
 }

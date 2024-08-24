@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/18 10:04:05 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/22 18:15:40 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/08/20 01:19:04 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/08/21 22:42:05 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_environment	*create_env(t_dictionnary dict, bool hidden)
+int	builtin_pwd(t_object *obj)
 {
-	t_environment	*env;
+	char	*pwd;
 
-	env = (t_environment *)malloc(sizeof(t_environment));
-	if (env == NULL)
-		return (NULL);
-	env->element = dict;
-	env->hidden = hidden;
-	if (hidden)
-		env->index = 0;
-	else
-		env->index = 1;
-	return (env);
-}
-
-void	destroy_env(void *content)
-{
-	t_environment	*env;
-
-	env = (t_environment *)content;
-	destroy_dictionnary(&env->element);
-	free(env);
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+	{
+		ft_putendl_fd("minishell: pwd: error retrieving current directory", 2);
+		obj->exit_status = 1;
+		return (FAILURE);
+	}
+	ft_putendl_fd(pwd, STDOUT_FILENO);
+	free(pwd);
+	return (SUCCESS);
 }

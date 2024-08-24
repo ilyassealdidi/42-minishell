@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 10:08:03 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:20:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@
 # include <fcntl.h> 
 
 extern int		g_received_signal;
-// Consider to use seperate header files, one for parsing, one for executing
 
 /*		Errors Management		*/
-void			print_error(int status);
+void			print_error(int status, char *arg);
 
 /*		Utilities				*/
 char			*ft_strjoin_free(char *s1, char *s2, int to_free);
 char			*join(char *str1, char *str2);				//! to be removed
 int				is_valid_syntax(t_list *tokens);
 void			free_array(char **strs);
+bool			is_builtin(char *str);
 
 /*		Token utils				*/
 t_token			*get_token(t_list *list);
@@ -45,9 +45,9 @@ bool			is_joinable(t_token *token);
 
 void			set_token_state(t_token *token, int flag, bool value);
 int				ft_appendtoken(t_object *obj, t_token *token);
-void			update_token_type(t_list *head, t_token *new);
+void			update_token(t_list *head, t_token *new);
 void			destroy_token(void *content);
-int				tokens_init(t_object *obj);
+int				tokens_init(t_object *obj, char *line);
 
 /*		Expanding				*/
 int				expand_vars(t_object *obj, t_token *token);
@@ -61,7 +61,10 @@ t_environment	*create_env(t_dictionnary dict, bool hidden);
 
 /*		Environment				*/
 char			*get_env(t_list *env, char *key);
+int				insert_env(t_list **env_list, t_dictionnary dict, bool hidden);
+int 			append_env(t_list **env_list, t_dictionnary dict);
 int				set_env(t_list **env_list, t_dictionnary dict);
+int				unset_env(t_list **env_list, char *key);
 void			destroy_env(void *content);
 int				init_env(t_list **env, char **envp);
 
@@ -74,14 +77,25 @@ void			print_content(void *content);
 void			display_token(void *content);
 void			leaks_func(void);
 void			display_command(void *content);
-void			print_env(void *content);
+
+/*		Builtins				*/
+int				builtin_echo(t_command *cmd);
+int				builtin_cd(t_object *obj, t_command *cmd);
+int				builtin_pwd(t_object *obj);
+int				builtin_export(t_object *obj, t_command *cmd);
+int				builtin_unset(t_object *obj, t_command *cmd);
+int				builtin_env(t_object *obj);
+int				builtin_exit(t_object *obj, t_command *command);
 
 /*		Command					*/
 int				new_command(t_list *tokens, t_command *command);
 void			destroy_command(void *content);
+char			**generate_envp(t_list *list);
 int				commands_init(t_object *obj);
 
-void			update_exit_status(t_object *obj);
+/*		Exit status				*/
+int				update_exit_status(t_object *obj);
+int				set_exit_status(t_object *obj);
 
 void			exec(t_object *obj);
 
