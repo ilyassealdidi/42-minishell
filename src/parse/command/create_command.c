@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 22:56:45 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/25 02:08:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,30 +128,31 @@ static int	set_envp(t_list *list, t_command *command)
 	return (SUCCESS);
 }
 
-int	new_command(t_object *obj, t_list *tokens, t_command *command)
+t_command	*new_command(t_object *obj, t_list *tokens)
 {
+	t_command	*command;
 	t_token		*token;
 
+	command = ft_calloc(1, sizeof(t_command));
+	if (command == NULL)
+		return (NULL);
 	command->out = STDOUT_FILENO;
 	command->argc = count_args(tokens);
 	if (command->argc > 0)
 	{
 		if (set_args(tokens, command) == FAILURE)
-			return (FAILURE);
-		command->cmd = command->argv[0];
-		command->is_builtin = is_builtin(command->cmd);
+			return (destroy_command(command), NULL);
+		command->is_builtin = is_builtin(command->argv[0]);
 	}
-	while (tokens)
+	while (tokens && token->type != PIPE)
 	{
 		token = get_token(tokens);
 		if ((token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND)
 			&& redir_init(tokens, command) == FAILURE)
-				return (FAILURE); // Check if it's the right way to handle the error
-		else if (token->type == PIPE)
-			break ;
+				return (destroy_command(command), NULL); // Check if it's the right way to handle the error
 		tokens = tokens->next;
 	}
 	if (set_envp(obj->env, command) == FAILURE)
-		return (FAILURE);
-	return (SUCCESS);
+		return (destroy_command(command), NULL);
+	return (command);
 }
