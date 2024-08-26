@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 22:44:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/25 00:26:42 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ int				commands_init(t_object *obj);
 int				update_exit_status(t_object *obj);
 int				set_exit_status(t_object *obj);
 
-void			exec(t_object *obj);
+int				execute_commands(t_object *obj);
 
 #endif
