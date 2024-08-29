@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 01:42:09 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/29 12:04:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	main(int argc, char **argv, char **env)
 		return (print_error(FAILURE, NULL), EXIT_FAILURE);
 	while (1)
 	{
-		// obj.debug_line = "ls";
 		if (generate_commands(&obj) != SUCCESS)
 			continue ;
 		if (execute_commands(&obj) == FAILURE)

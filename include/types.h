@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:26:39 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/29 11:36:09 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ typedef struct s_object
 	t_list			*tokens;	//!~ To be removed later
 	t_list			*commands;
 	t_list			*env;
-	char			*debug_line;
 	int				exit_status;
 	int				received_signals;
 }	t_object;

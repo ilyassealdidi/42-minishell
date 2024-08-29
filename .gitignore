@@ -1,6 +1,14 @@
+*
+!.gitignore
+!Makefile
+!include/
+!src/
+!lib/
+!private/
 *.out
 *.o
 *.a
+.normignore
 minishell
 .vscode/
 minishell_db
@@ -9,6 +17,4 @@ main.dSYM/
 test_db.dSYM/
 main
 test_db
-# .normignore
-# private/
 obj/

@@ -7,14 +7,14 @@ LIBFT_DIR		= lib/libft/
 LIBFT			= $(LIBFT_DIR)libft.a
 CFLAGS			= -I$(INCS_DIR) -I$(LIBFT_DIR) 
 #CFLAGS			+= -Wall -Werror -Wextra
-# CFLAGS			+= -fsanitize=address
+CFLAGS			+= -g -fsanitize=address
 NAME			= minishell
 RM				= rm -rf
 
 all:			$(NAME)
 
 $(NAME) : $(OBJS) $(LIBFT)
-	$(CC) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 $(OBJS_DIR)%.o : %.c $(INCS)
 	@mkdir -p $(dir $@)

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 01:27:00 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/29 12:04:25 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,7 @@ static int	parse(t_object *obj)
 {
 	char	*line;
 
-	if (obj->debug_line == NULL)
-		line = readline("$> ");
-	else
-		line = ft_strdup(obj->debug_line);
+	line = readline("$> ");
 	if (line == NULL)
 		exit_shell(obj);
 	if (line[0] != '\0')
