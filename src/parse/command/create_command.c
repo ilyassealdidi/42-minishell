@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/25 02:08:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/29 11:11:02 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	set_args(t_list *tokens, t_command *command)
 	bool	is_cmd;
 	int		i;
 
-	command->argv = malloc(sizeof(char *) * (command->argc + 1));
+	command->argv = ft_calloc(command->argc + 1, sizeof(char *));
 	if (command->argv == NULL)
 		return (FAILURE);
 	command->argv[command->argc] = NULL;
@@ -108,7 +108,7 @@ static int	set_envp(t_list *list, t_command *command)
 	t_environment	*env;
 
 	count = ft_lstsize(list);
-	command->envp = malloc(sizeof(char *) * (count + 1));
+	command->envp = ft_calloc(count + 1, sizeof(char *));
 	if (command->envp == NULL)
 		return (FAILURE);
 	command->envp[count] = NULL;

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 19:26:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/29 11:11:36 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	insert_token(t_list **head, t_token *new)
 	t_list	*node;
 	t_token	*token;
 
-	token = malloc(sizeof(t_token));
+	token = ft_calloc(1, sizeof(t_token));
 	if (token == NULL)
 		return (FAILURE);
 	ft_memcpy(token, new, sizeof(t_token));
