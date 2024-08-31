@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 12:04:10 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/29 16:36:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int g_received_signal = 0;
 
 int	builtin(t_object *obj, t_list *node)
 {
-	t_command	*command;
-	int			status;
+	t_command		*command;
+	int				status;
 
 	command = node->content;
 	if (ft_strcmp(command->argv[0], "exit") == 0)
@@ -39,10 +39,11 @@ int	builtin(t_object *obj, t_list *node)
 
 int	execute_command(t_object *obj, t_list *node)
 {
-	t_command	*command;
-	int			status;
+	t_command		*command;
+	int				status;
 
 	command = node->content;
+	status = SUCCESS;
 	if (command->argv[0] != NULL && is_builtin(command->argv[0]))
 		status = builtin(obj, node);
 	return (status);
@@ -50,7 +51,7 @@ int	execute_command(t_object *obj, t_list *node)
 
 int	execute_commands(t_object *obj)
 {
-	t_list	*commands;
+	t_list			*commands;
 
 	commands = obj->commands;
 	while (commands)
@@ -76,8 +77,7 @@ int	update_exit_status(t_object *obj)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_object			obj;
-	int					ret;
+	t_object		obj;
 
 	if (argc != 1)
 		return (ft_putstr_fd("Usage: ./minishell\n", 2), EXIT_FAILURE);
@@ -96,5 +96,5 @@ int	main(int argc, char **argv, char **env)
 		}
 		ft_lstclear(&obj.commands, destroy_command);
 	}
-	return (EXIT_SUCCESS);
+	return ((void)argv, EXIT_SUCCESS);
 }

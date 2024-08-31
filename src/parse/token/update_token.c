@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/22 17:05:46 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/31 12:50:28 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static bool	contains_command(t_list *head)
 {
-	t_token	*token;
-	t_list	*tmp;
+	t_token			*token;
+	t_list			*tmp;
 
 	tmp = ft_lstlast(head);
 	while (tmp)
@@ -43,9 +43,11 @@ static void	update_token_type(t_list *head, t_token *new)
 		new->type = DELIMITER;
 	else if (last != NULL && last->type == REDIR_IN)
 		new->type = INFILE;
-	else if (head != NULL && (last->type == REDIR_OUT || last->type == APPEND))
+	else if (head != NULL
+		&& (last->type == REDIR_OUT || last->type == APPEND))
 		new->type = OUTFILE;
-	else if (new->content && is_builtin(new->content) && contains_command(head) == false)
+	else if (new->content
+		&& is_builtin(new->content) && contains_command(head) == false)
 		new->type = BUILTIN;
 	else if (new->type == ARG && contains_command(head) == false)
 		new->type = CMD;
@@ -55,7 +57,7 @@ static void	update_token_type(t_list *head, t_token *new)
 
 static void	lower_case(unsigned int i, char *c)
 {
-	*c = ft_tolower(*c);
+	c[i] = ft_tolower(c[i]);
 }
 
 void	update_token(t_list *head, t_token *new)

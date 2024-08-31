@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/22 18:44:23 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/29 16:21:43 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
  */
 int	init_env(t_list **env_list, char **envp)
 {
-	t_environment	*env;
 	t_dictionnary	dict;
 
 	while (*envp)

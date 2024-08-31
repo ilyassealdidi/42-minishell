@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:24:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/14 09:17:02 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/29 16:25:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_valid_syntax(t_list *tokens)
 		return (SUCCESS);
 	if (is_separator(get_last_token(tokens)->type)
 		|| get_token(tokens)->type == PIPE
-		|| is_separator(get_token(tokens)->type) && tokens->next == NULL)
+		|| (is_separator(get_token(tokens)->type) && tokens->next == NULL))
 		return (ERROR);
 	while (tokens->next)
 	{

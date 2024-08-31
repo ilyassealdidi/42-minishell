@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 12:04:25 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/31 12:51:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*generate_filename(void)
 {
-	static int	i;
-	char		*number;
-	char		*name;
+	static int		i;
+	char			*number;
+	char			*name;
 
 	number = ft_itoa(i);
 	if (number == NULL)
@@ -31,10 +31,10 @@ char	*generate_filename(void)
 
 int	heredoc(t_object *obj, t_list *node)
 {
-	t_token	*token;
-	int		fd;
-	char	*line;
-	char	*filename;
+	t_token			*token;
+	int				fd;
+	char			*line;
+	char			*filename;
 
 	token = node->content;
 	filename = generate_filename();
@@ -74,8 +74,8 @@ int	heredoc(t_object *obj, t_list *node)
 
 int	open_heredocs(t_object *obj)
 {
-	t_list	*tmp;
-	t_token	*token;
+	t_list			*tmp;
+	t_token			*token;
 
 	tmp = obj->tokens;
 	while (tmp)
@@ -90,7 +90,7 @@ int	open_heredocs(t_object *obj)
 
 static int	parse(t_object *obj)
 {
-	char	*line;
+	char			*line;
 
 	line = readline("$> ");
 	if (line == NULL)

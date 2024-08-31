@@ -6,17 +6,16 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 11:11:36 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/31 12:11:23 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <minishell.h>
 
 static int	insert_token(t_list **head, t_token *new)
 {
-	t_list	*node;
-	t_token	*token;
+	t_list			*node;
+	t_token			*token;
 
 	token = ft_calloc(1, sizeof(t_token));
 	if (token == NULL)
@@ -29,41 +28,41 @@ static int	insert_token(t_list **head, t_token *new)
 	return (SUCCESS);
 }
 
-static int	split_variable(t_object *obj, t_token *token)
-{
-	t_token	new;
-	int		i;
-	char 	**strs;
+/*
+	Remove this function
+*/
+// static int	split_variable(t_object *obj, t_token *token)
+// {
+// 	t_token			new;
+// 	int				i;
+// 	char			**strs;
 
-	if (token->content == NULL)
-		return (SUCCESS);
-	strs = ft_split(token->content, ' ');
-	if (strs == NULL)
-		return (FAILURE);
-	if (*strs == NULL)
-		return (free(*strs), SUCCESS);
-	i = 0;
-	while (strs[i])
-	{
-		ft_memset(&new, 0, sizeof(t_token));
-		new.content = strs[i];
-		new.type = ARG;
-		if (strs[i + 1] == NULL && is_joinable(token))
-			new.state |= JOINABLE;
-		ft_appendtoken(obj, &new);
-		i++;
-	}
-	return (SUCCESS);
-}
-
+// 	if (token->content == NULL)
+// 		return (SUCCESS);
+// 	strs = ft_split(token->content, ' ');
+// 	if (strs == NULL)
+// 		return (FAILURE);
+// 	if (*strs == NULL)
+// 		return (free(*strs), SUCCESS);
+// 	i = 0;
+// 	while (strs[i])
+// 	{
+// 		ft_memset(&new, 0, sizeof(t_token));
+// 		new.content = strs[i];
+// 		new.type = ARG;
+// 		if (strs[i + 1] == NULL && is_joinable(token))
+// 			new.state |= JOINABLE;
+// 		ft_appendtoken(obj, &new);
+// 		i++;
+// 	}
+// 	return (SUCCESS);
+// }
 
 int	ft_appendtoken(t_object *obj, t_token *new)
 {
-	t_token	*token;
+	t_token			*token;
 
 	update_token(obj->tokens, new);
-	if (is_expandable(new) && !is_quoted(new))	/* && new->type != OUTFILE*/
-		return (split_variable(obj, new));
 	if (obj->tokens != NULL && is_joinable(get_last_token(obj->tokens)))
 	{
 		token = get_last_token(obj->tokens);
