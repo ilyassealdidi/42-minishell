@@ -6,9 +6,10 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/25 00:26:42 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/08/26 19:22:37 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -60,6 +61,7 @@ void			destroy_dictionnary(void *content);
 t_environment	*create_env(t_dictionnary dict, bool hidden);
 
 /*		Environment				*/
+char			**generate_envp(t_list *list);
 char			*get_env(t_list *env, char *key);
 int				insert_env(t_list **env_list, t_dictionnary dict, bool hidden);
 int 			append_env(t_list **env_list, t_dictionnary dict);
@@ -88,9 +90,9 @@ int				builtin_env(t_object *obj);
 int				builtin_exit(t_object *obj, t_command *command);
 
 /*		Command					*/
-int				new_command(t_object *obj, t_list *tokens, t_command *command);
+t_command		*new_command(t_object *obj, t_list *tokens);
+t_command		*get_command(t_list *list);
 void			destroy_command(void *content);
-char			**generate_envp(t_list *list);
 int				commands_init(t_object *obj);
 
 /*		Exit status				*/

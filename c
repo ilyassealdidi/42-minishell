@@ -1,0 +1,11 @@
+Makefile
+c
+include
+lib
+minishell
+obj
+private
+src
+[?2004h$> 
+$> 
+$> 

@@ -2,6 +2,9 @@ Next :
 	Done with Signals
 	Redirections
 
+	$> ü
+	minishell: syntax error
+
 Mandatory :
 	Heredoc
 	Align variables declarations

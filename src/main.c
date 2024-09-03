@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/25 00:26:17 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/08/26 22:37:55 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (execute_commands(&obj) == FAILURE)
 		{
-			ft_lstclear(&obj.commands, destroy_command);
+			//ft_lstclear(&obj.commands, destroy_command);
 			continue ;
 		}
 		ft_lstclear(&obj.commands, destroy_command);

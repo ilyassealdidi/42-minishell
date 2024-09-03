@@ -6,34 +6,44 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 22:59:16 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/25 13:01:38 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static bool	is_cmd_exists(char *ptr, char *path, char *cmd)
+static int	join_path(char **paths, t_command *command)
 {
+	int		i;
+	char	*ptr;
 	int		path_len;
 	int		cmd_len;
 
-	cmd_len = ft_strlen(cmd);
-	path_len = ft_strlen(path);
-	ft_memset(ptr, 0, cmd_len + path_len + 2);
-	ft_strlcat(ptr, path, path_len + 1);
-	ft_strlcat(ptr, "/", path_len + 2);
-	ft_strlcat(ptr, cmd, path_len + cmd_len + 2);
-	return (access(ptr, X_OK) == 0);
+	i = 0;
+	while (paths[i])
+	{
+		path_len = ft_strlen(paths[i]);
+		cmd_len = ft_strlen(command->argv[0]);
+		ptr = ft_calloc(path_len + cmd_len + 2, sizeof(char));
+		if (ptr == NULL)
+			return (FAILURE);
+		ft_strlcat(ptr, paths[i], path_len + 1);
+		ft_strlcat(ptr, "/", path_len + 2);
+		ft_strlcat(ptr, command->argv[0], path_len + cmd_len + 2);
+		if (access(ptr, X_OK) == 0)
+			return (free(command->argv[0]), command->argv[0] = ptr,  SUCCESS);
+		free(ptr);
+		i++;
+	}
+	return (SUCCESS);
 }
 
 static int	set_cmd_path(t_object *obj, t_command *command)
 {
 	char	**paths;
 	char	*ptr;
-	int		i;
 
-	i = 0;
-	if (command->cmd[0] == '\0' || command->cmd[0] == '/')
+	if (ft_strchr("/", **command->argv))
 		return (SUCCESS);
 	ptr = get_env(obj->env, "PATH");
 	if (ptr == NULL)
@@ -43,18 +53,8 @@ static int	set_cmd_path(t_object *obj, t_command *command)
 		return (FAILURE);
 	if (*paths == NULL)
 		return (free(paths), SUCCESS);
-	while (paths[i] != NULL)
-	{
-		// ptr = ft_calloc(ft_strlen(paths[i]) + ft_strlen(token->content) + 2, sizeof(char));
-		ptr = malloc(ft_strlen(paths[i]) + ft_strlen(command->cmd) + 2);
-		if (ptr == NULL)
-			return (free_array(paths), FAILURE);
-		if (is_cmd_exists(ptr, paths[i], command->cmd))
-			return (free_array(paths), free(command->cmd),
-				command->cmd = ptr, command->argv[0] = ptr, SUCCESS);
-		free(ptr);
-		i++;
-	}
+	if (join_path(paths, command) == FAILURE)
+		return (free_array(paths), FAILURE);
 	free_array(paths);
 	return (SUCCESS);
 }
@@ -68,14 +68,13 @@ int	commands_init(t_object *obj)
 	tokens = obj->tokens;
 	while (tokens)
 	{
-		command = ft_calloc(1, sizeof(t_command));
+		command = new_command(obj, tokens);
 		if (command == NULL)
 			return (FAILURE);
-		if (new_command(obj, tokens, command) == FAILURE)
-			return (destroy_command(command), FAILURE);
 		if (command->argc != 0 && !command->is_builtin
 			&& set_cmd_path(obj, command) == FAILURE)
 			return (destroy_command(command), FAILURE);
+		command->cmd = command->argv[0];
 		new = ft_lstnew(command);
 		if (new == NULL)
 			return (destroy_command(command), FAILURE);
