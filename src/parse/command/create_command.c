@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+		/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
@@ -14,8 +14,8 @@
 
 static int	count_args(t_list *tokens)
 {
-	t_token	*token;
-	int		i;
+	t_token			*token;
+	int				i;
 
 	i = 1;
 	while (tokens)
@@ -32,9 +32,9 @@ static int	count_args(t_list *tokens)
 
 static int	set_args(t_list *tokens, t_command *command)
 {
-	t_token	*token;
-	bool	is_cmd;
-	int		i;
+	t_token			*token;
+	bool			is_cmd;
+	int				i;
 
 	command->argv = ft_calloc(command->argc + 1, sizeof(char *));
 	if (command->argv == NULL)
@@ -61,8 +61,8 @@ static int	set_args(t_list *tokens, t_command *command)
 
 static int	redir_init(t_list *node, t_command *command)
 {
-	int		fd;
-	t_token *token;
+	int				fd;
+	t_token 		*token;
 
 	token = get_token(node);
 	if (token->type == REDIR_IN)
@@ -89,8 +89,8 @@ static int	redir_init(t_list *node, t_command *command)
 
 static char	*dict_toenv(t_dictionnary *dict)
 {
-	char	*key;
-	char	*env;
+	char			*key;
+	char			*env;
 
 	key = ft_strjoin(dict->key, "=");
 	if (key == NULL)
@@ -130,8 +130,8 @@ static int	set_envp(t_list *list, t_command *command)
 
 t_command	*new_command(t_object *obj, t_list *tokens)
 {
-	t_command	*command;
-	t_token		*token;
+	t_command		*command;
+	t_token			*token;
 
 	command = ft_calloc(1, sizeof(t_command));
 	if (command == NULL)

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:24:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 16:25:10 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/31 21:59:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	is_separator(t_token_type type)
 
 int	is_valid_syntax(t_list *tokens)
 {
-	t_token	*current;
-	t_token	*next;
+	t_token			*current;
+	t_token			*next;
 
 	if (tokens == NULL)
 		return (SUCCESS);

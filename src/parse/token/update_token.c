@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/31 12:50:28 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/03 20:02:53 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	contains_command(t_list *head)
 
 static void	update_token_type(t_list *head, t_token *new)
 {
-	t_token	*last;
+	t_token			*last;
 
 	if (new->type == REDIR_IN || new->type == HEREDOC
 		|| new->type == PIPE || new->type == REDIR_OUT
@@ -57,12 +57,15 @@ static void	update_token_type(t_list *head, t_token *new)
 
 static void	lower_case(unsigned int i, char *c)
 {
-	c[i] = ft_tolower(c[i]);
+	(void)i;
+	*c = ft_tolower(*c);
 }
 
 void	update_token(t_list *head, t_token *new)
 {
 	update_token_type(head, new);
 	if (new->type == CMD || new->type == BUILTIN)
+	{
 		ft_striteri(new->content, lower_case);
+	}
 }

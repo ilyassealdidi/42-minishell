@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/22 20:59:03 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/31 21:59:16 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	set_exit_status(t_object *obj)
 {
-	char	*value;
+	char			*value;
 
 	value = ft_itoa(obj->exit_status);
 	if (value == NULL)
@@ -32,7 +32,7 @@ bool	isset(void *ptr)
 
 char	*ft_strjoin_free(char *s1, char *s2, int to_free)
 {
-	char	*str;
+	char			*str;
 
 	str = ft_strjoin(s1, s2);
 	if (str == NULL)

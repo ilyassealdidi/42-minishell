@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+		/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
@@ -14,12 +14,12 @@
 
 static int	join_path(char **paths, t_command *command)
 {
-	int		i;
-	char	*ptr;
-	int		path_len;
-	int		cmd_len;
+	int				i;
+	char			*ptr;
+	int				path_len;
+	int				cmd_len;
 
-	i = 0;
+	i = 0;	
 	while (paths[i])
 	{
 		path_len = ft_strlen(paths[i]);
@@ -40,8 +40,8 @@ static int	join_path(char **paths, t_command *command)
 
 static int	set_cmd_path(t_object *obj, t_command *command)
 {
-	char	**paths;
-	char	*ptr;
+	char			**paths;
+	char			*ptr;
 
 	if (ft_strchr("/", **command->argv))
 		return (SUCCESS);
@@ -61,9 +61,9 @@ static int	set_cmd_path(t_object *obj, t_command *command)
 
 int	commands_init(t_object *obj)
 {
-	t_command	*command;
-	t_list		*tokens;
-	t_list		*new;
+	t_command		*command;
+	t_list			*tokens;
+	t_list			*new;
 
 	tokens = obj->tokens;
 	while (tokens)
@@ -84,5 +84,5 @@ int	commands_init(t_object *obj)
 		if (tokens && get_token(tokens)->type == PIPE)
 			tokens = tokens->next;
 	}
-	return (SUCCESS); 
+	return (SUCCESS);
 }

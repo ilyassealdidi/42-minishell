@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/31 13:01:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/03 19:40:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	set_next_token(char **line, t_token *token)
 		token->content = NULL;
 	*line += len + 2 * is_quoted(token);
 	token->state |= JOINABLE * (ft_strchr(" <>|\t", **line) == NULL
-		&& **line != '\0' && token->type == ARG);
+			&& **line != '\0' && token->type == ARG);
 	return (SUCCESS);
 }
 
