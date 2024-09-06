@@ -6,17 +6,17 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/26 22:19:34 by aaitelka         ###   ########.fr       */
-/*                                                                            */
+/*   Updated: 2024/09/03 18:31:09 by aaitelka         ###   ########.fr       */
+/*                                                                           */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 char	*generate_filename(void)
 {
-	static int	i;
-	char		*number;
-	char		*name;
+	static int		i;
+	char			*number;
+	char			*name;
 
 	number = ft_itoa(i);
 	if (number == NULL)
@@ -31,10 +31,10 @@ char	*generate_filename(void)
 
 int	heredoc(t_object *obj, t_list *node)
 {
-	t_token	*token;
-	int		fd;
-	char	*line;
-	char	*filename;
+	t_token			*token;
+	int				fd;
+	char			*line;
+	char			*filename;
 
 	token = node->content;
 	filename = generate_filename();
@@ -74,8 +74,8 @@ int	heredoc(t_object *obj, t_list *node)
 
 int	open_heredocs(t_object *obj)
 {
-	t_list	*tmp;
-	t_token	*token;
+	t_list			*tmp;
+	t_token			*token;
 
 	tmp = obj->tokens;
 	while (tmp)
@@ -90,12 +90,9 @@ int	open_heredocs(t_object *obj)
 
 static int	parse(t_object *obj)
 {
-	char	*line;
+	char			*line;
 
-	if (obj->debug_line == NULL)
-		line = readline("$> ");
-	else
-		line = ft_strdup(obj->debug_line);
+	line = readline("aitlminishell$> ");
 	if (line == NULL)
 		exit_shell(obj);
 	if (line[0] != '\0')
@@ -108,6 +105,7 @@ static int	parse(t_object *obj)
 		return (FAILURE);
 	if (obj->exit_status != SUCCESS)
 		print_error(obj->exit_status, NULL);
+	free(line);
 	return (obj->exit_status);
 }
 
@@ -120,7 +118,7 @@ int	generate_commands(t_object *obj)
 		return (FAILURE);
 	if (commands_init(obj) == FAILURE)
 		return (FAILURE);
-	//ft_lstiter(obj->commands, display_command);
+	// ft_lstiter(obj->commands, display_command);
 	ft_lstclear(&obj->tokens, destroy_token);
 	return (SUCCESS);
 }

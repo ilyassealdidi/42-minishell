@@ -6,8 +6,8 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/26 22:37:55 by aaitelka         ###   ########.fr       */
-/*                                                                            */
+/*   Updated: 2024/09/03 18:30:35 by aaitelka         ###   ########.fr       */
+/*                                                                           */
 /* ************************************************************************** */
 
 #include <minishell.h>
@@ -28,8 +28,7 @@ int	update_exit_status(t_object *obj)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_object			obj;
-	int					ret;
+	t_object		obj;
 
 	if (argc != 1)
 		return (ft_putstr_fd("Usage: ./minishell\n", 2), EXIT_FAILURE);
@@ -39,7 +38,6 @@ int	main(int argc, char **argv, char **env)
 		return (print_error(FAILURE, NULL), EXIT_FAILURE);
 	while (1)
 	{
-		// obj.debug_line = "ls";
 		if (generate_commands(&obj) != SUCCESS)
 			continue ;
 		if (execute_commands(&obj) == FAILURE)
@@ -49,5 +47,5 @@ int	main(int argc, char **argv, char **env)
 		}
 		ft_lstclear(&obj.commands, destroy_command);
 	}
-	return (EXIT_SUCCESS);
+	return ((void)argv, EXIT_SUCCESS);
 }

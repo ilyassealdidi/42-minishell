@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/25 13:01:38 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/03 21:56:55 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	commands_init(t_object *obj)
 		if (command->argc != 0 && !command->is_builtin
 			&& set_cmd_path(obj, command) == FAILURE)
 			return (destroy_command(command), FAILURE);
-		command->cmd = command->argv[0];
+		if (command->argc > 0)
+			command->cmd = command->argv[0];
 		new = ft_lstnew(command);
 		if (new == NULL)
 			return (destroy_command(command), FAILURE);

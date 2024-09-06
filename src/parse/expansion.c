@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/20 00:49:40 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/31 12:50:39 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static int	set_part_len(char *str, int *len)
 
 static int	set_next_part(t_object *obj, char **str, char **ptr)
 {
-	int		len;
-	int		is_var;
-	char	*variable;
-	char	*value;
+	int				len;
+	int				is_var;
+	char			*variable;
+	char			*value;
 
 	is_var = set_part_len(*str, &len);
 	if (!is_var)
@@ -67,7 +67,7 @@ int	expand_vars(t_object *obj, t_token *token)
 	char	*ptr;
 
 	if (!is_expandable(token)
-		|| obj->tokens && get_last_token(obj->tokens)->type == HEREDOC)
+		|| (obj->tokens && get_last_token(obj->tokens)->type == HEREDOC))
 		return (SUCCESS);
 	new = NULL;
 	old = token->content;

@@ -6,40 +6,133 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/03 05:47:00 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/06 02:04:49 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 
-int execute_external(t_object *obj, t_list *node)
+void	ft_error(char *str, char *arg, int status)
 {
-	t_command	*command;
-	pid_t		pid;
-	int			status;
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (arg)
+		ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(str, STDERR_FILENO);
+	// exit(status);
+}
 
-	status = SUCCESS;
-	command = node->content;
-	pid = fork();
-	if (pid == 0)
+void	save_fd(int *fd)
+{
+	fd[STDIN] = dup(STDIN_FILENO);
+	fd[STDOUT] = dup(STDOUT_FILENO);
+}
+
+void	restore_fd(int *fd)
+{
+	dup2(fd[STDIN], STDIN_FILENO);
+	close(fd[STDIN]);
+	dup2(fd[STDOUT], STDOUT_FILENO);
+	close(fd[STDOUT]);
+}
+
+void	ft_redirect(t_command *cmd)
+{
+	//2 means another file are opened
+	//so we need to duplicate it to the std{in||out}
+	if (cmd->in > 2)
 	{
-		if (execve(command->cmd, command->argv, command->envp) == -1)
+		if (dup2(cmd->in, STDIN_FILENO) == FAILED)
+			perror("dup2");
+		if (close(cmd->in) == FAILED)
+			perror("close");
+	}
+	if (cmd->out > 2)
+	{
+		if (dup2(cmd->out, STDOUT_FILENO) == FAILED)
+			perror("dup2");
+		if (close(cmd->out) == FAILED)
+			perror("close");
+	}
+}
+
+int	run_command(t_object *obj, t_command *cmd)
+{
+	ft_redirect(cmd);
+	if (execve(cmd->cmd, cmd->argv, cmd->envp) == FAILED)
+		ft_error("command not found", cmd->argv[0], 126);
+	exit(126);
+	return (SUCCESS);
+}
+
+
+bool	has_next(t_list *node)
+{
+	return (node->next != NULL);
+}
+
+int execute_external(t_object *obj)
+{
+    t_command *cmd;
+    t_list *cmds;
+    pid_t pid;
+    int index = 0;
+
+	init_signals();
+    cmds = obj->commands;
+    while (cmds)
+	{
+        cmd = cmds->content;
+        if (has_next(cmds)) {
+            if (pipe(obj->pipefd) == FAILED) {
+                perror("minishell: pipe");
+                return (FAILURE);
+            }
+        }
+
+        if ((pid = fork()) == FAILED) {
+            perror("minishell: fork");
+            return (FAILURE);
+        }
+
+        if (pid == 0)
 		{
-			perror("minishell: execve");
-			obj->exit_status = 127;
-		}
-	}
-	else if (pid < 0)
-	{
-		ft_putendl_fd("minishell: fork: ", STDERR_FILENO);
-		perror("fork");
-	}
-	else
-		waitpid(pid, &obj->exit_status, 0);
-	
-
-	return (status);
+            if (has_next(cmds)) {
+                if (dup2(obj->pipefd[1], STDOUT_FILENO) == FAILED) {
+                    perror("minishell: dup2");
+                    exit(FAILURE);
+                }
+                close(obj->pipefd[0]);
+            }
+            ft_redirect(cmd);
+			if (execve(cmd->cmd, cmd->argv, cmd->envp) == FAILED)
+				ft_error("command not found", cmd->argv[0], 126);
+			exit(126);
+        }
+		else 
+		{
+			if (cmd->in > 2)
+				close(cmd->in);
+			if (cmd->out > 2)
+				close(cmd->out);
+            if (has_next(cmds)) {
+                close(obj->pipefd[1]);
+                if (dup2(obj->pipefd[0], STDIN_FILENO) == FAILED) {
+                    perror("minishell: dup2");
+                    return (FAILURE);
+                }
+                close(obj->pipefd[0]);
+            }
+            waitpid(pid, &obj->exit_status, 0);
+            if (WIFEXITED(obj->exit_status) && WEXITSTATUS(obj->exit_status) != SUCCESS) {
+                return (FAILURE);
+            }
+            index++;
+            cmds = cmds->next;
+        }
+    }
+    return (SUCCESS);
 }
 
 int	execute_builtin(t_object *obj, t_list *node)
@@ -71,95 +164,29 @@ int	execute_command(t_object *obj, t_list *node)
 	int			status;
 
 	command = node->content;
-	if (command->argv[0] != NULL && command->is_builtin)
+	if (command->is_builtin)
 		status = execute_builtin(obj, node);
 	else
-		status = execute_external(obj, node);
+		status = execute_external(obj);
 	return (status);
-}
-
-bool is_herdoc(t_command *command)
-{
-	if (command->herdoc != -1)
-		return (true);
-	return (false);
 }
 
 int	execute_commands(t_object *obj)
 {
-	t_list	*commands;
-	t_list	*node;
-	pid_t	pid;
-	int		fd;
-
-	node = obj->commands;
-	commands = obj->commands;
-	int i = 0;
+	t_list		*node;
 	t_command	*cmd;
 
-	while (commands)
-	{
-		pid = fork();
-		cmd = node->content;
-		if (i > 0)
-		{
-
-			//print something useful
-			printf("dup2 pfd[0] to stdin\n");
-			dup2(obj->pfd[0], STDIN_FILENO);
-			close(obj->pfd[0]);
-		}
-		if (commands->next != NULL)
-		{
-			printf("pipe\n");
-			pipe(obj->pfd);
-		}
-		if (i == 0)
-		{
-			if (pid == 0)
-			{
-				printf("first command\n");
-				if (is_herdoc(cmd))
-					fd = cmd->herdoc;
-				else
-					fd = cmd->in;
-				dup2(fd, STDIN_FILENO);
-				close(fd);
-				close(obj->pfd[0]);
-				dup2(obj->pfd[1], STDOUT_FILENO);
-				close(obj->pfd[1]);
-				execve(cmd->cmd, cmd->argv, cmd->envp);
-			}
-		}
-		else if (commands->next == NULL)
-		{
-			if (pid == 0)
-			{
-				printf("last command\n");
-				close(obj->pfd[0]);
-				dup2(obj->pfd[1], STDOUT_FILENO);
-				close(obj->pfd[1]);
-				execve(cmd->cmd, cmd->argv, cmd->envp);
-			}
-		}
-		else
-		{
-			if (pid == 0)
-			{
-				printf("middle command\n");
-				if (is_herdoc(cmd))
-					fd = cmd->herdoc;
-				else
-					fd = cmd->out;
-				dup2(fd, STDOUT_FILENO);
-				close(fd);
-				execve(cmd->cmd, cmd->argv, cmd->envp);
-			}
-		}
-		if (commands->next != NULL)
-			close(obj->pfd[1]);
-		commands = commands->next;
-		i++;
-	}
+	if (obj->commands == NULL)
+		return (SUCCESS);
+	if (has_next(obj->commands)) // we dont need to save fd if we have only one command
+		save_fd(obj->saved_fds);
+	node = obj->commands;
+	cmd = node->content;
+	if (is_builtin(cmd->cmd))
+		execute_builtin(obj, obj->commands);
+	else
+		execute_external(obj);
+	if (has_next(obj->commands))
+		restore_fd(obj->saved_fds);
 	return (SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/25 02:08:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/03 21:55:48 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static int	count_args(t_list *tokens)
 	t_token	*token;
 	int		i;
 
-	i = 1;
+	i = 0;
 	while (tokens)
 	{
 		token = get_token(tokens);
 		if (token->type == PIPE)
 			break ;
-		if (token->type == ARG)
+		if (token->type == ARG || token->type == CMD || token->type == BUILTIN)
 			i++;
 		tokens = tokens->next;
 	}
@@ -36,7 +36,7 @@ static int	set_args(t_list *tokens, t_command *command)
 	bool	is_cmd;
 	int		i;
 
-	command->argv = malloc(sizeof(char *) * (command->argc + 1));
+	command->argv = ft_calloc(command->argc + 1, sizeof(char *));
 	if (command->argv == NULL)
 		return (FAILURE);
 	command->argv[command->argc] = NULL;
@@ -108,7 +108,7 @@ static int	set_envp(t_list *list, t_command *command)
 	t_environment	*env;
 
 	count = ft_lstsize(list);
-	command->envp = malloc(sizeof(char *) * (count + 1));
+	command->envp = ft_calloc(count + 1, sizeof(char *));
 	if (command->envp == NULL)
 		return (FAILURE);
 	command->envp[count] = NULL;
@@ -144,6 +144,7 @@ t_command	*new_command(t_object *obj, t_list *tokens)
 			return (destroy_command(command), NULL);
 		command->is_builtin = is_builtin(command->argv[0]);
 	}
+	token = get_token(tokens);
 	while (tokens && token->type != PIPE)
 	{
 		token = get_token(tokens);
