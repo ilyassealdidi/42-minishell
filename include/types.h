@@ -49,8 +49,9 @@
 
 
 //FDS
-# define STDIN 0
-# define STDOUT 1
+# define NOTHING -1
+# define PIN 0
+# define POUT 1
 //
 # define CHILD 0
 

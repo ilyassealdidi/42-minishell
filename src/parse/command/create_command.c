@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/03 21:55:48 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/07 02:59:29 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ static int	redir_init(t_list *node, t_command *command)
 		command->out = fd;
 	}
 	if (fd == -1)
+	{
+		printf("minishell: %s: %s\n", get_token(node->next)->content, strerror(errno));	
 		return (print_error(errno, NULL), FAILURE); //! Check if it's the right way to handle the error
+	}
 	return (SUCCESS);
 }
 

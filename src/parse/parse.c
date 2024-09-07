@@ -92,7 +92,7 @@ static int	parse(t_object *obj)
 {
 	char			*line;
 
-	line = readline("aitlminishell$> ");
+	line = readline("\x1b[36m\033[92m➜\x1b[0m\033[39m ");
 	if (line == NULL)
 		exit_shell(obj);
 	if (line[0] != '\0')
