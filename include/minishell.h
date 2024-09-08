@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/07 00:44:41 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/07 23:58:03 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void			ft_dupme(int from, int to, int to_close);
 void			ft_close(int fd);
 
 /*		Fork					*/
-pid_t			ft_forkeme();
+pid_t			ft_forkme(t_object *obj);
 
 /*		Pipe					*/
 void			ft_pipeme(int fields[2]);

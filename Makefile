@@ -9,7 +9,7 @@ CFLAGS			= -I$(INCS_DIR) -I$(LIBFT_DIR)
 #CFLAGS			+= -Wall -Werror -Wextra
 NAME			= minishell
 RM				= rm -rf
-CC				= cc -g -fsanitize=address
+CC				= cc #-g #-fsanitize=address
 
 all:			$(NAME)
 
