@@ -3,54 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:25:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/03 21:56:55 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static char	*dict_toenv(t_dictionnary *dict)
+static int	join_path(char **paths, t_command *command)
 {
-	char	*key;
-	char	*env;
+	int		i;
+	char	*ptr;
+	int		path_len;
+	int		cmd_len;
 
-	key = ft_strjoin(dict->key, "=");
-	if (key == NULL)
-		return (NULL);
-	env = ft_strjoin_free(key, dict->value, LEFT);
-	if (env == NULL)
-		return (free(key), NULL);
-	return (env);
+	i = 0;
+	while (paths[i])
+	{
+		path_len = ft_strlen(paths[i]);
+		cmd_len = ft_strlen(command->argv[0]);
+		ptr = ft_calloc(path_len + cmd_len + 2, sizeof(char));
+		if (ptr == NULL)
+			return (FAILURE);
+		ft_strlcat(ptr, paths[i], path_len + 1);
+		ft_strlcat(ptr, "/", path_len + 2);
+		ft_strlcat(ptr, command->argv[0], path_len + cmd_len + 2);
+		if (access(ptr, X_OK) == 0)
+			return (free(command->argv[0]), command->argv[0] = ptr,  SUCCESS);
+		free(ptr);
+		i++;
+	}
+	return (SUCCESS);
 }
 
-static int	set_envp(t_list *list, t_command *command)
+static int	set_cmd_path(t_object *obj, t_command *command)
 {
-	int				i;
-	int				count;
-	t_environment	*env;
+	char	**paths;
+	char	*ptr;
 
-	count = ft_lstsize(list);
-	command->envp = malloc(sizeof(char *) * (count + 1));
-	if (command->envp == NULL)
+	if (ft_strchr("/", **command->argv))
+		return (SUCCESS);
+	ptr = get_env(obj->env, "PATH");
+	if (ptr == NULL)
+		return (SUCCESS);
+	paths = ft_split(ptr, ':');
+	if (paths == NULL)
 		return (FAILURE);
-	command->envp[count] = NULL;
-	i = 0;
-	while (list)
-	{
-		env = list->content;
-		if (env->hidden == false)
-		{
-			command->envp[i] = dict_toenv(&env->element);
-			if (command->envp[i] == NULL)
-				return (free_array(command->envp), FAILURE);
-			i++;
-		}
-		list = list->next;
-	}
-	return (SUCCESS);		
+	if (*paths == NULL)
+		return (free(paths), SUCCESS);
+	if (join_path(paths, command) == FAILURE)
+		return (free_array(paths), FAILURE);
+	free_array(paths);
+	return (SUCCESS);
 }
 
 int	commands_init(t_object *obj)
@@ -62,14 +68,14 @@ int	commands_init(t_object *obj)
 	tokens = obj->tokens;
 	while (tokens)
 	{
-		command = malloc(sizeof(t_command));
+		command = new_command(obj, tokens);
 		if (command == NULL)
 			return (FAILURE);
-		ft_memset(command, 0, sizeof(t_command));
-		if (new_command(tokens, command) == FAILURE)
-			return (FAILURE);
-		if (set_envp(obj->env, command) == FAILURE)
+		if (command->argc != 0 && !command->is_builtin
+			&& set_cmd_path(obj, command) == FAILURE)
 			return (destroy_command(command), FAILURE);
+		if (command->argc > 0)
+			command->cmd = command->argv[0];
 		new = ft_lstnew(command);
 		if (new == NULL)
 			return (destroy_command(command), FAILURE);

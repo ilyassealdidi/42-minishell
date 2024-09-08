@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 22:41:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:37:24 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int	builtin_cd(t_object *obj, t_command *command)
 {
 	char	*path;
 
-	if (command->args[1] == NULL)
+	if (command->argv[1] == NULL)
 		path = get_env(obj->env, "HOME");
 	else
-		path = command->args[1];
+		path = command->argv[1];
 	if (path == NULL)
 	{
 		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);

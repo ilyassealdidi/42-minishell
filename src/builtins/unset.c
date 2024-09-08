@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:30:50 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 22:42:08 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/24 16:37:24 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ int	builtin_unset(t_object *obj, t_command *command)
 	int	i;
 
 	i = 1;
-	while (command->args[i])
+	while (command->argv[i])
 	{
-		if (is_valid_identifier(command->args[i]) == INVALID)
+		if (is_valid_identifier(command->argv[i]) == INVALID)
 		{
-			print_invalid_error(command->args[i]);
+			print_invalid_error(command->argv[i]);
 			obj->exit_status = 1;
 		}
 		else
-			unset_env(&obj->env, command->args[i]);
+			unset_env(&obj->env, command->argv[i]);
 		i++;
 	}
 	return (SUCCESS);

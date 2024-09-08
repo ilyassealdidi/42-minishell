@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 08:47:03 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 09:03:06 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/31 12:50:34 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*get_last_token(t_list *list)
 
 void	destroy_token(void *content)
 {
-	t_token	*token;
+	t_token			*token;
 
 	token = (t_token *)content;
 	free(token->content);

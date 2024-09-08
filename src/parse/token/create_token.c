@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/19 14:29:11 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/31 13:01:31 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static t_token_type	get_token_type(char *str)
 	if (ft_strncmp(str, "<", 1) == 0)
 		return (REDIR_IN);
 	if (((*str == '\'' || *str == '"') && ft_strchr(str + 1, *str))
-		|| (ft_isprint(*str) && (*str != '\'' && *str != '"')))
+		|| (*str != '\'' && *str != '"'))
 		return (ARG);
 	return (NONE);
 }
 
 static bool	contains_env(char *str)
 {
-	char	*ptr;
+	char			*ptr;
 
 	if (*str == '\'')
 		return (false);
@@ -63,7 +63,7 @@ static int	get_token_length(char *line, t_token_type type)
 
 static int	set_next_token(char **line, t_token *token)
 {
-	int					len;
+	int				len;
 
 	ft_memset(token, 0, sizeof(t_token));
 	token->type = get_token_type(*line);
@@ -88,12 +88,12 @@ static int	set_next_token(char **line, t_token *token)
 
 int	tokens_init(t_object *obj, char *line)
 {
-	int					ret;
-	t_token				token;
+	int				ret;
+	t_token			token;
 
 	while (1)
 	{
-		while (*line != '\0' && *line == ' ' || *line == '\t')
+		while (*line != '\0' && (*line == ' ' || *line == '\t'))
 			line++;
 		if (*line == '\0')
 			break ;

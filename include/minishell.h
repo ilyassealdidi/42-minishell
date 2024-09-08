@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:20:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/07 23:58:03 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -21,7 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <types.h>
-# include <fcntl.h> 
+# include <fcntl.h>
 
 extern int		g_received_signal;
 
@@ -60,6 +61,7 @@ void			destroy_dictionnary(void *content);
 t_environment	*create_env(t_dictionnary dict, bool hidden);
 
 /*		Environment				*/
+char			**generate_envp(t_list *list);
 char			*get_env(t_list *env, char *key);
 int				insert_env(t_list **env_list, t_dictionnary dict, bool hidden);
 int 			append_env(t_list **env_list, t_dictionnary dict);
@@ -88,15 +90,24 @@ int				builtin_env(t_object *obj);
 int				builtin_exit(t_object *obj, t_command *command);
 
 /*		Command					*/
-int				new_command(t_list *tokens, t_command *command);
+t_command		*new_command(t_object *obj, t_list *tokens);
+t_command		*get_command(t_list *list);
 void			destroy_command(void *content);
-char			**generate_envp(t_list *list);
 int				commands_init(t_object *obj);
 
 /*		Exit status				*/
 int				update_exit_status(t_object *obj);
 int				set_exit_status(t_object *obj);
 
-void			exec(t_object *obj);
+int				execute_commands(t_object *obj);
 
+/*		Execution				*/
+void			ft_dupme(int from, int to, int to_close);
+void			ft_close(int fd);
+
+/*		Fork					*/
+pid_t			ft_forkme(t_object *obj);
+
+/*		Pipe					*/
+void			ft_pipeme(int fields[2]);
 #endif

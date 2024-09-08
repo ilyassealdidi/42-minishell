@@ -60,9 +60,9 @@ void	display_command(void *content)
 
 	printf("cmd		: %s%s%s\n", YELLOW, tmp->cmd, RESET);
 	i = 0;
-	while (tmp->args[i])
+	while (tmp->argv[i])
 	{
-		printf("args[%d]		: %s%s%s\n", i, WHITE, tmp->args[i], RESET);
+		printf("args[%d]		: %s%s%s\n", i, WHITE, tmp->argv[i], RESET);
 		i++;
 	}
 	printf("in		: %d\n", tmp->in);
