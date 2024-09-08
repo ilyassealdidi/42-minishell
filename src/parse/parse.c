@@ -111,6 +111,7 @@ static int	parse(t_object *obj)
 
 int	generate_commands(t_object *obj)
 {
+	printf("\033[K");
 	obj->exit_status = parse(obj);
 	if (obj->exit_status != SUCCESS)
 		return (FAILURE);
