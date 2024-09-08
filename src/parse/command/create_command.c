@@ -17,13 +17,13 @@ static int	count_args(t_list *tokens)
 	t_token			*token;
 	int				i;
 
-	i = 1;
+	i = 0;
 	while (tokens)
 	{
 		token = get_token(tokens);
 		if (token->type == PIPE)
 			break ;
-		if (token->type == ARG)
+		if (token->type == ARG || token->type == CMD || token->type == BUILTIN)
 			i++;
 		tokens = tokens->next;
 	}
@@ -83,7 +83,7 @@ static int	redir_init(t_list *node, t_command *command)
 		command->out = fd;
 	}
 	if (fd == -1)
-		return (print_error(errno, NULL), FAILURE); //! Check if it's the right way to handle the error
+		return (printf("%s\n", strerror( errno)), FAILURE); //! Check if it's the right way to handle the error
 	return (SUCCESS);
 }
 
@@ -144,12 +144,13 @@ t_command	*new_command(t_object *obj, t_list *tokens)
 			return (destroy_command(command), NULL);
 		command->is_builtin = is_builtin(command->argv[0]);
 	}
+	token = get_token(tokens);
 	while (tokens && token->type != PIPE)
 	{
 		token = get_token(tokens);
 		if ((token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND)
 			&& redir_init(tokens, command) == FAILURE)
-				return (destroy_command(command), NULL); // Check if it's the right way to handle the error
+				return (perror("minishell: "), destroy_command(command), NULL); // Check if it's the right way to handle the error
 		tokens = tokens->next;
 	}
 	if (set_envp(obj->env, command) == FAILURE)

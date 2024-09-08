@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 16:36:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/07 22:13:21 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ int	execute_command(t_object *obj, t_list *node)
 
 	command = node->content;
 	status = SUCCESS;
-	if (command->argv[0] != NULL && is_builtin(command->argv[0]))
+	if (command->argv != NULL && is_builtin(command->argv[0]))
 		status = builtin(obj, node);
+	//! Close the file descriptors
 	return (status);
 }
 

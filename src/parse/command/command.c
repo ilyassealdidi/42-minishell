@@ -19,7 +19,7 @@ static int	join_path(char **paths, t_command *command)
 	int				path_len;
 	int				cmd_len;
 
-	i = 0;	
+	i = 0;
 	while (paths[i])
 	{
 		path_len = ft_strlen(paths[i]);
@@ -74,7 +74,8 @@ int	commands_init(t_object *obj)
 		if (command->argc != 0 && !command->is_builtin
 			&& set_cmd_path(obj, command) == FAILURE)
 			return (destroy_command(command), FAILURE);
-		command->cmd = command->argv[0];
+		if (command->argc > 0)
+			command->cmd = command->argv[0];
 		new = ft_lstnew(command);
 		if (new == NULL)
 			return (destroy_command(command), FAILURE);

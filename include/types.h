@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 11:36:09 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/07 20:35:13 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 
 # define VALID 1
 # define INVALID 0
+
+# define INPUT_LINE "\033[0;32m➜\033[0m"
 
 # define MEMORY_ERR "for no particular reason, malloc has failed!\n"
 # define SYNTAX_ERR "syntax error\n"
