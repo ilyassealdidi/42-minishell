@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 22:59:52 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 00:10:31 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@
 
 # define PROMPT "\033[0;32m➜\033[0m "
 
-
 # define EXIT "exit"
 # define ECHO "echo"
 # define CD "cd"
@@ -59,11 +58,8 @@
 # define EMHNS "HOME not set"
 # define EMNAR "numeric argument required"
 # define EMTMA "too many arguments"
-
 # define EMRCD "error retrieving current directory"
-# define MEMORY_ERR "for no particular reason, malloc has failed!\n"
 # define SYNTAX_ERR "syntax error\n"
-// # define AMBIGUOUS_REDIRECT "minishell: %s: ambiguous redirect\n" //! to be removed
 
 typedef enum e_token_type
 {
