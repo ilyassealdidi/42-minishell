@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/08 14:47:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/09 15:57:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	open_heredocs(t_object *obj)
 static int	parse(t_object *obj)
 {
 	char			*line;
+	int				status;
 
 	line = readline("$> ");
 	if (line == NULL)
@@ -99,26 +100,25 @@ static int	parse(t_object *obj)
 		add_history(line);
 	if (update_exit_status(obj) == FAILURE) //! consider to move this after tokens_init
 		return (FAILURE);
-	obj->exit_status = tokens_init(obj, line);
+	status = tokens_init(obj, line);
 	//! Check if line has to be freed
-	if (set_exit_status(obj) == FAILURE)
-		return (FAILURE);
-	if (obj->exit_status != SUCCESS)
-		print_error(obj->exit_status, NULL);
+	// if (status != SUCCESS)
+		// print_error(obj->exit_status, NULL);
 	free(line);
-	return (obj->exit_status);
+	return (status);
 }
 
 int	generate_commands(t_object *obj)
 {
 	obj->exit_status = parse(obj);
-	if (obj->exit_status != SUCCESS)
-		return (FAILURE);
-	if (open_heredocs(obj) == FAILURE)
-		return (FAILURE);
-	if (commands_init(obj) == FAILURE)
+	if (obj->exit_status == ERROR)
+		return (ft_putstr_fd(SYNTAX_ERR, 2), SUCCESS);
+	if (obj->exit_status == FAILURE
+		|| set_exit_status(obj) == FAILURE
+		|| open_heredocs(obj) == FAILURE
+		|| commands_init(obj) == FAILURE)
 		return (ft_lstclear(&obj->tokens, destroy_token), FAILURE);
-	ft_lstiter(obj->commands, display_command);
+	//ft_lstiter(obj->commands, display_command);
 	ft_lstclear(&obj->tokens, destroy_token);
 	return (SUCCESS);
 }

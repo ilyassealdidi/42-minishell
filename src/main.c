@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/07 22:13:21 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/09 15:58:33 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,17 @@ int	execute_command(t_object *obj, t_list *node)
 
 	command = node->content;
 	status = SUCCESS;
-	if (command->argv != NULL && is_builtin(command->argv[0]))
+	if (command->cmd == NULL)
+	{
+		if (command->in != 0)
+			close(command->in);
+		if (command->out != 1)
+			close(command->out);
+	}
+	else if (is_builtin(command->argv[0]))
 		status = builtin(obj, node);
+	else
+		;// status = execve_command(obj, command);
 	//! Close the file descriptors
 	return (status);
 }
@@ -88,8 +97,11 @@ int	main(int argc, char **argv, char **env)
 		return (print_error(FAILURE, NULL), EXIT_FAILURE);
 	while (1)
 	{
-		if (generate_commands(&obj) != SUCCESS)
+		if (generate_commands(&obj) == FAILURE)
+		{
+			perror("minishell");
 			continue ;
+		}
 		if (execute_commands(&obj) == FAILURE)
 		{
 			ft_lstclear(&obj.commands, destroy_command);
