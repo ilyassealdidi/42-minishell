@@ -31,7 +31,7 @@ static int	join_path(char **paths, t_command *command)
 		ft_strlcat(ptr, "/", path_len + 2);
 		ft_strlcat(ptr, command->argv[0], path_len + cmd_len + 2);
 		if (access(ptr, X_OK) == 0)
-			return (free(command->argv[0]), command->argv[0] = ptr,  SUCCESS);
+			return (free(command->argv[0]), command->argv[0] = ptr, SUCCESS);
 		free(ptr);
 		i++;
 	}
@@ -59,6 +59,14 @@ static int	set_cmd_path(t_object *obj, t_command *command)
 	return (SUCCESS);
 }
 
+void	skip_tokens(t_list **tokens)
+{
+	while (*tokens && get_token(*tokens)->type != PIPE)
+		*tokens = (*tokens)->next;
+	if (*tokens)
+		*tokens = (*tokens)->next;
+}
+
 int	commands_init(t_object *obj)
 {
 	t_command		*command;
@@ -68,9 +76,10 @@ int	commands_init(t_object *obj)
 	tokens = obj->tokens;
 	while (tokens)
 	{
-		command = new_command(obj, tokens);
-		if (command == NULL)
+		if (set_command(obj, tokens, &command) == FAILURE)
 			return (FAILURE);
+		if (command == NULL)
+			skip_tokens(&tokens);
 		if (command->argc != 0 && !command->is_builtin
 			&& set_cmd_path(obj, command) == FAILURE)
 			return (destroy_command(command), FAILURE);
@@ -80,10 +89,7 @@ int	commands_init(t_object *obj)
 		if (new == NULL)
 			return (destroy_command(command), FAILURE);
 		ft_lstadd_back(&obj->commands, new);
-		while (tokens && get_token(tokens)->type != PIPE)
-			tokens = tokens->next;
-		if (tokens && get_token(tokens)->type == PIPE)
-			tokens = tokens->next;
+		skip_tokens(&tokens);
 	}
 	return (SUCCESS);
 }

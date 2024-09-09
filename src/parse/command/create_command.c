@@ -1,4 +1,4 @@
-		/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 11:11:02 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/09 22:43:35 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,28 @@ static int	set_args(t_list *tokens, t_command *command)
 
 static int	redir_init(t_list *node, t_command *command)
 {
-	int				fd;
-	t_token 		*token;
+	t_token			*token;
+	char			*filename;
 
 	token = get_token(node);
+	filename = get_token(node->next)->content;
 	if (token->type == REDIR_IN)
 	{
 		if (command->in != 0)
 			close(command->in);
-		fd = open(get_token(node->next)->content, O_RDONLY);
-		command->in = fd;
+		command->in = open(filename, O_RDONLY);
 	}
 	if (token->type == APPEND || token->type == REDIR_OUT)
 	{
 		if (command->out != 1)
 			close(command->out);
 		if (token->type == APPEND)
-			fd = open(get_token(node->next)->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			command->out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
-			fd = open(get_token(node->next)->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		command->out = fd;
+			command->out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
-	if (fd == -1)
-		return (printf("%s\n", strerror( errno)), FAILURE); //! Check if it's the right way to handle the error
+	if (command->in == -1 || command->out == -1)
+		return (ft_error(NULL, filename, NULL), FAILURE);
 	return (SUCCESS);
 }
 
@@ -128,32 +127,29 @@ static int	set_envp(t_list *list, t_command *command)
 	return (SUCCESS);
 }
 
-t_command	*new_command(t_object *obj, t_list *tokens)
+int	set_command(t_object *obj, t_list *tokens, t_command **command)
 {
-	t_command		*command;
 	t_token			*token;
 
-	command = ft_calloc(1, sizeof(t_command));
-	if (command == NULL)
-		return (NULL);
-	command->out = STDOUT_FILENO;
-	command->argc = count_args(tokens);
-	if (command->argc > 0)
+	(*command) = ft_calloc(1, sizeof(t_command));
+	if ((*command) == NULL)
+		return (FAILURE);
+	(*command)->out = STDOUT_FILENO;
+	(*command)->argc = count_args(tokens);
+	if ((*command)->argc > 0)
 	{
-		if (set_args(tokens, command) == FAILURE)
-			return (destroy_command(command), NULL);
-		command->is_builtin = is_builtin(command->argv[0]);
+		if (set_args(tokens, (*command)) == FAILURE)
+			return (destroy_command((*command)), FAILURE);
+		(*command)->is_builtin = is_builtin((*command)->argv[0]);
 	}
-	token = get_token(tokens);
-	while (tokens && token->type != PIPE)
+	while (tokens && get_token(tokens)->type != PIPE)
 	{
 		token = get_token(tokens);
-		if ((token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND)
-			&& redir_init(tokens, command) == FAILURE)
-				return (perror("minishell: "), destroy_command(command), NULL); // Check if it's the right way to handle the error
+		if (is_redir(token) && redir_init(tokens, (*command)) == FAILURE)
+			return (destroy_command((*command)), *command = NULL, SUCCESS);
 		tokens = tokens->next;
 	}
-	if (set_envp(obj->env, command) == FAILURE)
-		return (destroy_command(command), NULL);
-	return (command);
+	if (set_envp(obj->env, (*command)) == FAILURE)
+		return (destroy_command((*command)), FAILURE);
+	return (SUCCESS);
 }

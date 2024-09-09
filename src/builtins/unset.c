@@ -6,18 +6,11 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:30:50 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:37:24 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/09 23:00:09 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static void	print_invalid_error(char *arg)
-{
-	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-}
 
 static bool	is_valid_identifier(char *str)
 {
@@ -44,7 +37,8 @@ int	builtin_unset(t_object *obj, t_command *command)
 	{
 		if (is_valid_identifier(command->argv[i]) == INVALID)
 		{
-			print_invalid_error(command->argv[i]);
+			ft_dprintf(STDERR_FILENO, "%s: %s: `%s': %s\n",
+				EMBASE, UNSET, command->argv[i], EMNVI);
 			obj->exit_status = 1;
 		}
 		else

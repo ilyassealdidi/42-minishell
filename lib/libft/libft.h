@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 11:24:11 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/21 18:26:44 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/09 22:33:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,6 @@ size_t	ft_strspn(const char *s, const char *charset);
 size_t	ft_strcspn(const char *s, const char *reject);
 char	*get_next_line(int fd);
 int		ft_printf(const char *s, ...);
+int		ft_dprintf(int fd, const char *s, ...);
 
 #endif

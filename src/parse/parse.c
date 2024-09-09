@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 15:57:52 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 00:05:28 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,12 @@ int	generate_commands(t_object *obj)
 {
 	obj->exit_status = parse(obj);
 	if (obj->exit_status == ERROR)
-		return (ft_putstr_fd(SYNTAX_ERR, 2), SUCCESS);
+		return (ft_error(NULL, NULL, SYNTAX_ERR), SUCCESS);
 	if (obj->exit_status == FAILURE
 		|| set_exit_status(obj) == FAILURE
 		|| open_heredocs(obj) == FAILURE
 		|| commands_init(obj) == FAILURE)
 		return (ft_lstclear(&obj->tokens, destroy_token), FAILURE);
-	//ft_lstiter(obj->commands, display_command);
 	ft_lstclear(&obj->tokens, destroy_token);
 	return (SUCCESS);
 }

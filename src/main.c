@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 15:58:33 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/09 23:51:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	builtin(t_object *obj, t_list *node)
 
 	command = node->content;
 	if (ft_strcmp(command->argv[0], "exit") == 0)
-		status = builtin_exit(obj, command);
+		status = builtin_exit(obj, command, true);
 	else if (ft_strcmp(command->argv[0], "echo") == 0)
 		status = builtin_echo(command);
 	else if (ft_strcmp(command->argv[0], "export") == 0)
@@ -29,9 +29,9 @@ int	builtin(t_object *obj, t_list *node)
 	else if (ft_strcmp(command->argv[0], "cd") == 0)
 		status = builtin_cd(obj, command);
 	else if (ft_strcmp(command->argv[0], "pwd") == 0)
-		status = builtin_pwd(obj);
+		status = builtin_pwd(obj, command);
 	else if (ft_strcmp(command->argv[0], "env") == 0)
-		status = builtin_env(obj);
+		status = builtin_env(obj, command);
 	else
 		status = builtin_unset(obj, command);
 	return (status);
@@ -94,12 +94,12 @@ int	main(int argc, char **argv, char **env)
 	ft_memset(&obj, 0, sizeof(t_object));
 	init_signals();
 	if (init_env(&obj.env, env) == FAILURE)
-		return (print_error(FAILURE, NULL), EXIT_FAILURE);
+		return (ft_error(NULL, NULL, NULL), EXIT_FAILURE);
 	while (1)
 	{
 		if (generate_commands(&obj) == FAILURE)
 		{
-			perror("minishell");
+			ft_error(NULL, NULL, NULL);
 			continue ;
 		}
 		if (execute_commands(&obj) == FAILURE)

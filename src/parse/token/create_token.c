@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/03 19:40:10 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/09 21:55:16 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	tokens_init(t_object *obj, char *line)
 			|| ft_appendtoken(obj, &token) == FAILURE)
 			return (free(token.content), FAILURE);
 	}
-	if (is_valid_syntax(obj->tokens) == ERROR)
+	if (obj->tokens && is_valid_syntax(obj->tokens) == ERROR)
 		return (ft_lstclear(&obj->tokens, destroy_token), ERROR);
 	return (SUCCESS);
 }

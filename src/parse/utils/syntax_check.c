@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:24:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/31 21:59:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/09 19:57:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 static int	is_separator(t_token_type type)
 {
-	if (type == PIPE || type == REDIR_IN || type == REDIR_OUT || type == APPEND
-		|| type == HEREDOC)
-		return (1);
-	return (0);
+	return (type == PIPE || type == REDIR_IN || type == REDIR_OUT
+		|| type == APPEND || type == HEREDOC);
 }
 
 int	is_valid_syntax(t_list *tokens)
@@ -25,16 +23,18 @@ int	is_valid_syntax(t_list *tokens)
 	t_token			*current;
 	t_token			*next;
 
-	if (tokens == NULL)
-		return (SUCCESS);
 	if (is_separator(get_last_token(tokens)->type)
-		|| get_token(tokens)->type == PIPE
-		|| (is_separator(get_token(tokens)->type) && tokens->next == NULL))
+		|| get_token(tokens)->type == PIPE)
 		return (ERROR);
 	while (tokens->next)
 	{
 		current = tokens->content;
 		next = tokens->next->content;
+		if (current->type == PIPE && next->type != PIPE)
+		{
+			tokens = tokens->next;
+			continue ;
+		}
 		if (is_separator(current->type) && is_separator(next->type))
 			return (ERROR);
 		tokens = tokens->next;

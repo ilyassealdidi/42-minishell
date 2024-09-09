@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:36:40 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/09 22:53:13 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	print_env(t_list *head)
+static void	print_env(t_list *head, int fd)
 {
 	t_list			*node;
 	t_environment	*env;
@@ -27,10 +27,10 @@ static void	print_env(t_list *head)
 		env = node->content;
 		if (env->hidden == false && env->index == i)
 		{
-			printf("%d declare -x %s", env->index, env->element.key);
+			ft_dprintf(fd, "%d declare -x %s", env->index, env->element.key);
 			if (env->element.value != NULL)
-				printf("=\"%s\"", env->element.value);
-			printf("\n");
+				ft_dprintf(fd, "=\"%s\"", env->element.value);
+			ft_dprintf(fd, "\n");
 			i++;
 		}
 		node = node->next;
@@ -96,21 +96,20 @@ int	builtin_export(t_object *obj, t_command *cmd)
 {
 	int				i;
 
-	i = 0;
+	i = 1;
 	if (cmd->argc == 1)
-		return (print_env(obj->env), SUCCESS);
-	while (cmd->argv[++i])
+		return (print_env(obj->env, cmd->out), SUCCESS);
+	while (cmd->argv[i])
 	{
 		if (is_valid_identifier(cmd->argv[i]) == INVALID)
 		{
-			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-			ft_putstr_fd(cmd->argv[i], STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+			ft_error(EXPORT, cmd->argv[i], EMNVI);
 			obj->exit_status = 1;
 			continue ;
 		}
 		if (export_env(obj, cmd->argv[i]) == FAILURE)
 			return (FAILURE);
+		i++;
 	}
 	return (SUCCESS);
 }
