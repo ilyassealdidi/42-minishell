@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 22:37:35 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 21:42:37 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:33:38 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@
 #include <errno.h>
 #include <stdio.h>
 
+
+
 int main(int ac, char **av)
 {
-  errno = ENOMEM;
-  perror(NULL);
-  return 0;
+	unsigned char nb = get_number(av[1]);
+	printf("nb = %u\n", nb);
+	return 0;
 }

@@ -6,34 +6,67 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 14:05:18 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:41:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static long	get_number(const char *str)
+/*
+static int	set_number(const char *str, long *num)
 {
-	size_t	num;
 	int		sign;
 	int		i;
 
 	i = 0;
-	num = 0;
 	sign = 1;
-	while (ft_isspace(str[i]))
+	while (isspace(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 		sign = 1 - 2 * (str[i++] == '-');
-	while (ft_isdigit(str[i]))
+	while (isdigit(str[i]))
 	{
+		if (*num == LONG_MAX / 10 && str[i] - '0' == 8 && sign == -1
+			&& !isdigit(str[i + 1]))
+			return (*num = LONG_MIN, SUCCESS);
+		if (((*num == LONG_MAX / 10 && str[i] - '0' > 7)
+				|| *num > LONG_MAX / 10))
+			return (*num = LONG_MAX + (sign == -1), FAILURE);
+		*num = *num * 10 + str[i++] - '0';
+	}
+	*num = *num * sign;
+	if ((str[i] && !isdigit(str[i]))
+		|| (!isdigit(str[i]) && i > 0 && !isdigit(str[i - 1])))
+		return (FAILURE);
+	return (SUCCESS);
+}
+*/
+
+static long	get_number(const char *str)
+{
+	long			num;
+	int				sign;
+	int				i;
+
+	i = 0;
+	num = 0;
+	sign = 1;
+	while (isspace(str[i]))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		sign = 1 - 2 * (str[i++] == '-');
+	while (isdigit(str[i]))
+	{
+		if (num == LONG_MAX / 10 && str[i] - '0' == 8 && sign == -1
+			&& !isdigit(str[i + 1]))
+			return (LONG_MIN);
 		if (((num == LONG_MAX / 10 && str[i] - '0' > 7)
 				|| num > LONG_MAX / 10))
 			return (errno = ERANGE, LONG_MAX + (sign == -1));
 		num = num * 10 + str[i++] - '0';
 	}
-	if ((str[i] && !ft_isdigit(str[i]))
-		|| (!ft_isdigit(str[i]) && !ft_isdigit(str[i - 1])))
+	if ((str[i] && !isdigit(str[i]))
+		|| (!isdigit(str[i]) && i > 0 && !isdigit(str[i - 1])))
 		errno = EINVAL;
 	return (num * sign);
 }
