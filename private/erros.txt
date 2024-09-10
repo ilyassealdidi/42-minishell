@@ -1,0 +1,20 @@
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==69645==ERROR: AddressSanitizer: SEGV on unknown address 0x00000000000c (pc 0x000100c3f79f bp 0x7ffeeefc8490 sp 0x7ffeeefc83c0 T0)
+==69645==The signal is caused by a READ memory access.
+==69645==Hint: address points to the zero page.
+    #0 0x100c3f79f in new_command create_command.c:147
+    #1 0x100c3e9a1 in commands_init command.c:71
+    #2 0x100c42ab4 in generate_commands parse.c:119
+    #3 0x100c3e81e in main main.c:90
+    #4 0x7fff6c507cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+==69645==Register values:
+rax = 0x000000000000000c  rbx = 0x00007ffeeefc8620  rcx = 0x0000100000000001  rdx = 0x0000100000000000  
+rdi = 0x0000602000003500  rsi = 0x0000100000000000  rbp = 0x00007ffeeefc8490  rsp = 0x00007ffeeefc83c0  
+ r8 = 0x00001c0400000600   r9 = 0x0000100000000000  r10 = 0x0000000000000048  r11 = 0x0000000000000000  
+r12 = 0x0000000000000000  r13 = 0x0000000000000000  r14 = 0x0000000000000000  r15 = 0x0000000000000000  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV create_command.c:147 in new_command
+==69645==ABORTING
+Abort trap: 6
