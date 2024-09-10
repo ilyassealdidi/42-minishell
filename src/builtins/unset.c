@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:30:50 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 23:00:09 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 16:10:06 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	builtin_unset(t_object *obj, t_command *command)
 			ft_dprintf(STDERR_FILENO, "%s: %s: `%s': %s\n",
 				EMBASE, UNSET, command->argv[i], EMNVI);
 			obj->exit_status = 1;
+			return (FAILURE);
 		}
 		else
 			unset_env(&obj->env, command->argv[i]);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 22:53:13 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:50:20 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static bool	is_valid_identifier(char *str)
 	return (VALID);
 }
 
-static int	set_dict(t_dictionnary *dict, char *env, char *equal) //update the function's name
+//update the function's name
+static int	set_dict(t_dictionnary *dict, char *env, char *equal)
 {
 	if (equal == NULL)
 	{

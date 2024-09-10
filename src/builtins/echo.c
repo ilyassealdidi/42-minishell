@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:47:33 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 00:01:19 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 18:22:03 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	builtin_echo(t_command *cmd)
+void	builtin_echo(t_command *cmd)
 {
 	int				i;
 	bool			nl;
@@ -36,5 +36,4 @@ int	builtin_echo(t_command *cmd)
 	}
 	if (nl == false)
 		ft_putchar_fd('\n', cmd->out);
-	return (SUCCESS);
 }

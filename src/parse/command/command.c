@@ -43,7 +43,7 @@ static int	set_cmd_path(t_object *obj, t_command *command)
 	char			**paths;
 	char			*ptr;
 
-	if (ft_strchr("/", **command->argv))
+	if (ft_strchr("./", **command->argv))
 		return (SUCCESS);
 	ptr = get_env(obj->env, "PATH");
 	if (ptr == NULL)

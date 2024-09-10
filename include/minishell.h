@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 23:52:18 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 18:22:18 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char			*get_env(t_list *env, char *key);
 int				insert_env(t_list **env_list, t_dictionnary dict, bool hidden);
 int				append_env(t_list **env_list, t_dictionnary dict);
 int				set_env(t_list **env_list, t_dictionnary dict);
-int				unset_env(t_list **env_list, char *key);
+void			unset_env(t_list **env_list, char *key);
 void			destroy_env(void *content);
 int				init_env(t_list **env, char **envp);
 
@@ -80,12 +80,12 @@ void			leaks_func(void);
 void			display_command(void *content);
 
 /*		Builtins				*/
-int				builtin_echo(t_command *cmd);
+void			builtin_echo(t_command *cmd);
 int				builtin_cd(t_object *obj, t_command *cmd);
 int				builtin_pwd(t_object *obj, t_command *cmd);
 int				builtin_export(t_object *obj, t_command *cmd);
 int				builtin_unset(t_object *obj, t_command *cmd);
-int				builtin_env(t_object *obj, t_command *cmd);
+void			builtin_env(t_object *obj, t_command *cmd);
 int				builtin_exit(t_object *obj, t_command *command, bool is_child);
 
 /*		Command					*/

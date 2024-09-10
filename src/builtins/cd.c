@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 22:52:22 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:30:00 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ int	builtin_cd(t_object *obj, t_command *command)
 		return (FAILURE);
 	}
 	if (update_oldpwd(obj) == FAILURE || update_pwd(obj) == FAILURE)
-		return (obj->exit_status = 1, FAILURE); //Should the error be printed here?
+		return (obj->exit_status = 1, FAILURE);
 	return (SUCCESS);
 }

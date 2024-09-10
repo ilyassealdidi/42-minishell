@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 23:51:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 18:29:22 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,22 @@ int g_received_signal = 0;
 int	builtin(t_object *obj, t_list *node)
 {
 	t_command		*command;
-	int				status;
 
 	command = node->content;
-	if (ft_strcmp(command->argv[0], "exit") == 0)
-		status = builtin_exit(obj, command, true);
-	else if (ft_strcmp(command->argv[0], "echo") == 0)
-		status = builtin_echo(command);
-	else if (ft_strcmp(command->argv[0], "export") == 0)
-		status = builtin_export(obj, command);
-	else if (ft_strcmp(command->argv[0], "cd") == 0)
-		status = builtin_cd(obj, command);
-	else if (ft_strcmp(command->argv[0], "pwd") == 0)
-		status = builtin_pwd(obj, command);
-	else if (ft_strcmp(command->argv[0], "env") == 0)
-		status = builtin_env(obj, command);
+	if (ft_strcmp(command->argv[0], EXIT) == 0)
+		return (builtin_exit(obj, command, true));
+	else if (ft_strcmp(command->argv[0], ECHO) == 0)
+		return (builtin_echo(command), SUCCESS);
+	else if (ft_strcmp(command->argv[0], EXPORT) == 0)
+		return (builtin_export(obj, command));
+	else if (ft_strcmp(command->argv[0], CD) == 0)
+		return (builtin_cd(obj, command));
+	else if (ft_strcmp(command->argv[0], PWD) == 0)
+		return (builtin_pwd(obj, command));
+	else if (ft_strcmp(command->argv[0], ENV) == 0)
+		return (builtin_env(obj, command), SUCCESS);
 	else
-		status = builtin_unset(obj, command);
-	return (status);
+		return (builtin_unset(obj, command));
 }
 
 int	execute_command(t_object *obj, t_list *node)
@@ -90,7 +88,7 @@ int	main(int argc, char **argv, char **env)
 	t_object		obj;
 
 	if (argc != 1)
-		return (ft_putstr_fd("Usage: ./minishell\n", 2), EXIT_FAILURE);
+		return (ft_error(NULL, NULL, "Usage: ./minishell\n"), EXIT_FAILURE);
 	ft_memset(&obj, 0, sizeof(t_object));
 	init_signals();
 	if (init_env(&obj.env, env) == FAILURE)
@@ -98,15 +96,12 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		if (generate_commands(&obj) == FAILURE)
-		{
-			ft_error(NULL, NULL, NULL);
 			continue ;
-		}
 		if (execute_commands(&obj) == FAILURE)
 		{
 			ft_lstclear(&obj.commands, destroy_command);
 			continue ;
-		}
+		} // Think to set the exit status to 0
 		ft_lstclear(&obj.commands, destroy_command);
 	}
 	return ((void)argv, EXIT_SUCCESS);

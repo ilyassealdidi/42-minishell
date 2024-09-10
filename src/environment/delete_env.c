@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:21:57 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 16:21:36 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 16:05:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	unset_env(t_list **env_list, char *key)
+void	unset_env(t_list **env_list, char *key)
 {
 	t_list			*node;
 	t_environment	*env;
@@ -32,9 +32,8 @@ int	unset_env(t_list **env_list, char *key)
 					node->next->previous = node->previous;
 			}
 			ft_lstdelone(node, destroy_env);
-			return (SUCCESS);
+			break ;
 		}
 		node = node->next;
 	}
-	return (FAILURE);
 }
