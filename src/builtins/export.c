@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 15:50:20 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 22:57:08 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	print_env(t_list *head, int fd)
+static void	print_env(t_list *head)
 {
 	t_list			*node;
 	t_environment	*env;
@@ -27,10 +27,10 @@ static void	print_env(t_list *head, int fd)
 		env = node->content;
 		if (env->hidden == false && env->index == i)
 		{
-			ft_dprintf(fd, "%d declare -x %s", env->index, env->element.key);
+			ft_printf("%d declare -x %s", env->index, env->element.key);
 			if (env->element.value != NULL)
-				ft_dprintf(fd, "=\"%s\"", env->element.value);
-			ft_dprintf(fd, "\n");
+				ft_printf("=\"%s\"", env->element.value);
+			ft_printf("\n");
 			i++;
 		}
 		node = node->next;
@@ -85,10 +85,11 @@ static int	export_env(t_object *obj, char *arg)
 	equal = ft_strchr(arg, '=');
 	if (set_dict(&dict, arg, equal) == FAILURE)
 		return (FAILURE);
-	if (equal != NULL && equal[-1] == '+' && append_env(&obj->env, dict) == FAILURE)
-			return (destroy_dictionnary(&dict), FAILURE);
+	if (equal != NULL && equal[-1] == '+'
+		&& append_env(&obj->env, dict) == FAILURE)
+		return (destroy_dictionnary(&dict), FAILURE);
 	else if (set_env(&obj->env, dict) == FAILURE)
-			return (destroy_dictionnary(&dict), FAILURE);
+		return (destroy_dictionnary(&dict), FAILURE);
 	destroy_dictionnary(&dict);
 	return (SUCCESS);
 }
@@ -99,7 +100,7 @@ int	builtin_export(t_object *obj, t_command *cmd)
 
 	i = 1;
 	if (cmd->argc == 1)
-		return (print_env(obj->env, cmd->out), SUCCESS);
+		return (print_env(obj->env), SUCCESS);
 	while (cmd->argv[i])
 	{
 		if (is_valid_identifier(cmd->argv[i]) == INVALID)

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 23:47:33 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 18:22:03 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 22:54:39 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	builtin_echo(t_command *cmd)
 	}
 	while (cmd->argv[i] != NULL)
 	{
-		ft_putstr_fd(cmd->argv[i], cmd->out);
+		ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
 		if (cmd->argv[i + 1] != NULL)
-			ft_putstr_fd(" ", cmd->out);
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
 	if (nl == false)
-		ft_putchar_fd('\n', cmd->out);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 }

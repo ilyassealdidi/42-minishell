@@ -78,17 +78,18 @@ int	commands_init(t_object *obj)
 	{
 		if (set_command(obj, tokens, &command) == FAILURE)
 			return (FAILURE);
-		if (command == NULL)
-			skip_tokens(&tokens);
-		if (command->argc != 0 && !command->is_builtin
-			&& set_cmd_path(obj, command) == FAILURE)
-			return (destroy_command(command), FAILURE);
-		if (command->argc > 0)
-			command->cmd = command->argv[0];
-		new = ft_lstnew(command);
-		if (new == NULL)
-			return (destroy_command(command), FAILURE);
-		ft_lstadd_back(&obj->commands, new);
+		if (command != NULL)
+		{
+			if (command->argc != 0 && !command->is_builtin
+				&& set_cmd_path(obj, command) == FAILURE)
+				return (destroy_command(command), FAILURE);
+			if (command->argc > 0)
+				command->cmd = command->argv[0];
+			new = ft_lstnew(command);
+			if (new == NULL)
+				return (destroy_command(command), FAILURE);
+			ft_lstadd_back(&obj->commands, new);
+		}
 		skip_tokens(&tokens);
 	}
 	return (SUCCESS);
