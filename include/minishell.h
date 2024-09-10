@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 22:57:29 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 00:18:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ int				builtin_export(t_object *obj, t_command *cmd);
 int				builtin_unset(t_object *obj, t_command *cmd);
 void			builtin_env(t_object *obj);
 int				builtin_exit(t_object *obj, t_command *command, bool is_child);
+
+/*		Redirections			*/
+int				redir_init(t_list *node, t_command *command);
+
+/*		Heredoc					*/
+int				heredocs_init(t_object *obj);
 
 /*		Command					*/
 int				set_command(t_object *obj, t_list *tokens, t_command **command);

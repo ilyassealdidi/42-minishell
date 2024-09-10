@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 23:53:40 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 00:21:11 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static int	set_args(t_list *tokens, t_command *command)
 	command->argv = ft_calloc(command->argc + 1, sizeof(char *));
 	if (command->argv == NULL)
 		return (FAILURE);
-	command->argv[command->argc] = NULL;
 	i = 1;
 	while (tokens)
 	{
@@ -56,33 +55,6 @@ static int	set_args(t_list *tokens, t_command *command)
 			break ;
 		tokens = tokens->next;
 	}
-	return (SUCCESS);
-}
-
-static int	redir_init(t_list *node, t_command *command)
-{
-	t_token			*token;
-	char			*filename;
-
-	token = get_token(node);
-	filename = get_token(node->next)->content;
-	if (token->type == REDIR_IN)
-	{
-		if (command->in != 0)
-			close(command->in);
-		command->in = open(filename, O_RDONLY);
-	}
-	if (token->type == APPEND || token->type == REDIR_OUT)
-	{
-		if (command->out != 1)
-			close(command->out);
-		if (token->type == APPEND)
-			command->out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			command->out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	}
-	if (command->in == -1 || command->out == -1)
-		return (ft_error(NULL, filename, NULL), FAILURE);
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:20:43 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/22 13:43:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 00:23:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
  * @return Returns SUCCESS if the variable is successfully set,
  * FAILURE otherwise.
  */
-int set_env(t_list **env_list, t_dictionnary dict)
+int	set_env(t_list **env_list, t_dictionnary dict)
 {
-	t_list          *tmp;
-	t_environment   *env;
+	t_list			*tmp;
+	t_environment	*env;
 
 	tmp = *env_list;
 	while (tmp)
