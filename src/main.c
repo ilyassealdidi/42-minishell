@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **env)
 	ft_memset(&obj, 0, sizeof(t_object));
 	init_signals();
 	if (init_env(&obj.env, env) == FAILURE)
-		return (print_error(FAILURE, NULL), EXIT_FAILURE);
+		return (ft_error(NULL, NULL, NULL), EXIT_FAILURE);
 	while (1)
 	{
 		if (generate_commands(&obj) != SUCCESS)

@@ -43,10 +43,23 @@
 # define VALID 1
 # define INVALID 0
 
-# define MEMORY_ERR "for no particular reason, malloc has failed!\n"
-# define SYNTAX_ERR "syntax error\n"
-// # define AMBIGUOUS_REDIRECT "minishell: %s: ambiguous redirect\n" //! to be removed
+# define PROMPT "\033[0;32m↪\033[0m "
 
+# define EXIT "exit"
+# define ECHO "echo"
+# define CD "cd"
+# define PWD "pwd"
+# define EXPORT "export"
+# define UNSET "unset"
+# define ENV "env"
+
+# define EMBASE "minishell"
+# define EMNVI "not a valid identifier"
+# define EMHNS "HOME not set"
+# define EMNAR "numeric argument required"
+# define EMTMA "too many arguments"
+# define EMRCD "error retrieving current directory"
+# define SYNTAX_ERR "syntax error\n"
 
 //FDS
 # define NOTHING -1
@@ -90,6 +103,7 @@ typedef struct s_command
 	int				out;
 	int				argc;
 	int				herdoc;
+	int				pipefd[2];
 	char			*cmd;
 	char			**argv;
 	char			**envp;
@@ -118,8 +132,7 @@ typedef struct s_object
 	t_list			*env;
 	int				exit_status;
 	int				received_signals;
-	int				pipefd[2];
-	int				saved_fds[2];
+	int				fds[2];
 }	t_object;
 
 #endif

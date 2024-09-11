@@ -60,10 +60,13 @@ void	display_command(void *content)
 
 	printf("cmd		: %s%s%s\n", YELLOW, tmp->cmd, RESET);
 	i = 0;
-	while (tmp->argv[i])
+	if (tmp->argv)
 	{
-		printf("args[%d]		: %s%s%s\n", i, WHITE, tmp->argv[i], RESET);
-		i++;
+		while (tmp->argv[i])
+		{
+			printf("args[%d]		: %s%s%s\n", i, WHITE, tmp->argv[i], RESET);
+			i++;
+		}
 	}
 	printf("in		: %d\n", tmp->in);
 	printf("out		: %d\n", tmp->out);

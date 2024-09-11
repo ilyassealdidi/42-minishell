@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 09:59:45 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 22:52:38 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/08/31 21:59:08 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 void	free_array(char **strs)
 {
-	int	i;
+	int				i;
 
 	if (!strs)
 		return ;

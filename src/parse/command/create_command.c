@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/07 02:59:29 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/11 00:21:11 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	count_args(t_list *tokens)
 {
-	t_token	*token;
-	int		i;
+	t_token			*token;
+	int				i;
 
 	i = 0;
 	while (tokens)
@@ -32,14 +32,13 @@ static int	count_args(t_list *tokens)
 
 static int	set_args(t_list *tokens, t_command *command)
 {
-	t_token	*token;
-	bool	is_cmd;
-	int		i;
+	t_token			*token;
+	bool			is_cmd;
+	int				i;
 
 	command->argv = ft_calloc(command->argc + 1, sizeof(char *));
 	if (command->argv == NULL)
 		return (FAILURE);
-	command->argv[command->argc] = NULL;
 	i = 1;
 	while (tokens)
 	{
@@ -59,41 +58,10 @@ static int	set_args(t_list *tokens, t_command *command)
 	return (SUCCESS);
 }
 
-static int	redir_init(t_list *node, t_command *command)
-{
-	int		fd;
-	t_token *token;
-
-	token = get_token(node);
-	if (token->type == REDIR_IN)
-	{
-		if (command->in != 0)
-			close(command->in);
-		fd = open(get_token(node->next)->content, O_RDONLY);
-		command->in = fd;
-	}
-	if (token->type == APPEND || token->type == REDIR_OUT)
-	{
-		if (command->out != 1)
-			close(command->out);
-		if (token->type == APPEND)
-			fd = open(get_token(node->next)->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			fd = open(get_token(node->next)->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		command->out = fd;
-	}
-	if (fd == -1)
-	{
-		printf("minishell: %s: %s\n", get_token(node->next)->content, strerror(errno));	
-		return (print_error(errno, NULL), FAILURE); //! Check if it's the right way to handle the error
-	}
-	return (SUCCESS);
-}
-
 static char	*dict_toenv(t_dictionnary *dict)
 {
-	char	*key;
-	char	*env;
+	char			*key;
+	char			*env;
 
 	key = ft_strjoin(dict->key, "=");
 	if (key == NULL)
@@ -131,32 +99,30 @@ static int	set_envp(t_list *list, t_command *command)
 	return (SUCCESS);
 }
 
-t_command	*new_command(t_object *obj, t_list *tokens)
+int	set_command(t_object *obj, t_list *tokens, t_command **command)
 {
-	t_command	*command;
-	t_token		*token;
+	t_token			*token;
 
-	command = ft_calloc(1, sizeof(t_command));
-	if (command == NULL)
-		return (NULL);
-	command->out = STDOUT_FILENO;
-	command->argc = count_args(tokens);
-	if (command->argc > 0)
+	(*command) = ft_calloc(1, sizeof(t_command));
+	if ((*command) == NULL)
+		return (FAILURE);
+	(*command)->out = STDOUT_FILENO;
+	(*command)->argc = count_args(tokens);
+	if ((*command)->argc > 0)
 	{
-		if (set_args(tokens, command) == FAILURE)
-			return (destroy_command(command), NULL);
-		command->is_builtin = is_builtin(command->argv[0]);
+		if (set_args(tokens, (*command)) == FAILURE)
+			return (destroy_command((*command)), FAILURE);
+		(*command)->is_builtin = is_builtin((*command)->argv[0]);
 	}
-	token = get_token(tokens);
-	while (tokens && token->type != PIPE)
+	while (tokens && get_token(tokens)->type != PIPE)
 	{
 		token = get_token(tokens);
-		if ((token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND)
-			&& redir_init(tokens, command) == FAILURE)
-				return (destroy_command(command), NULL); // Check if it's the right way to handle the error
+		if (is_redir(token) && redir_init(tokens, (*command)) == FAILURE)
+			return (obj->exit_status = 1,
+				destroy_command((*command)), *command = NULL, SUCCESS);
 		tokens = tokens->next;
 	}
-	if (set_envp(obj->env, command) == FAILURE)
-		return (destroy_command(command), NULL);
-	return (command);
+	if (set_envp(obj->env, (*command)) == FAILURE)
+		return (destroy_command((*command)), FAILURE);
+	return (SUCCESS);
 }

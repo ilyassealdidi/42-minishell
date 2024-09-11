@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/03 18:30:03 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:21:43 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	init_env(t_list **env_list, char **envp)
 		destroy_dictionnary(&dict);
 		envp++;
 	}
-	if (insert_env(env_list, (t_dictionnary){"?", "0"}, true) == FAILURE)
-		// || insert_env(env_list, (t_dictionnary){"OLDPWD", NULL}, false) == FAILURE
-		// || insert_env(env_list, (t_dictionnary){"PWD", NULL)}, false) == FAILURE) //!
+	if (insert_env(env_list, (t_dictionnary){"?", "0"}, true) == FAILURE
+		/*|| insert_env(env_list, (t_dictionnary){"OLDPWD", NULL}, false) == FAILURE
+		|| insert_env(env_list, (t_dictionnary){"PWD", NULL}, false) == FAILURE*/)
 		return (ft_lstclear(env_list, destroy_env), FAILURE);
 	return (SUCCESS);
 }

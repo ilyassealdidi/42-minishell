@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:24:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/20 15:24:41 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 00:23:18 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
  * @param key The key of the environment variable to retrieve.
  * @return The value of the environment variable if found, NULL otherwise.
  */
-char *get_env(t_list *env_list, char *key)
+char	*get_env(t_list *env_list, char *key)
 {
-	t_environment *env;
+	t_environment	*env;
 
 	while (env_list)
 	{
