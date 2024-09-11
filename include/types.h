@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 00:10:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 01:04:55 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			*content;
-	unsigned 		state;
+	unsigned int	state;
 	t_token_type	type;
 }	t_token;
 
