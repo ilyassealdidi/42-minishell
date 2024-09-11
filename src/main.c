@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 00:37:17 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 00:58:25 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int g_received_signal = 0;
+int					g_received_signal = 0;
 
 int	update_exit_status(t_object *obj)
 {
@@ -40,11 +40,11 @@ int	main(int argc, char **argv, char **env)
 	{
 		if (generate_commands(&obj) == FAILURE)
 			continue ;
-		if (execute_commands(&obj) == FAILURE)
-		{
-			ft_lstclear(&obj.commands, destroy_command);
-			continue ;
-		} // Think to set the exit status to 0
+		// if (execute_commands(&obj) == FAILURE)
+		// {
+		// 	ft_lstclear(&obj.commands, destroy_command);
+		// 	continue ;
+		// } // Think to set the exit status to 0
 		ft_lstclear(&obj.commands, destroy_command);
 	}
 	return ((void)argv, EXIT_SUCCESS);
