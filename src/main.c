@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_object		obj;
 
-	if (argc != 1)
+	if (argc != 1 || !isatty(STDIN_FILENO))
 		return (ft_putstr_fd("Usage: ./minishell\n", 2), EXIT_FAILURE);
 	ft_memset(&obj, 0, sizeof(t_object));
 	init_signals();

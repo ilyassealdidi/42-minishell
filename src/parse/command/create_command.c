@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 00:21:11 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 21:24:10 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static char	*dict_toenv(t_dictionnary *dict)
 	char			*key;
 	char			*env;
 
+	if (dict->value == NULL)
+		return (ft_strdup(dict->key));
 	key = ft_strjoin(dict->key, "=");
 	if (key == NULL)
 		return (NULL);
@@ -82,7 +84,7 @@ static int	set_envp(t_list *list, t_command *command)
 	command->envp = ft_calloc(count + 1, sizeof(char *));
 	if (command->envp == NULL)
 		return (FAILURE);
-	command->envp[count] = NULL;
+		
 	i = 0;
 	while (list)
 	{

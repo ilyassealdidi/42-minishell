@@ -104,6 +104,7 @@ typedef struct s_command
 	int				argc;
 	int				herdoc;
 	int				pipefd[2];
+	pid_t			pid;
 	char			*cmd;
 	char			**argv;
 	char			**envp;
@@ -132,7 +133,6 @@ typedef struct s_object
 	t_list			*env;
 	int				exit_status;
 	int				received_signals;
-	int				fds[2];
 }	t_object;
 
 #endif
