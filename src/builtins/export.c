@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 22:57:08 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 20:53:01 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,8 @@ int	builtin_export(t_object *obj, t_command *cmd)
 		{
 			ft_error(EXPORT, cmd->argv[i], EMNVI);
 			obj->exit_status = 1;
-			continue ;
 		}
-		if (export_env(obj, cmd->argv[i]) == FAILURE)
+		else if (export_env(obj, cmd->argv[i]) == FAILURE)
 			return (FAILURE);
 		i++;
 	}

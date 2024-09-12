@@ -1,6 +1,5 @@
 Next :
 	Done with Signals
-	Redirections
 
 Mandatory :
 	Heredoc
@@ -17,7 +16,7 @@ Suggestions :
 	seperate header files, one for parsing, one for executing
 
 Ideas :
-	Use Subtoknes or tokens parts
+	Use Subtoknes
 
 Warning :
 	Avoid freeing string literals in dict

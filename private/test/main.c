@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 22:37:35 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 14:33:38 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 19:23:42 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,23 @@
 
 int main(int ac, char **av)
 {
-	unsigned char nb = get_number(av[1]);
-	printf("nb = %u\n", nb);
+	int fd[2];
+
+	pipe(fd);
+
+	int id = fork();
+	if (id == 0)
+	{
+		printf("%d\n", fd[0]);
+		printf("%d\n", fd[1]);
+		printf("child\n");
+	}
+	else
+	{
+		printf("%d\n", fd[0]);
+		printf("%d\n", fd[1]);
+		wait(NULL);
+		printf("parent\n");
+	}
 	return 0;
 }
