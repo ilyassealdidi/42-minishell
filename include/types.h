@@ -61,7 +61,6 @@
 # define EMRCD "error retrieving current directory"
 # define SYNTAX_ERR "syntax error\n"
 
-
 //FDS
 # define NOTHING -1
 # define PIN 0
@@ -104,6 +103,8 @@ typedef struct s_command
 	int				out;
 	int				argc;
 	int				herdoc;
+	int				pipefd[2];
+	pid_t			pid;
 	char			*cmd;
 	char			**argv;
 	char			**envp;
@@ -132,8 +133,6 @@ typedef struct s_object
 	t_list			*env;
 	int				exit_status;
 	int				received_signals;
-	int				pipefd[2];
-	int				saved_fds[2];
 }	t_object;
 
 #endif

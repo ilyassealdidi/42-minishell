@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -23,8 +22,9 @@
 # include <readline/history.h>
 # include <types.h>
 # include <fcntl.h>
+# include <sys/wait.h>
+# include <exec.h>
 # include <parse.h>
-// # include <exec.h>
 
 extern int		g_received_signal;
 

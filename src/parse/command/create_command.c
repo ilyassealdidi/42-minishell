@@ -63,6 +63,8 @@ static char	*dict_toenv(t_dictionnary *dict)
 	char			*key;
 	char			*env;
 
+	if (dict->value == NULL)
+		return (ft_strdup(dict->key));
 	key = ft_strjoin(dict->key, "=");
 	if (key == NULL)
 		return (NULL);
@@ -82,7 +84,7 @@ static int	set_envp(t_list *list, t_command *command)
 	command->envp = ft_calloc(count + 1, sizeof(char *));
 	if (command->envp == NULL)
 		return (FAILURE);
-	command->envp[count] = NULL;
+		
 	i = 0;
 	while (list)
 	{
@@ -114,8 +116,7 @@ int	set_command(t_object *obj, t_list *tokens, t_command **command)
 			return (destroy_command((*command)), FAILURE);
 		(*command)->is_builtin = is_builtin((*command)->argv[0]);
 	}
-	token = get_token(tokens);
-	while (tokens && token->type != PIPE)
+	while (tokens && get_token(tokens)->type != PIPE)
 	{
 		token = get_token(tokens);
 		if (is_redir(token) && redir_init(tokens, (*command)) == FAILURE)

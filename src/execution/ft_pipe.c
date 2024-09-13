@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 18:40:28 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 11:11:18 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/09/07 00:41:14 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/11 04:07:48 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	exit_shell(t_object *obj)
+void	ft_pipe(int fields[2])
 {
-	ft_lstclear(&obj->commands, destroy_command);
-	printf("\033[F\033[3Cexit\n");
-	exit(EXIT_SUCCESS);
+	if (pipe(fields) == FAILED)
+		perror("minishell: pipe");
+}
+
+void	ft_pipe_in(t_list *cmds, t_command *cmd)
+{
+	if (has_next(cmds))
+		ft_dup(cmd->pipefd[PIN], STDIN_FILENO, cmd->pipefd[POUT]);
+}
+
+void	ft_pipe_out(t_list *cmds, t_command *cmd)
+{
+	if (has_next(cmds))
+		ft_dup(cmd->pipefd[POUT], STDOUT_FILENO, cmd->pipefd[PIN]);
 }

@@ -26,17 +26,19 @@ int	update_exit_status(t_object *obj)
 	return (SUCCESS);
 }
 
+void	f(){system("leaks minishell");}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_object		obj;
 
-	if (argc != 1)
-		return (ft_error(NULL, NULL, "Usage: ./minishell\n"), EXIT_FAILURE);
-	ft_memset(&obj, 0, sizeof(t_object));
+	if (argc != 1 || !isatty(STDIN_FILENO))
+		return (ft_putstr_fd("Usage: ./minishell\n", 2), EXIT_FAILURE);
+	obj = (t_object){0};
 	init_signals();
 	if (init_env(&obj.env, env) == FAILURE)
 		return (ft_error(NULL, NULL, NULL), EXIT_FAILURE);
-	while (1)
+	while (true)
 	{
 		if (generate_commands(&obj) == FAILURE)
 			continue ;

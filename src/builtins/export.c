@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
 /*   Updated: 2024/09/11 20:53:01 by ialdidi          ###   ########.fr       */
@@ -17,21 +17,18 @@ static void	print_env(t_list *head)
 	t_list			*node;
 	t_environment	*env;
 	int				list_size;
-	int				i;
 
-	i = 1;
-	list_size = ft_lstsize(head) - 1;
+	list_size = ft_lstsize(head);
 	node = head;
-	while (i <= list_size)
+	while (list_size--)
 	{
 		env = node->content;
-		if (env->hidden == false && env->index == i)
+		if (env->hidden == false)
 		{
-			ft_printf("%d declare -x %s", env->index, env->element.key);
+			ft_printf("declare -x %s", env->element.key);
 			if (env->element.value != NULL)
 				ft_printf("=\"%s\"", env->element.value);
 			ft_printf("\n");
-			i++;
 		}
 		node = node->next;
 		if (node == NULL)
@@ -70,7 +67,8 @@ static int	set_dict(t_dictionnary *dict, char *env, char *equal)
 	else
 	{
 		dict->key = ft_substr(env, 0, equal - (equal[-1] == '+') - env);
-		dict->value = ft_strdup(ft_strchr(env, '=') + 1);
+		char *todup = ft_strchr(env, '=') + 1;
+		dict->value = ft_strdup(todup);
 		if (dict->key == NULL || dict->value == NULL)
 			return (destroy_dictionnary(dict), FAILURE);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/31 21:59:16 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 21:20:27 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ char	*ft_strjoin_free(char *s1, char *s2, int to_free)
 
 bool	is_builtin(char *str)
 {
-	if (ft_strcmp(str, "echo") == 0
-		|| ft_strcmp(str, "cd") == 0
-		|| ft_strcmp(str, "pwd") == 0
-		|| ft_strcmp(str, "export") == 0
-		|| ft_strcmp(str, "unset") == 0
-		|| ft_strcmp(str, "env") == 0
-		|| ft_strcmp(str, "exit") == 0)
+	if (ft_strcmp(str, ECHO) == 0
+		|| ft_strcmp(str, CD) == 0
+		|| ft_strcmp(str, PWD) == 0
+		|| ft_strcmp(str, EXPORT) == 0
+		|| ft_strcmp(str, UNSET) == 0
+		|| ft_strcmp(str, ENV) == 0
+		|| ft_strcmp(str, EXIT) == 0)
 		return (true);
 	return (false);
 }

@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_wait.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 18:40:28 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 11:11:18 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/09/12 01:12:45 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/12 01:42:57 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	exit_shell(t_object *obj)
+void	ft_wait(int *exit_status)
 {
-	ft_lstclear(&obj->commands, destroy_command);
-	printf("\033[F\033[3Cexit\n");
-	exit(EXIT_SUCCESS);
+	while (waitpid(-1, exit_status, 0) != FAILED)
+	{
+		if (WIFEXITED(*exit_status))
+			*exit_status = WEXITSTATUS(*exit_status);
+	}
 }

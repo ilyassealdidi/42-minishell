@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   update_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
 /*   Updated: 2024/09/10 17:07:34 by ialdidi          ###   ########.fr       */

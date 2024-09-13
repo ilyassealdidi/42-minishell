@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_dup.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 18:40:28 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 11:11:18 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/09/06 23:15:42 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/11 23:26:25 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	exit_shell(t_object *obj)
+void	ft_close(int fd)
 {
-	ft_lstclear(&obj->commands, destroy_command);
-	printf("\033[F\033[3Cexit\n");
-	exit(EXIT_SUCCESS);
+	if (fd == NOTHING)
+		return ;
+	if (close(fd) == FAILED)
+		return ;
+}
+
+void	ft_dup(int from, int to, int to_close)
+{
+	ft_close(to_close);
+	if (dup2(from, to) == FAILED)
+		perror("minishell: dup2");
+	ft_close(from);
 }

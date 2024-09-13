@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_fds.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 18:40:28 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 11:11:18 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/09/08 06:30:37 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/11 23:21:19 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	exit_shell(t_object *obj)
+void	ft_save_fd(int *fd, int src)
 {
-	ft_lstclear(&obj->commands, destroy_command);
-	printf("\033[F\033[3Cexit\n");
-	exit(EXIT_SUCCESS);
+	*fd = dup(src);
+	if (*fd == FAILED)
+		perror("minishell: dup");
 }

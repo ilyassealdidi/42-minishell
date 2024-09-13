@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_redir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 18:40:28 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 11:11:18 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/09/08 06:13:03 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/11 01:48:48 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	exit_shell(t_object *obj)
+//redirect the file descriptor to the right place
+//2 means another file are opened
+//so we need to duplicate it to the std{in||out}
+void	ft_redirect(t_command *cmd)
 {
-	ft_lstclear(&obj->commands, destroy_command);
-	printf("\033[F\033[3Cexit\n");
-	exit(EXIT_SUCCESS);
+	if (cmd->in > 2)
+		ft_dup(cmd->in, STDIN_FILENO, NOTHING);
+	if (cmd->out > 2)
+		ft_dup(cmd->out, STDOUT_FILENO, NOTHING);
+}
+
+void	ft_close_redirections(t_command *cmd)
+{
+	if (cmd->in > 2)
+		ft_close(cmd->in);
+	if (cmd->out > 2)
+		ft_close(cmd->out);
 }
