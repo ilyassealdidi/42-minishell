@@ -6,15 +6,15 @@ INCS			= $(INCS_DIR)minishell.h $(INCS_DIR)types.h
 LIBFT_DIR		= lib/libft/
 LIBFT			= $(LIBFT_DIR)libft.a
 CFLAGS			= -I$(INCS_DIR) -I$(LIBFT_DIR) 
-CFLAGS			+= -Wall -Werror -Wextra
-CFLAGS			+= -g -fsanitize=address
+#CFLAGS			+= -Wall -Werror -Wextra
 NAME			= minishell
 RM				= rm -rf
+CC				= cc #-g #-fsanitize=address
 
 all:			$(NAME)
 
 $(NAME) : $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 $(OBJS_DIR)%.o : %.c $(INCS)
 	@mkdir -p $(dir $@)

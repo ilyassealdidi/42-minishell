@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
 /*   Updated: 2024/09/13 09:51:50 by ialdidi          ###   ########.fr       */
@@ -114,7 +114,8 @@ int	set_command(t_object *obj, t_list *tokens, t_command **command)
 			return (destroy_command((*command)), FAILURE);
 		(*command)->is_builtin = is_builtin((*command)->argv[0]);
 	}
-	while (tokens && get_token(tokens)->type != PIPE)
+	token = get_token(tokens);
+	while (tokens && token->type != PIPE)
 	{
 		token = get_token(tokens);
 		if (is_redir(token) && redir_init(tokens, (*command)) == FAILURE)

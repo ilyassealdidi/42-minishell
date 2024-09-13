@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
 /*   Updated: 2024/09/11 01:04:55 by ialdidi          ###   ########.fr       */
@@ -61,6 +61,20 @@
 # define EMRCD "error retrieving current directory"
 # define SYNTAX_ERR "syntax error\n"
 
+
+//FDS
+# define NOTHING -1
+# define PIN 0
+# define POUT 1
+//
+# define CHILD 0
+
+//ERRORS
+# define FAILED -1
+# define ECMDNTFND 127
+# define MECMDNTFND "command not found"
+
+
 typedef enum e_token_type
 {
 	NONE,
@@ -86,13 +100,15 @@ typedef struct s_token
 
 typedef struct s_command
 {
-	char			*cmd;
-	int				argc;
-	char			**argv;
-	char			**envp;
-	bool			is_builtin;
 	int				in;
 	int				out;
+	int				argc;
+	int				herdoc;
+	char			*cmd;
+	char			**argv;
+	char			**envp;
+	bool			has_redir;	//* if has redirection set it to true.
+	bool			is_builtin;
 }	t_command;
 
 typedef struct s_dictionnary
@@ -116,6 +132,8 @@ typedef struct s_object
 	t_list			*env;
 	int				exit_status;
 	int				received_signals;
+	int				pipefd[2];
+	int				saved_fds[2];
 }	t_object;
 
 #endif

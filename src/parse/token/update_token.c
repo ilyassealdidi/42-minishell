@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   update_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
 /*   Updated: 2024/09/10 17:07:34 by ialdidi          ###   ########.fr       */
@@ -58,6 +58,7 @@ static void	update_token_type(t_list *head, t_token *new)
 static void	lower_case(unsigned int i, char *c)
 {
 	(void)i;
+
 	*c = ft_tolower(*c);
 }
 

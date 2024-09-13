@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_forkme.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 18:45:48 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/08 01:06:39 by aaitelka         ###   ########.fr       */
+/*   Created: 2024/09/07 00:43:02 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/07 23:57:20 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	interrupt(int sig)
+pid_t	ft_forkme(t_object *obj)
 {
-	g_received_signal++;
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	pid_t	pid;
 
-void	init_signals(void)
-{
-	rl_catch_signals = 0;
-	signal(SIGINT, interrupt);
-	signal(SIGQUIT, SIG_IGN);
+	pid = fork();
+	if (pid == FAILED)
+	{
+		ft_close(obj->pipefd[PIN]);
+		ft_close(obj->pipefd[POUT]);
+		perror("minishell: fork");
+	}
+	return (pid);
 }
