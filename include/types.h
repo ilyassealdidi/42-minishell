@@ -13,6 +13,8 @@
 #ifndef TYPES_H
 # define TYPES_H
 
+
+
 /*		Debug - start		*/
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
@@ -60,6 +62,7 @@
 # define EMTMA "too many arguments"
 # define EMRCD "error retrieving current directory"
 # define SYNTAX_ERR "syntax error\n"
+# define EMCNF "command not found"
 
 //FDS
 # define NOTHING -1
@@ -71,7 +74,6 @@
 //ERRORS
 # define FAILED -1
 # define ECMDNTFND 127
-# define MECMDNTFND "command not found"
 
 
 typedef enum e_token_type

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   insert_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/31 12:11:23 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 06:36:50 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,32 @@ static int	insert_token(t_list **head, t_token *new)
 /*
 	Remove this function
 */
-// static int	split_variable(t_object *obj, t_token *token)
-// {
-// 	t_token			new;
-// 	int				i;
-// 	char			**strs;
+static int	split_variable(t_object *obj, t_token *token)
+{
+	t_token			new;
+	int				i;
+	char			**strs;
 
-// 	if (token->content == NULL)
-// 		return (SUCCESS);
-// 	strs = ft_split(token->content, ' ');
-// 	if (strs == NULL)
-// 		return (FAILURE);
-// 	if (*strs == NULL)
-// 		return (free(*strs), SUCCESS);
-// 	i = 0;
-// 	while (strs[i])
-// 	{
-// 		ft_memset(&new, 0, sizeof(t_token));
-// 		new.content = strs[i];
-// 		new.type = ARG;
-// 		if (strs[i + 1] == NULL && is_joinable(token))
-// 			new.state |= JOINABLE;
-// 		ft_appendtoken(obj, &new);
-// 		i++;
-// 	}
-// 	return (SUCCESS);
-// }
+	if (token->content == NULL)
+		return (SUCCESS);
+	strs = ft_split(token->content, ' ');
+	if (strs == NULL)
+		return (FAILURE);
+	if (*strs == NULL)
+		return (free(*strs), SUCCESS);
+	i = 0;
+	while (strs[i])
+	{
+		ft_memset(&new, 0, sizeof(t_token));
+		new.content = strs[i];
+		new.type = ARG;
+		if (strs[i + 1] == NULL && is_joinable(token))
+			new.state |= JOINABLE;
+		ft_appendtoken(obj, &new);
+		i++;
+	}
+	return (SUCCESS);
+}
 
 int	ft_appendtoken(t_object *obj, t_token *new)
 {

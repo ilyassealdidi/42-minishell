@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_dup.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 13:27:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/12 21:08:19 by aaitelka         ###   ########.fr       */
+/*   Created: 2024/09/06 23:15:42 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/11 23:26:25 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	print_env(void *content)
+void	ft_close(int fd)
 {
-	t_environment	*env;
-
-	env = content;
-	if (env->hidden == true || env->element.value == NULL)
+	if (fd == NOTHING)
 		return ;
-	printf("%s=%s\n", env->element.key, env->element.value);
+	if (close(fd) == FAILED)
+		return ;
 }
 
-void	builtin_env(t_object *obj)
+void	ft_dup(int from, int to, int to_close)
 {
-	ft_lstiter(obj->env, print_env);
+	ft_close(to_close);
+	if (dup2(from, to) == FAILED)
+		perror("minishell: dup2");
+	ft_close(from);
 }
