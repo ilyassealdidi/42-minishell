@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 14:41:45 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 12:11:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,18 @@ static long	get_number(const char *str)
 	return (num * sign);
 }
 
-int	builtin_exit(t_object *obj, t_command *command, bool is_child)
+int	builtin_exit(t_object *obj, t_command *command)
 {
 	unsigned char	nb;
 	char			*value;
 
 	nb = 0;
-	// ft_lstclear(&obj->env, destroy_env);
-	// ft_lstclear(&obj->commands, destroy_command);
-	if (!is_child)
-		printf("exit\n");
+	if (ft_lstsize(obj->commands) == 1)
+	{
+		// ft_lstclear(&obj->env, destroy_env);
+		// ft_lstclear(&obj->commands, destroy_command);
+		ft_dprintf(STDERR_FILENO, "exit\n");
+	}
 	if (command->argc >= 2)
 	{
 		value = ft_strtrim(command->argv[1], " \t");

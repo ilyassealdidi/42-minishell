@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 15:30:00 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 11:19:34 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	update_pwd(t_object *obj)
 	dict.value = getcwd(NULL, 0);
 	if (dict.value == NULL || set_env(&obj->env, dict) == FAILURE)
 		return (free(dict.value), FAILURE);
+	free(dict.value);
 	return (SUCCESS);
 }
 
