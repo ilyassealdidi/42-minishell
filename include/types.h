@@ -13,6 +13,8 @@
 #ifndef TYPES_H
 # define TYPES_H
 
+
+
 /*		Debug - start		*/
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"

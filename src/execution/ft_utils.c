@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 13:27:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/12 21:08:19 by aaitelka         ###   ########.fr       */
+/*   Created: 2024/08/24 16:42:10 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/11 23:28:49 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	print_env(void *content)
+bool	has_redirection(t_command *cmd)
 {
-	t_environment	*env;
-
-	env = content;
-	if (env->hidden == true || env->element.value == NULL)
-		return ;
-	printf("%s=%s\n", env->element.key, env->element.value);
+	return (cmd->in > 2 || cmd->out > 2);
 }
 
-void	builtin_env(t_object *obj)
+bool	has_next(t_list *node)
 {
-	ft_lstiter(obj->env, print_env);
+	return (node->next != NULL);
+}
+
+bool	is_parent(pid_t pid)
+{
+	return (pid != CHILD);
+}
+
+bool	is_child(pid_t pid)
+{
+	return (pid == CHILD);
 }

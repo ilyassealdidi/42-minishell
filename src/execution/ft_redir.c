@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_redir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 13:27:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/12 21:08:19 by aaitelka         ###   ########.fr       */
+/*   Created: 2024/09/08 06:13:03 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/11 01:48:48 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	print_env(void *content)
+//redirect the file descriptor to the right place
+//2 means another file are opened
+//so we need to duplicate it to the std{in||out}
+void	ft_redirect(t_command *cmd)
 {
-	t_environment	*env;
-
-	env = content;
-	if (env->hidden == true || env->element.value == NULL)
-		return ;
-	printf("%s=%s\n", env->element.key, env->element.value);
+	if (cmd->in > 2)
+		ft_dup(cmd->in, STDIN_FILENO, NOTHING);
+	if (cmd->out > 2)
+		ft_dup(cmd->out, STDOUT_FILENO, NOTHING);
 }
 
-void	builtin_env(t_object *obj)
+void	ft_close_redirections(t_command *cmd)
 {
-	ft_lstiter(obj->env, print_env);
+	if (cmd->in > 2)
+		ft_close(cmd->in);
+	if (cmd->out > 2)
+		ft_close(cmd->out);
 }

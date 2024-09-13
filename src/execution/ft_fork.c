@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 13:27:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/12 21:08:19 by aaitelka         ###   ########.fr       */
+/*   Created: 2024/09/07 00:43:02 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/11 23:08:42 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	print_env(void *content)
+pid_t	ft_fork(t_command *cmd)
 {
-	t_environment	*env;
+	pid_t	pid;
 
-	env = content;
-	if (env->hidden == true || env->element.value == NULL)
-		return ;
-	printf("%s=%s\n", env->element.key, env->element.value);
-}
-
-void	builtin_env(t_object *obj)
-{
-	ft_lstiter(obj->env, print_env);
+	pid = fork();
+	if (pid == FAILED)
+		perror("minishell: fork");
+	return (pid);
 }

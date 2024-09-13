@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 22:59:55 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/12 03:47:12 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,18 @@ static void	print_env(t_list *head)
 	t_list			*node;
 	t_environment	*env;
 	int				list_size;
-	int				i;
 
-	i = 1;
-	list_size = ft_lstsize(head) - 1;
+	list_size = ft_lstsize(head);
 	node = head;
-	while (i <= list_size)
+	while (list_size--)
 	{
 		env = node->content;
-		if (env->hidden == false && env->index == i)
+		if (env->hidden == false)
 		{
-			ft_printf("%d declare -x %s", env->index, env->element.key);
+			ft_printf("declare -x %s", env->element.key);
 			if (env->element.value != NULL)
 				ft_printf("=\"%s\"", env->element.value);
 			ft_printf("\n");
-			i++;
 		}
 		node = node->next;
 		if (node == NULL)

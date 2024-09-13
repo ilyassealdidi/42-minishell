@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/10 15:30:00 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 05:47:57 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	update_oldpwd(t_object *obj)
 	dict.key = "OLDPWD";
 	dict.value = get_env(obj->env, "PWD");
 	if (dict.value != NULL && set_env(&obj->env, dict) == FAILURE)
-		return (FAILURE);
+		return (free(dict.value), FAILURE);
 	return (SUCCESS);
 }
 
@@ -31,6 +31,7 @@ int	update_pwd(t_object *obj)
 	dict.value = getcwd(NULL, 0);
 	if (dict.value == NULL || set_env(&obj->env, dict) == FAILURE)
 		return (free(dict.value), FAILURE);
+	free(dict.value);
 	return (SUCCESS);
 }
 

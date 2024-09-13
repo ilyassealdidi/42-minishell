@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_fds.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 13:27:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/12 21:08:19 by aaitelka         ###   ########.fr       */
+/*   Created: 2024/09/08 06:30:37 by aaitelka          #+#    #+#             */
+/*   Updated: 2024/09/11 23:21:19 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	print_env(void *content)
+void	ft_save_fd(int *fd, int src)
 {
-	t_environment	*env;
-
-	env = content;
-	if (env->hidden == true || env->element.value == NULL)
-		return ;
-	printf("%s=%s\n", env->element.key, env->element.value);
-}
-
-void	builtin_env(t_object *obj)
-{
-	ft_lstiter(obj->env, print_env);
+	*fd = dup(src);
+	if (*fd == FAILED)
+		perror("minishell: dup");
 }
