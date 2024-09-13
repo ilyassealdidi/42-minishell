@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 09:51:50 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 23:42:08 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static char	*dict_toenv(t_dictionnary *dict)
 	char			*key;
 	char			*env;
 
+	if (dict->value == NULL)
+		return (ft_strdup(dict->key));
 	key = ft_strjoin(dict->key, "=");
 	if (key == NULL)
 		return (NULL);

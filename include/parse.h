@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 00:57:58 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 23:34:38 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int				builtin_pwd(t_object *obj);
 int				builtin_export(t_object *obj, t_command *cmd);
 int				builtin_unset(t_object *obj, t_command *cmd);
 void			builtin_env(t_object *obj);
-int				builtin_exit(t_object *obj, t_command *command, bool is_child);
+int				builtin_exit(t_object *obj, t_command *command);
 
 /*		Signals	Mangement		*/
 void			init_signals(void);

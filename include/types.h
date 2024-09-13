@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 01:04:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 23:35:24 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@
 # define EMNAR "numeric argument required"
 # define EMTMA "too many arguments"
 # define EMRCD "error retrieving current directory"
+# define EMCNF "command not found"
 # define SYNTAX_ERR "syntax error\n"
 
 //FDS
@@ -71,7 +72,6 @@
 //ERRORS
 # define FAILED -1
 # define ECMDNTFND 127
-# define MECMDNTFND "command not found"
 
 
 typedef enum e_token_type

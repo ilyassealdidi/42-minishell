@@ -6,11 +6,33 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:21:57 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 00:23:01 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 00:22:38 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+/**
+ * Decrements the index of all environment variables in the given list
+ * that have an index greater than the specified index.
+ *
+ * @param env_list The list of environment variables.
+ * @param index The index to compare against.
+ */
+void	decrement_env_index(t_list *env_list, int index)
+{
+	t_list			*node;
+	t_environment	*env;
+
+	node = env_list;
+	while (node)
+	{
+		env = node->content;
+		if (env->index > index)
+			env->index--;
+		node = node->next;
+	}
+}
 
 /**
  * Removes an environment variable from the given environment list.
@@ -29,6 +51,7 @@ void	unset_env(t_list **env_list, char *key)
 		env = node->content;
 		if (ft_strcmp(env->element.key, key) == 0)
 		{
+			decrement_env_index(node->next, env->index);
 			if (node->previous == NULL)
 				*env_list = node->next;
 			else

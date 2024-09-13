@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/13 12:45:40 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/13 23:54:31 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	ft_exec_bin(t_object *obj)
 			ft_pipe(cmd->pipefd);
 		if (ft_child(obj, cmds, cmd) == FAILED)
 		{
-			ft_close(cmd->pipefd[POUT]);	
+			ft_close(cmd->pipefd[POUT]);
 			break ;
 		}
 		cmds = cmds->next;

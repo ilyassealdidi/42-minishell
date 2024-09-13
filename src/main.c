@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 13:14:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 23:54:44 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int	update_exit_status(t_object *obj)
 	return (SUCCESS);
 }
 
-void	f(){system("leaks minishell");}
+void	f(void)
+{
+	system("leaks minishell");
+}
 
 int	main(int argc, char **argv, char **env)
 {
