@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:36:40 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 20:53:01 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static void	print_env(t_list *head)
 		env = node->content;
 		if (env->hidden == false && env->index == i)
 		{
-			printf("%d declare -x %s", env->index, env->element.key);
+			ft_printf("%d declare -x %s", env->index, env->element.key);
 			if (env->element.value != NULL)
-				printf("=\"%s\"", env->element.value);
-			printf("\n");
+				ft_printf("=\"%s\"", env->element.value);
+			ft_printf("\n");
 			i++;
 		}
 		node = node->next;
@@ -57,7 +57,8 @@ static bool	is_valid_identifier(char *str)
 	return (VALID);
 }
 
-static int	set_dict(t_dictionnary *dict, char *env, char *equal) //update the function's name
+//update the function's name
+static int	set_dict(t_dictionnary *dict, char *env, char *equal)
 {
 	if (equal == NULL)
 	{
@@ -84,10 +85,11 @@ static int	export_env(t_object *obj, char *arg)
 	equal = ft_strchr(arg, '=');
 	if (set_dict(&dict, arg, equal) == FAILURE)
 		return (FAILURE);
-	if (equal != NULL && equal[-1] == '+' && append_env(&obj->env, dict) == FAILURE)
-			return (destroy_dictionnary(&dict), FAILURE);
+	if (equal != NULL && equal[-1] == '+'
+		&& append_env(&obj->env, dict) == FAILURE)
+		return (destroy_dictionnary(&dict), FAILURE);
 	else if (set_env(&obj->env, dict) == FAILURE)
-			return (destroy_dictionnary(&dict), FAILURE);
+		return (destroy_dictionnary(&dict), FAILURE);
 	destroy_dictionnary(&dict);
 	return (SUCCESS);
 }
@@ -96,21 +98,19 @@ int	builtin_export(t_object *obj, t_command *cmd)
 {
 	int				i;
 
-	i = 0;
+	i = 1;
 	if (cmd->argc == 1)
 		return (print_env(obj->env), SUCCESS);
-	while (cmd->argv[++i])
+	while (cmd->argv[i])
 	{
 		if (is_valid_identifier(cmd->argv[i]) == INVALID)
 		{
-			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-			ft_putstr_fd(cmd->argv[i], STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+			ft_error(EXPORT, cmd->argv[i], EMNVI);
 			obj->exit_status = 1;
-			continue ;
 		}
-		if (export_env(obj, cmd->argv[i]) == FAILURE)
+		else if (export_env(obj, cmd->argv[i]) == FAILURE)
 			return (FAILURE);
+		i++;
 	}
 	return (SUCCESS);
 }

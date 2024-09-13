@@ -1,0 +1,22 @@
+Next :
+	Done with Signals
+
+Mandatory :
+	Heredoc
+
+Recommended :
+	seperate header files
+	Open heredoc in childs
+
+Optional :
+	Ambigious Redirection
+
+Suggestions :
+	use strtok
+	seperate header files, one for parsing, one for executing
+
+Ideas :
+	Use Subtoknes
+
+Warning :
+	Avoid freeing string literals in dict

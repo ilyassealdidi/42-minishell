@@ -6,8 +6,8 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/03 18:29:41 by aaitelka         ###   ########.fr       */
-/*                                                                           */
+/*   Updated: 2024/09/11 01:04:55 by ialdidi          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
@@ -43,9 +43,23 @@
 # define VALID 1
 # define INVALID 0
 
-# define MEMORY_ERR "for no particular reason, malloc has failed!\n"
+# define PROMPT "\033[0;32m➜\033[0m "
+
+# define EXIT "exit"
+# define ECHO "echo"
+# define CD "cd"
+# define PWD "pwd"
+# define EXPORT "export"
+# define UNSET "unset"
+# define ENV "env"
+
+# define EMBASE "minishell"
+# define EMNVI "not a valid identifier"
+# define EMHNS "HOME not set"
+# define EMNAR "numeric argument required"
+# define EMTMA "too many arguments"
+# define EMRCD "error retrieving current directory"
 # define SYNTAX_ERR "syntax error\n"
-// # define AMBIGUOUS_REDIRECT "minishell: %s: ambiguous redirect\n" //! to be removed
 
 
 //FDS
@@ -80,7 +94,7 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			*content;
-	unsigned 		state;
+	unsigned int	state;
 	t_token_type	type;
 }	t_token;
 

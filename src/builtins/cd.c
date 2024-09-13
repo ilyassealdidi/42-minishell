@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/24 16:37:24 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 11:19:34 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	update_pwd(t_object *obj)
 	dict.value = getcwd(NULL, 0);
 	if (dict.value == NULL || set_env(&obj->env, dict) == FAILURE)
 		return (free(dict.value), FAILURE);
+	free(dict.value);
 	return (SUCCESS);
 }
 
@@ -44,19 +45,16 @@ int	builtin_cd(t_object *obj, t_command *command)
 		path = command->argv[1];
 	if (path == NULL)
 	{
-		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
+		ft_error(CD, EMHNS, NULL);
 		obj->exit_status = 1;
 		return (FAILURE);
 	}
 	if (chdir(path) == -1)
 	{
-		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		ft_error(CD, path, NULL);
 		obj->exit_status = 1;
 		return (FAILURE);
 	}
-	;
 	if (update_oldpwd(obj) == FAILURE || update_pwd(obj) == FAILURE)
 		return (obj->exit_status = 1, FAILURE);
 	return (SUCCESS);

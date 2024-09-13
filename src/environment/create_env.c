@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:19:36 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 16:20:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 09:41:55 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@
 void	set_index(t_environment *new, t_list *env_list)
 {
 	t_environment	*node;
-	int				index;
 	int				ret;
 
 	if (new->hidden == true)
 		return ;
-	index = 0;
 	while (env_list)
 	{
 		node = env_list->content;
@@ -59,11 +57,11 @@ void	set_index(t_environment *new, t_list *env_list)
  * @return Returns SUCCESS if the environment variable is successfully inserted,
  * otherwise FAILURE.
  */
-int insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
+int	insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
 {
-	t_list          *new;
-	t_environment   *env;
-	t_dictionnary   newdict;
+	t_list			*new;
+	t_environment	*env;
+	t_dictionnary	newdict;
 
 	newdict.key = ft_strdup(dict.key);
 	if (dict.value != NULL)

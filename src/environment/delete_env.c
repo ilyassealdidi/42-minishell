@@ -6,13 +6,19 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:21:57 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 16:21:36 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 00:23:01 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	unset_env(t_list **env_list, char *key)
+/**
+ * Removes an environment variable from the given environment list.
+ *
+ * @param env_list The pointer to the head of the environment list.
+ * @param key The key of the environment variable to be removed.
+ */
+void	unset_env(t_list **env_list, char *key)
 {
 	t_list			*node;
 	t_environment	*env;
@@ -32,9 +38,8 @@ int	unset_env(t_list **env_list, char *key)
 					node->next->previous = node->previous;
 			}
 			ft_lstdelone(node, destroy_env);
-			return (SUCCESS);
+			break ;
 		}
 		node = node->next;
 	}
-	return (FAILURE);
 }

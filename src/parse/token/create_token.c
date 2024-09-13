@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/31 13:01:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/10 17:01:19 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	set_next_token(char **line, t_token *token)
 		token->content = NULL;
 	*line += len + 2 * is_quoted(token);
 	token->state |= JOINABLE * (ft_strchr(" <>|\t", **line) == NULL
-		&& **line != '\0' && token->type == ARG);
+			&& **line != '\0' && token->type == ARG);
 	return (SUCCESS);
 }
 
@@ -102,9 +102,10 @@ int	tokens_init(t_object *obj, char *line)
 			return (ft_lstclear(&obj->tokens, destroy_token), ret);
 		if (expand_vars(obj, &token) == FAILURE
 			|| ft_appendtoken(obj, &token) == FAILURE)
-			return (free(token.content), FAILURE);
+			return (free(token.content),
+				ft_lstclear(&obj->tokens, destroy_token), FAILURE);
 	}
-	if (is_valid_syntax(obj->tokens) == ERROR)
+	if (obj->tokens && is_valid_syntax(obj->tokens) == ERROR)
 		return (ft_lstclear(&obj->tokens, destroy_token), ERROR);
 	return (SUCCESS);
 }

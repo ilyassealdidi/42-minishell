@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:24:08 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/20 15:24:12 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/11 00:24:19 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
  * @return Returns SUCCESS if the operation is successful,
  * otherwise returns FAILURE.
  */
-int append_env(t_list **env_list, t_dictionnary dict)
+int	append_env(t_list **env_list, t_dictionnary dict)
 {
-	t_list          *tmp;
-	t_dictionnary   *element;
+	t_list			*tmp;
+	t_dictionnary	*element;
 
 	tmp = *env_list;
 	while (tmp)

@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/05 17:53:54 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:07:34 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	contains_command(t_list *head)
 
 static void	update_token_type(t_list *head, t_token *new)
 {
-	t_token	*last;
+	t_token			*last;
 
 	if (new->type == REDIR_IN || new->type == HEREDOC
 		|| new->type == PIPE || new->type == REDIR_OUT
@@ -58,7 +58,8 @@ static void	update_token_type(t_list *head, t_token *new)
 static void	lower_case(unsigned int i, char *c)
 {
 	(void)i;
-	*c = ft_tolower(c[0]);
+
+	*c = ft_tolower(*c);
 }
 
 void	update_token(t_list *head, t_token *new)
