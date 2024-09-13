@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/13 11:32:49 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:45:40 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_run(t_list *cmds, t_command *cmd)
 		if (cmd->cmd[0] == '.')
 			ft_error(NULL, cmd->cmd, NULL);
 		else
-			ft_error(NULL, cmd->cmd, "command not found");
+			ft_error(NULL, cmd->cmd, EMCNF);
 	}
 	exit(127);
 }
