@@ -6,14 +6,12 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/03 18:29:41 by aaitelka         ###   ########.fr       */
-/*                                                                           */
+/*   Updated: 2024/09/11 01:04:55 by ialdidi          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
-
-
 
 /*		Debug - start		*/
 # define RED "\033[0;31m"
@@ -45,7 +43,7 @@
 # define VALID 1
 # define INVALID 0
 
-# define PROMPT "\033[0;32m↪\033[0m "
+# define PROMPT "\033[0;32m➜\033[0m "
 
 # define EXIT "exit"
 # define ECHO "echo"
@@ -95,7 +93,7 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			*content;
-	unsigned 		state;
+	unsigned int	state;
 	t_token_type	type;
 }	t_token;
 

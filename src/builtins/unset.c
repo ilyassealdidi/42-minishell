@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:30:50 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 10:32:50 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/13 11:24:46 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	is_valid_identifier(char *str)
 {
-	int	i;
+	int				i;
 
 	if (!ft_isalpha(*str) && *str != '_')
 		return (INVALID);
@@ -30,7 +30,7 @@ static bool	is_valid_identifier(char *str)
 
 int	builtin_unset(t_object *obj, t_command *command)
 {
-	int	i;
+	int				i;
 
 	i = 1;
 	while (command->argv[i])

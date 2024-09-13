@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 12:04:29 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:11:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	builtin_exit(t_object *obj, t_command *command)
 	nb = 0;
 	if (ft_lstsize(obj->commands) == 1)
 	{
-		ft_lstclear(&obj->env, destroy_env);
-		ft_lstclear(&obj->commands, destroy_command);
+		// ft_lstclear(&obj->env, destroy_env);
+		// ft_lstclear(&obj->commands, destroy_command);
 		ft_dprintf(STDERR_FILENO, "exit\n");
 	}
 	if (command->argc >= 2)

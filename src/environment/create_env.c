@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:19:36 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 00:23:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/13 09:41:55 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@
 void	set_index(t_environment *new, t_list *env_list)
 {
 	t_environment	*node;
-	int				index;
 	int				ret;
 
 	if (new->hidden == true)
 		return ;
-	index = 0;
 	while (env_list)
 	{
 		node = env_list->content;

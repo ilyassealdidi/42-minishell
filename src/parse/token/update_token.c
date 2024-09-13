@@ -58,6 +58,7 @@ static void	update_token_type(t_list *head, t_token *new)
 static void	lower_case(unsigned int i, char *c)
 {
 	(void)i;
+
 	*c = ft_tolower(*c);
 }
 

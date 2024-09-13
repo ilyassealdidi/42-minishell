@@ -47,7 +47,8 @@ void	display_token(void *content)
 			if (tmp->type != DELIMITER && is_expandable(tmp))
 				printf("Expandable, ");
 			if (is_quoted(tmp))
-				printf("Quoted\n");
+				printf("Quoted");
+			printf("\n");
 		}
 	}
 	printf(RED"_____________________________\n"RESET);

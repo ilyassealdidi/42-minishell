@@ -23,7 +23,7 @@ int	builtin_pwd(t_object *obj)
 		obj->exit_status = 1;
 		return (FAILURE);
 	}
-	ft_printf("%s\n", pwd);
+	printf("%s\n", pwd);
 	free(pwd);
 	return (SUCCESS);
 }
