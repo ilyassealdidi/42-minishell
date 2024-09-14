@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 11:19:34 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 11:31:16 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	builtin_cd(t_object *obj, t_command *command)
 		path = command->argv[1];
 	if (path == NULL)
 	{
-		ft_error(CD, EMHNS, NULL);
+		ft_error(CD, NULL, EMHNS);
 		obj->exit_status = 1;
 		return (FAILURE);
 	}
