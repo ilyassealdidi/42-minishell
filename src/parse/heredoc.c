@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 00:18:17 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 12:13:58 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,20 @@ static char	*generate_filename(void)
 	return (name);
 }
 
+void	heredoc_signal_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		g_received_signal = 1;
+		// g_data.exit_status = 1;
+		// g_data.sig = 1;
+		// g_data.sigflag = 1;
+		rl_replace_line("", 0);
+		printf("\n");
+		close(0);
+	}
+}
+
 static int	heredoc(t_object *obj, t_list *node)
 {
 	t_token			*token;
@@ -49,26 +63,26 @@ static int	heredoc(t_object *obj, t_list *node)
 	}
 	while (1)
 	{
+		// signal(SIGINT, heredoc_signal_handler);
 		line = readline("> ");
-		if (line == NULL && g_received_signal != obj->received_signals)
-		{
-			update_exit_status(obj);
-			free(line);
-			break ;
-		}
+		// if (line == NULL && /*g_received_signal != obj->received_signals*/)
+		// {
+		// 	// update_exit_status(obj);
+		// 	free(line);
+		// 	break ;
+		// }
 		if (line == NULL || ft_strcmp(line, token->content) == 0)
 		{
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(line, fd);
+		ft_dprintf(fd, "%s\n", line);
 		free(line);
 	}
 	close(fd);
 	free(token->content);
 	token->content = filename;
 	token->type = INFILE;
-	((t_token *)(node->previous->content))->type = REDIR_IN;
 	return (SUCCESS);
 }
 

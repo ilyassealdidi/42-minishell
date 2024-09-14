@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 11:31:16 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 11:36:02 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ int	update_oldpwd(t_object *obj)
 
 	dict.key = "OLDPWD";
 	dict.value = get_env(obj->env, "PWD");
-	if (dict.value != NULL && set_env(&obj->env, dict) == FAILURE)
-		return (FAILURE);
+	if (dict.value != NULL)
+	{
+		if (set_env(&obj->env, dict) == FAILURE)
+			return (FAILURE);
+	}
 	return (SUCCESS);
 }
 

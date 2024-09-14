@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 23:37:19 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 12:29:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int	generate_commands(t_object *obj)
 		return (perror(EMBASE), ft_lstclear(&obj->tokens, destroy_token),
 			FAILURE);
 	ft_lstclear(&obj->tokens, destroy_token);
+	// ft_lstiter(obj->commands, display_command);
 	return (SUCCESS);
 }
