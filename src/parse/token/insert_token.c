@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 11:10:40 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 23:06:49 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,37 +31,39 @@ static int	insert_token(t_list **head, t_token *new)
 /*
 	Remove this function
 */
-// static int	split_variable(t_object *obj, t_token *token)
-// {
-// 	t_token			new;
-// 	int				i;
-// 	char			**strs;
+static int	split_variable(t_object *obj, t_token *token)
+{
+	t_token			new;
+	int				i;
+	char			**strs;
 
-// 	if (token->content == NULL)
-// 		return (SUCCESS);
-// 	strs = ft_split(token->content, ' ');
-// 	if (strs == NULL)
-// 		return (FAILURE);
-// 	if (*strs == NULL)
-// 		return (free(*strs), SUCCESS);
-// 	i = 0;
-// 	while (strs[i])
-// 	{
-// 		ft_memset(&new, 0, sizeof(t_token));
-// 		new.content = strs[i];
-// 		new.type = ARG;
-// 		if (strs[i + 1] == NULL && is_joinable(token))
-// 			new.state |= JOINABLE;
-// 		ft_appendtoken(obj, &new);
-// 		i++;
-// 	}
-// 	return (SUCCESS);
-// }
+	if (token->content == NULL)
+		return (SUCCESS);
+	strs = ft_split(token->content, ' ');
+	if (strs == NULL)
+		return (FAILURE);
+	if (*strs == NULL)
+		return (free(*strs), SUCCESS);
+	i = 0;
+	while (strs[i])
+	{
+		ft_memset(&new, 0, sizeof(t_token));
+		new.content = strs[i];
+		new.type = ARG;
+		if (strs[i + 1] == NULL && is_joinable(token))
+			new.state |= JOINABLE;
+		ft_appendtoken(obj, &new);
+		i++;
+	}
+	return (SUCCESS);
+}
 
 int	ft_appendtoken(t_object *obj, t_token *new)
 {
 	t_token			*token;
 
+	if (is_expandable(new) && !is_quoted(new))
+		return (split_variable(obj, new));
 	update_token(obj->tokens, new);
 	if (obj->tokens != NULL && is_joinable(get_last_token(obj->tokens)))
 	{

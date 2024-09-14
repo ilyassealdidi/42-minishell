@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 10:42:27 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 23:01:41 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,13 @@ static long	get_number(const char *str)
 	return (num * sign);
 }
 
+static void 	ft_exit(t_object *obj, int status)
+{
+	ft_lstclear(&obj->commands, destroy_command);
+	ft_lstclear(&obj->env, destroy_env);
+	exit(status);
+}
+
 int	builtin_exit(t_object *obj, t_command *command)
 {
 	unsigned char	nb;
@@ -78,11 +85,7 @@ int	builtin_exit(t_object *obj, t_command *command)
 
 	nb = 0;
 	if (ft_lstsize(obj->commands) == 1)
-	{
-		ft_lstclear(&obj->env, destroy_env);
-		ft_lstclear(&obj->commands, destroy_command);
 		ft_dprintf(STDERR_FILENO, "exit\n");
-	}
 	if (command->argc >= 2)
 	{
 		value = ft_strtrim(command->argv[1], " \t");
@@ -93,10 +96,12 @@ int	builtin_exit(t_object *obj, t_command *command)
 		if (errno != 0)
 		{
 			ft_error(EXIT, command->argv[1], EMNAR);
-			exit(255);
+			// exit(255);
+			ft_exit(obj, -1);
 		}
 		if (command->argc > 2)
 			return (ft_error(EXIT, NULL, EMTMA), obj->exit_status = 1, SUCCESS);
 	}
-	exit(nb);
+	// exit(nb);
+	ft_exit(obj, nb);
 }

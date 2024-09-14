@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 21:31:54 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 22:05:34 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,13 @@ static int	heredoc(t_object *obj, t_list *node)
 	read_fd = open(filename, O_RDONLY);
 	if (read_fd == -1 || write_fd == -1)
 	{
+		close(read_fd);//!
 		free(filename);
 		perror(strerror(errno));
 		return (FAILURE);
 	}
 	unlink(filename);
+	free(filename);
 	while (1)
 	{
 		// signal(SIGINT, heredoc_signal_handler);
@@ -85,6 +87,8 @@ static int	heredoc(t_object *obj, t_list *node)
 	close(write_fd);
 	free(token->content);
 	token->content = ft_itoa(read_fd); //! malloc ya weldi
+	if (token->content == NULL)
+		return (close(read_fd), FAILURE);
 	token->type = INFILE;
 	return (SUCCESS);
 }
