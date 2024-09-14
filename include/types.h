@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 23:35:24 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 10:52:50 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,11 @@ typedef struct s_command
 	int				in;
 	int				out;
 	int				argc;
-	int				herdoc;
 	int				pipefd[2];
 	pid_t			pid;
 	char			*cmd;
 	char			**argv;
 	char			**envp;
-	bool			has_redir;	//* if has redirection set it to true.
 	bool			is_builtin;
 }	t_command;
 
@@ -124,6 +122,12 @@ typedef struct s_environment
 	bool			hidden;
 	int				index;
 }	t_environment;
+
+// typedef struct s_builtin
+// {
+// 	char			*name;
+// 	int				(*function)(t_object *, t_command *);
+// }	t_builtin;
 
 typedef struct s_object
 {

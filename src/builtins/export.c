@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 00:27:38 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 11:17:36 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,17 @@ static int	export_env(t_object *obj, char *arg)
 {
 	t_dictionnary	dict;
 	char			*equal;
+	int				status;
 
 	equal = ft_strchr(arg, '=');
 	if (set_dict(&dict, arg, equal) == FAILURE)
 		return (FAILURE);
-	if (equal != NULL && equal[-1] == '+'
-		&& append_env(&obj->env, dict) == FAILURE)
-		return (destroy_dictionnary(&dict), FAILURE);
-	else if (set_env(&obj->env, dict) == FAILURE)
-		return (destroy_dictionnary(&dict), FAILURE);
+	if (equal != NULL && equal[-1] == '+')
+		status = append_env(&obj->env, dict);
+	else
+		status = set_env(&obj->env, dict);
 	destroy_dictionnary(&dict);
-	return (SUCCESS);
+	return (status);
 }
 
 int	builtin_export(t_object *obj, t_command *cmd)
