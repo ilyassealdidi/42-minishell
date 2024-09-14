@@ -48,6 +48,8 @@
 		"optional": "c",
 		"system_error": "c",
 		"complex": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"wait.h": "c",
+		"exec.h": "c"
 	}
 }

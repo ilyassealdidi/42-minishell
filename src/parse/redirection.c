@@ -6,12 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:14:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 12:27:18 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 21:31:37 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+//! Norm
 int	redir_init(t_list *node, t_command *command)
 {
 	t_token			*token;
@@ -23,9 +24,10 @@ int	redir_init(t_list *node, t_command *command)
 	{
 		if (command->in != 0)
 			close(command->in);
-		command->in = open(filename, O_RDONLY);
+		if (token->type == REDIR_IN)
+			command->in = open(filename, O_RDONLY);
 		if (token->type == HEREDOC)
-			unlink(filename);
+			command->in = ft_atoi(get_token(node->next)->content);
 	}
 	if (token->type == APPEND || token->type == REDIR_OUT)
 	{
