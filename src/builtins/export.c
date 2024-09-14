@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 11:17:36 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 19:28:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	print_env(t_list *head)
 		env = node->content;
 		if (env->hidden == false && env->index == i)
 		{
-			ft_printf("%d declare -x %s", env->index, env->element.key);
+			ft_printf("declare -x %s", env->element.key);
 			if (env->element.value != NULL)
 				ft_printf("=\"%s\"", env->element.value);
 			ft_printf("\n");

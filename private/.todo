@@ -9,6 +9,7 @@ Recommended :
 
 Optional :
 	Ambigious Redirection
+	Split Expanded variables
 
 Suggestions :
 	use strtok

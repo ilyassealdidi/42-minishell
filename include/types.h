@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 10:52:50 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/14 12:43:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_command
 	char			*cmd;
 	char			**argv;
 	char			**envp;
-	bool			is_builtin;
+	bool			is_builtin;	//! To be removed later
 }	t_command;
 
 typedef struct s_dictionnary
