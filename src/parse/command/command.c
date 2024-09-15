@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 11:36:22 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/15 21:39:13 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	commands_init(t_object *obj)
 			return (FAILURE);
 		if (command != NULL)
 		{
-			if (command->argc != 0 && !command->is_builtin
+			if (command->argc != 0 && !is_builtin(command->cmd)
 				&& set_cmd_path(obj, command) == FAILURE)
 				return (destroy_command(command), FAILURE);
 			if (command->argc > 0)

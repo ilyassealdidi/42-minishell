@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 23:42:08 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/15 21:39:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,8 @@ int	set_command(t_object *obj, t_list *tokens, t_command **command)
 		return (FAILURE);
 	(*command)->out = STDOUT_FILENO;
 	(*command)->argc = count_args(tokens);
-	if ((*command)->argc > 0)
-	{
-		if (set_args(tokens, (*command)) == FAILURE)
-			return (destroy_command((*command)), FAILURE);
-		(*command)->is_builtin = is_builtin((*command)->argv[0]);
-	}
+	if ((*command)->argc > 0 && set_args(tokens, (*command)) == FAILURE)
+		return (destroy_command((*command)), FAILURE);
 	token = get_token(tokens);
 	while (tokens && token->type != PIPE)
 	{
