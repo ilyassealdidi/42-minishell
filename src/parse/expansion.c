@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/15 21:57:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/15 23:21:23 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	expand_str(t_object *obj, char **str)
 	char			*new;
 	char			*ptr;
 
+	if (**str == '\0')
+		return (SUCCESS);
 	new = NULL;
 	while (**str != '\0')
 	{
