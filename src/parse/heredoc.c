@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/15 21:27:44 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/15 23:01:25 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,17 @@ void	heredoc_signal_handler(int signum)
 }
 
 
-
-void	write_line(t_object *obj, t_token *token, int fd, char *line)
+int	write_line(t_object *obj, t_token *token, int fd, char *line)
 {
 	if (is_quoted(token))
 		ft_dprintf(fd, "%s\n", line);
 	else
 	{
-		
+		if (expand_str(obj, &line) == FAILURE)
+			return (FAILURE);
+		ft_dprintf(fd, "%s\n", line);
 	}
+	return (SUCCESS);
 }
 
 static int	heredoc(t_object *obj, t_list *node)
@@ -84,10 +86,11 @@ static int	heredoc(t_object *obj, t_list *node)
 			free(line);
 			break ;
 		}
-		write_line(obj, token, fd, line);
-		ft_dprintf(fd, "%s\n", line);
+		if (write_line(obj, token, fd, line) == FAILURE)
+			return (close(fd), FAILURE); //!
 		free(line);
 	}
+	close(fd);
 	free(token->content);
 	token->content = filename;
 	return (SUCCESS);

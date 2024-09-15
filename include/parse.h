@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 19:20:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/15 21:55:00 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void			destroy_token(void *content);
 int				tokens_init(t_object *obj, char *line);
 
 /*		Expanding				*/
-int				expand_vars(t_object *obj, t_token *token);
+int				expand_str(t_object *obj, char **str);
+int				expand(t_object *obj, t_token *token);
 
 /*		Parsing					*/
 int				generate_commands(t_object *obj);
