@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 23:01:41 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/15 21:27:13 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,22 @@ static long	get_number(const char *str)
 	i = 0;
 	num = 0;
 	sign = 1;
-	while (isspace(str[i]))
+	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 		sign = 1 - 2 * (str[i++] == '-');
-	while (isdigit(str[i]))
+	while (ft_isdigit(str[i]))
 	{
 		if (num == LONG_MAX / 10 && str[i] - '0' == 8 && sign == -1
-			&& !isdigit(str[i + 1]))
+			&& !ft_isdigit(str[i + 1]))
 			return (LONG_MIN);
 		if (((num == LONG_MAX / 10 && str[i] - '0' > 7)
 				|| num > LONG_MAX / 10))
 			return (errno = ERANGE, LONG_MAX + (sign == -1));
 		num = num * 10 + str[i++] - '0';
 	}
-	if ((str[i] && !isdigit(str[i]))
-		|| (!isdigit(str[i]) && i > 0 && !isdigit(str[i - 1])))
+	if ((str[i] && !ft_isdigit(str[i]))
+		|| (!ft_isdigit(str[i]) && i > 0 && !ft_isdigit(str[i - 1])))
 		errno = EINVAL;
 	return (num * sign);
 }

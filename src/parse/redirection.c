@@ -6,13 +6,18 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:14:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 21:40:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/15 18:50:35 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//! Norm
+static void	close_fd(int fd, int default_fd)
+{
+	if (fd != default_fd)
+		close(fd);
+}
+
 int	redir_init(t_list *node, t_command *command)
 {
 	t_token			*token;
@@ -22,17 +27,15 @@ int	redir_init(t_list *node, t_command *command)
 	filename = get_token(node->next)->content;
 	if (token->type == REDIR_IN || token->type == HEREDOC)
 	{
-		if (command->in != 0)
-			close(command->in);
+		close_fd(command->in, STDIN_FILENO);
 		if (token->type == REDIR_IN)
 			command->in = open(filename, O_RDONLY);
-		if (token->type == HEREDOC)
-			command->in = ft_atoi(get_token(node->next)->content);
+		else
+			unlink(filename);
 	}
 	if (token->type == APPEND || token->type == REDIR_OUT)
 	{
-		if (command->out != 1)
-			close(command->out);
+		close_fd(command->out, STDOUT_FILENO);
 		if (token->type == APPEND)
 			command->out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else

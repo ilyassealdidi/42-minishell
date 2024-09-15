@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 22:37:35 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 21:00:16 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/15 13:21:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,17 @@
 
 int	main(int ac, char **av)
 {
-	char str[100];
+	char	str[100];
 
-	int fd = open("test.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	close(fd);
-	fd = open("test.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	unlink("test.txt");
+	int fd = open("heredoc", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	int fd2 = open("heredoc", O_RDONLY, 0644);
+	unlink("heredoc");
+
+
 	write(fd, "hello", 5);
-	lseek(fd, 0, SEEK_SET);
-	read(fd, str, 5);
+
+	read(fd2, str, 5);
+	printf("%s\n", str);
 }
 
 
