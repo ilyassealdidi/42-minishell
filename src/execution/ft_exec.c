@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/16 15:35:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/17 00:10:30 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 
 static int	ft_run(t_list *cmds, t_command *cmd)
 {
+	struct stat		path_stat;
+
+	if (ft_strchr(cmd->cmd, '/') && stat(cmd->cmd, &path_stat) == SUCCESS)
+	{
+		if (S_ISDIR(path_stat.st_mode))
+		{
+			ft_error(NULL, cmd->cmd, EISADIR);
+			exit(126);
+		}
+	}
 	if (execve(cmd->cmd, cmd->argv, cmd->envp) == FAILED)
 	{
 		if (cmd->cmd[0] == '.')
 			ft_error(NULL, cmd->cmd, NULL);
-		else
+		else if (ft_strchr(cmd->cmd, '/') == NULL)
 			ft_error(NULL, cmd->cmd, EMCNF);
+		else
+			ft_error(NULL, cmd->cmd, NULL);
 	}
 	exit(127);
 }

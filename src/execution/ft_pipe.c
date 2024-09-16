@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 00:41:14 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/16 06:24:39 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:13:13 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_pipe(int fields[2])
 {
 	if (pipe(fields) == FAILED)
-		perror("minishell: pipe");
+		ft_error(NULL, NULL, NULL);
 }
 
 void	ft_pipe_in(t_list *cmds, t_command *cmd)

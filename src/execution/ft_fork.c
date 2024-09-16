@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 00:43:02 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/16 06:14:48 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:13:05 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ pid_t	ft_fork(void)
 
 	pid = fork();
 	if (pid == FAILED)
-		perror("minishell: fork");
+		ft_error(NULL, NULL, NULL);
 	return (pid);
 }
