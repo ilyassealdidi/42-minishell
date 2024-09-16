@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 15:08:50 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/17 00:27:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ static int	split_variable(t_object *obj, t_token *token)
 	free(strs);
 	return (SUCCESS);
 }
+
+// $INVALID_VAR | ls
+// $INVALID_VAR ls
+// > $INVALID_VAR
 
 int	ft_appendtoken(t_object *obj, t_token *new)
 {

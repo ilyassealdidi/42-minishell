@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/17 00:11:13 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:28:12 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@
 # define EMRCD "error retrieving current directory"
 # define EMCNF "command not found"
 # define EISADIR "is a directory"
-# define SYNTAX_ERR "syntax error\n"
+# define SYNTAX_ERR "syntax error"
 
 //FDS
 # define NOTHING -1
