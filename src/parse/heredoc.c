@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/15 23:01:25 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 09:25:09 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,25 @@ static char	*generate_filename(void)
 
 void	heredoc_signal_handler(int signum)
 {
-	if (signum == SIGINT)
-	{
-		g_received_signal = 1;
-		// g_data.exit_status = 1;
-		// g_data.sig = 1;
-		// g_data.sigflag = 1;
-		rl_replace_line("", 0);
-		printf("\n");
-		close(0);
-	}
+	g_received_signal++;
+	// rl_replace_line("", 0);
+	// printf("\n");
+	close(0);
 }
 
 
 int	write_line(t_object *obj, t_token *token, int fd, char *line)
 {
 	if (is_quoted(token))
+	{
 		ft_dprintf(fd, "%s\n", line);
+	}
 	else
 	{
 		if (expand_str(obj, &line) == FAILURE)
 			return (FAILURE);
 		ft_dprintf(fd, "%s\n", line);
+		free(line);
 	}
 	return (SUCCESS);
 }
@@ -71,16 +68,11 @@ static int	heredoc(t_object *obj, t_list *node)
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		return (ft_error(NULL, filename, NULL), FAILURE);
+	int f = dup(0);
 	while (1)
 	{
-		// signal(SIGINT, heredoc_signal_handler);
+		signal(SIGINT, heredoc_signal_handler);
 		line = readline("> ");
-		// if (line == NULL && /*g_received_signal != obj->received_signals*/)
-		// {
-		// 	// update_exit_status(obj);
-		// 	free(line);
-		// 	break ;
-		// }
 		if (line == NULL || ft_strcmp(line, token->content) == 0)
 		{
 			free(line);
@@ -90,6 +82,8 @@ static int	heredoc(t_object *obj, t_list *node)
 			return (close(fd), FAILURE); //!
 		free(line);
 	}
+	dup2(f, 0);
+	init_signals();
 	close(fd);
 	free(token->content);
 	token->content = filename;
@@ -100,6 +94,7 @@ int	heredocs_init(t_object *obj)
 {
 	t_list			*tmp;
 	t_token			*token;
+	
 
 	tmp = obj->tokens;
 	while (tmp)
