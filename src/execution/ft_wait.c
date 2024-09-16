@@ -6,17 +6,25 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 01:12:45 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/12 01:42:57 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/16 09:15:34 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_wait(int *exit_status)
+void	ft_wait(t_object *obj)
 {
-	while (waitpid(-1, exit_status, 0) != FAILED)
+	t_list			*cmds;
+	t_command		*cmd;
+	int				index;
+
+	cmds = obj->commands;
+	while (cmds)
 	{
-		if (WIFEXITED(*exit_status))
-			*exit_status = WEXITSTATUS(*exit_status);
+		cmd = cmds->content;
+		waitpid(cmd->pid, &obj->exit_status, 0);
+		if (WIFEXITED(obj->exit_status))
+			obj->exit_status = WEXITSTATUS(obj->exit_status);
+		cmds = cmds->next;
 	}
 }

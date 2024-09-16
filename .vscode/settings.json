@@ -50,6 +50,8 @@
 		"complex": "c",
 		"typeinfo": "c",
 		"wait.h": "c",
-		"exec.h": "c"
+		"exec.h": "c",
+		"__locale": "c",
+		"ios": "c"
 	}
 }

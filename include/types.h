@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 00:45:17 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 09:34:35 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ typedef struct s_command
 	int				in;
 	int				out;
 	int				argc;
-	int				pipefd[2]; //!
-	pid_t			pid; //!
+	int				pipefd[2];
+	pid_t			pid;
 	char			*cmd;
 	char			**argv;
 	char			**envp;
