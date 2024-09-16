@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/13 23:54:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 08:11:45 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ static int	ft_run(t_list *cmds, t_command *cmd)
 
 static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 {
-	pid_t			pid;
 	int				status;
 
-	pid = ft_fork(cmd);
-	if (pid == FAILED)
+	cmd->pid = ft_fork();
+	if (cmd->pid == FAILED)
 		return (FAILED);
-	if (is_child(pid))
+	if (is_child(cmd->pid))
 	{
 		ft_pipe_out(cmds, cmd);
 		if (has_redirection(cmd))
@@ -42,36 +41,35 @@ static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 		else
 			ft_run(cmds, cmd);
 	}
-	else if (is_parent(pid))
+	else if (is_parent(cmd->pid))
 	{
 		ft_pipe_in(cmds, cmd);
 		ft_close_redirections(cmd);
 	}
-	return (pid);
+	return (SUCCESS);
 }
 
 static int	ft_exec_bin(t_object *obj)
 {
 	t_command		*cmd;
 	t_list			*cmds;
-	pid_t			pid;
 
 	cmds = obj->commands;
 	while (cmds)
 	{
 		cmd = cmds->content;
 		if (has_next(cmds))
-			ft_pipe(cmd->pipefd);
+			ft_pipe(cmd->pfd);
 		if (ft_child(obj, cmds, cmd) == FAILED)
 		{
-			ft_close(cmd->pipefd[POUT]);
+			ft_close(cmd->pfd[POUT]);
 			break ;
 		}
 		cmds = cmds->next;
 	}
 	if (has_next(obj->commands))
-		ft_close(cmd->pipefd[PIN]);
-	ft_wait(&obj->exit_status);
+		ft_close(cmd->pfd[PIN]);
+	ft_wait(obj);
 	return (SUCCESS);
 }
 
