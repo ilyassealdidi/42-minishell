@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:30:50 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 11:24:46 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:52:13 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	builtin_unset(t_object *obj, t_command *command)
 		if (is_valid_identifier(command->argv[i]) == INVALID)
 		{
 			ft_dprintf(STDERR_FILENO, "%s: %s: `%s': %s\n",
-				EMBASE, UNSET, command->argv[i], EMNVI);
+				EMBASE, B_UNSET, command->argv[i], EMNVI);
 			obj->exit_status = 1;
 		}
 		else

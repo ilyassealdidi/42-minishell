@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 18:43:05 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:57:05 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ int	write_line(t_object *obj, t_token *token, int fd, char *line)
 	{
 		if (expand_str(obj, &line) == FAILURE)
 			return (FAILURE);
-		ft_dprintf(fd, "%s\n", line);
+		if (line != NULL)	
+			ft_dprintf(fd, "%s", line);
+		ft_dprintf(fd, "\n");
 		free(line);
 	}
 	return (SUCCESS);
@@ -65,6 +67,8 @@ static int	heredoc(t_object *obj, t_token *token, char *filename)
 		if (line == NULL || ft_strcmp(line, token->content) == 0)
 		{
 			free(line);
+			if (g_received_signal != obj->received_signals)
+				return (close(fd), FAILURE);
 			break ;
 		}
 		if (write_line(obj, token, fd, line) == FAILURE)
@@ -94,7 +98,7 @@ int	heredocs_init(t_object *obj)
 			if (filename == NULL)
 				return (FAILURE);
 			if (heredoc(obj, tmp->content, filename) == FAILURE)
-				return (FAILURE); //! print error
+				return (init_signals(), dup2(f, 0), FAILURE); //! print error
 			free(token->content);
 			token->content = filename;
 		}

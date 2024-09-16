@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 14:55:08 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:52:13 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ char	*ft_strjoin_free(char *s1, char *s2, int to_free)
 
 bool	is_builtin(char *str)
 {
-	if (ft_strcmp(str, ECHO) == 0
-		|| ft_strcmp(str, CD) == 0
-		|| ft_strcmp(str, PWD) == 0
-		|| ft_strcmp(str, EXPORT) == 0
-		|| ft_strcmp(str, UNSET) == 0
-		|| ft_strcmp(str, ENV) == 0
-		|| ft_strcmp(str, EXIT) == 0)
+	if (ft_strcmp(str, B_ECHO) == 0
+		|| ft_strcmp(str, B_CD) == 0
+		|| ft_strcmp(str, B_PWD) == 0
+		|| ft_strcmp(str, B_EXPORT) == 0
+		|| ft_strcmp(str, B_UNSET) == 0
+		|| ft_strcmp(str, B_ENV) == 0
+		|| ft_strcmp(str, B_EXIT) == 0)
 		return (true);
 	return (false);
 }

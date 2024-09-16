@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 13:02:29 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:52:03 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	init_env(t_list **env_list, char **envp)
 	}
 	if (insert_env(env_list, (t_dictionnary){"?", "0"}, true) == FAILURE)
 		// || insert_env(env_list, (t_dictionnary){"OLDPWD", NULL}, false) == FAILURE
-		// || insert_env(env_list, (t_dictionnary){"PWD", NULL)}, false) == FAILURE) //!
+		// || insert_env(env_list, (t_dictionnary){"B_PWD", NULL)}, false) == FAILURE) //!
 		return (ft_lstclear(env_list, destroy_env), FAILURE);
 	return (SUCCESS);
 }

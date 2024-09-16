@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:19:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 11:26:38 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:52:03 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	builtin_pwd(t_object *obj)
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 	{
-		ft_error(PWD, NULL, EMRCD);
+		ft_error(B_PWD, NULL, EMRCD);
 		obj->exit_status = 1;
 		return (FAILURE);
 	}

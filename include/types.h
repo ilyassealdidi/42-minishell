@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 09:35:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 23:44:59 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@
 
 # define PROMPT "\033[0;32m➜\033[0m "
 
-# define EXIT "exit"
-# define ECHO "echo"
-# define CD "cd"
-# define PWD "pwd"
-# define EXPORT "export"
-# define UNSET "unset"
-# define ENV "env"
+# define B_EXIT "exit"
+# define B_ECHO "echo"
+# define B_CD "cd"
+# define B_PWD "pwd"
+# define B_EXPORT "export"
+# define B_UNSET "unset"
+# define B_ENV "env"
 
 # define EMBASE "minishell"
 # define EMNVI "not a valid identifier"

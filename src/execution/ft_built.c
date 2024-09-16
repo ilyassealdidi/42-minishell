@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_built.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 06:15:31 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/13 11:33:08 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:52:13 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ int	execute_builtin(t_object *obj, t_list *node)
 	int			status;
 
 	command = node->content;
-	if (command_is(command->cmd, EXIT))
+	if (command_is(command->cmd, B_EXIT))
 		status = builtin_exit(obj, command);
-	else if (command_is(command->cmd, ECHO))
+	else if (command_is(command->cmd, B_ECHO))
 		builtin_echo(command);
-	else if (command_is(command->cmd, EXPORT))
+	else if (command_is(command->cmd, B_EXPORT))
 		status = builtin_export(obj, command);
-	else if (command_is(command->cmd, CD))
+	else if (command_is(command->cmd, B_CD))
 		status = builtin_cd(obj, command);
-	else if (command_is(command->cmd, PWD))
+	else if (command_is(command->cmd, B_PWD))
 		status = builtin_pwd(obj);
-	else if (command_is(command->cmd, ENV))
+	else if (command_is(command->cmd, B_ENV))
 		builtin_env(obj);
-	else if (command_is(command->cmd, UNSET))
+	else if (command_is(command->cmd, B_UNSET))
 		status = builtin_unset(obj, command);
 	return (status);
 }
