@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 23:06:49 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:08:50 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	split_variable(t_object *obj, t_token *token)
 		return (FAILURE);
 	if (*strs == NULL)
 		return (free(*strs), SUCCESS);
+	free(token->content);
 	i = 0;
 	while (strs[i])
 	{
@@ -55,6 +56,7 @@ static int	split_variable(t_object *obj, t_token *token)
 		ft_appendtoken(obj, &new);
 		i++;
 	}
+	free(strs);
 	return (SUCCESS);
 }
 

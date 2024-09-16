@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 21:20:27 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:55:08 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ char	*ft_strjoin_free(char *s1, char *s2, int to_free)
 	char			*str;
 
 	str = ft_strjoin(s1, s2);
-	if (str == NULL)
-		return (NULL);
 	if (to_free == LEFT)
 		free(s1);
 	else if (to_free == RIGHT)

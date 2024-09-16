@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 09:41:13 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:56:28 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,33 +60,6 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 	return (SUCCESS);
 }
 
-// int	expand_vars(t_object *obj, t_token *token)
-// {
-// 	char			*new;
-// 	char			*old;
-// 	char			*ptr;
-
-// 	if (!is_expandable(token)
-// 		|| (obj->tokens && get_last_token(obj->tokens)->type == HEREDOC))
-// 		return (SUCCESS);
-// 	new = NULL;
-// 	old = token->content;
-// 	while (*token->content != '\0')
-// 	{
-// 		if (set_next_part(obj, &token->content, &ptr) == FAILURE)
-// 			return (FAILURE);
-// 		if (ptr == NULL)
-// 			continue ;
-// 		new = ft_strjoin_free(new, ptr, BOTH);
-// 		if (new == NULL)
-// 			return (FAILURE);
-// 	}
-// 	free(old);
-// 	token->content = new;
-// 	// if (token->content == NULL)
-// 	// 	return (token->content = ft_strdup(""), token->content == NULL);
-// 	return (SUCCESS);
-// }
  //! check leaks
 int	expand_str(t_object *obj, char **str)
 {
