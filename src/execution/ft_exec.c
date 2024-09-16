@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/16 08:11:45 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:35:30 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@ static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 {
 	int				status;
 
+	signal(SIGINT, SIG_IGN);
 	cmd->pid = ft_fork();
 	if (cmd->pid == FAILED)
 		return (FAILED);
 	if (is_child(cmd->pid))
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		ft_pipe_out(cmds, cmd);
 		if (has_redirection(cmd))
 			ft_redirect(cmd);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 09:25:09 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 18:43:05 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,8 @@ static char	*generate_filename(void)
 void	heredoc_signal_handler(int signum)
 {
 	g_received_signal++;
-	// rl_replace_line("", 0);
-	// printf("\n");
 	close(0);
 }
-
 
 int	write_line(t_object *obj, t_token *token, int fd, char *line)
 {
@@ -54,24 +51,16 @@ int	write_line(t_object *obj, t_token *token, int fd, char *line)
 	return (SUCCESS);
 }
 
-static int	heredoc(t_object *obj, t_list *node)
+static int	heredoc(t_object *obj, t_token *token, char *filename)
 {
-	t_token			*token;
 	int				fd;
 	char			*line;
-	char			*filename;
 
-	token = node->content;
-	filename = generate_filename();
-	if (filename == NULL)
-		return (FAILURE);
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
-		return (ft_error(NULL, filename, NULL), FAILURE);
-	int f = dup(0);
+		return (FAILURE);
 	while (1)
 	{
-		signal(SIGINT, heredoc_signal_handler);
 		line = readline("> ");
 		if (line == NULL || ft_strcmp(line, token->content) == 0)
 		{
@@ -79,14 +68,10 @@ static int	heredoc(t_object *obj, t_list *node)
 			break ;
 		}
 		if (write_line(obj, token, fd, line) == FAILURE)
-			return (close(fd), FAILURE); //!
+			return (free(line), close(fd), FAILURE);
 		free(line);
 	}
-	dup2(f, 0);
-	init_signals();
 	close(fd);
-	free(token->content);
-	token->content = filename;
 	return (SUCCESS);
 }
 
@@ -94,17 +79,28 @@ int	heredocs_init(t_object *obj)
 {
 	t_list			*tmp;
 	t_token			*token;
-	
+	char			*filename;
+	int				f;
 
 	tmp = obj->tokens;
+	f = dup(0);
+	signal(SIGINT, heredoc_signal_handler);
 	while (tmp)
 	{
 		token = tmp->content;
 		if (token->type == DELIMITER)
 		{
-			heredoc(obj, tmp);
+			filename = generate_filename();
+			if (filename == NULL)
+				return (FAILURE);
+			if (heredoc(obj, tmp->content, filename) == FAILURE)
+				return (FAILURE); //! print error
+			free(token->content);
+			token->content = filename;
 		}
 		tmp = tmp->next;
 	}
+	init_signals();
+	dup2(f, 0);
 	return (SUCCESS);
 }

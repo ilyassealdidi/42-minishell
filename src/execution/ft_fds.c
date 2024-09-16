@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fds.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 06:30:37 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/11 23:21:19 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:11:33 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ void	ft_save_fd(int *fd, int src)
 {
 	*fd = dup(src);
 	if (*fd == FAILED)
-		perror("minishell: dup");
+		perror("minishell: dup"); //! use ft_error(NULL, NULL, NULL);
 }
