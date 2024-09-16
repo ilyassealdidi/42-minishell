@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 11:36:02 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 19:50:22 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	update_oldpwd(t_object *obj)
 int	update_pwd(t_object *obj)
 {
 	t_dictionnary	dict;
-
+//cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
 	dict.key = "PWD";
 	dict.value = getcwd(NULL, 0);
 	if (dict.value == NULL || set_env(&obj->env, dict) == FAILURE)

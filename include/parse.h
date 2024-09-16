@@ -6,13 +6,15 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/15 21:55:00 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/16 19:40:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef PARSE_H
 # define PARSE_H
+
+# include <termios.h>
 
 /*		Token utils				*/
 t_token			*get_token(t_list *list);
