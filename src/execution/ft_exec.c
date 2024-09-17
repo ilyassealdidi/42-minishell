@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 00:10:30 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/17 23:39:56 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	ft_run(t_list *cmds, t_command *cmd)
 {
 	struct stat		path_stat;
 
+	if (cmd->argc == 0)
+		exit (SUCCESS);
 	if (ft_strchr(cmd->cmd, '/') && stat(cmd->cmd, &path_stat) == SUCCESS)
 	{
 		if (S_ISDIR(path_stat.st_mode))
@@ -117,8 +119,6 @@ int	execute_commands(t_object *obj)
 		return (SUCCESS);
 	node = obj->commands;
 	cmd = node->content;
-	if (!cmd->cmd)
-		return (SUCCESS);
 	if (has_next(node) || has_redirection(cmd))
 		ft_save_fd(&fd_in, STDIN_FILENO);
 	if (is_builtin(cmd->cmd) && !has_next(node))

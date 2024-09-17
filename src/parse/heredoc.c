@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 23:57:05 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/17 22:15:51 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ int	heredocs_init(t_object *obj)
 	t_list			*tmp;
 	t_token			*token;
 	char			*filename;
-	int				f;
+	int				stdin_fd;
 
 	tmp = obj->tokens;
-	f = dup(0);
+	ft_save_fd(&stdin_fd, STDIN_FILENO);
 	signal(SIGINT, heredoc_signal_handler);
 	while (tmp)
 	{
@@ -98,13 +98,13 @@ int	heredocs_init(t_object *obj)
 			if (filename == NULL)
 				return (FAILURE);
 			if (heredoc(obj, tmp->content, filename) == FAILURE)
-				return (init_signals(), dup2(f, 0), FAILURE); //! print error
+				return (init_signals(), ft_dup(stdin_fd, STDIN_FILENO, NOTHING), FAILURE); //! print error
 			free(token->content);
 			token->content = filename;
 		}
 		tmp = tmp->next;
 	}
 	init_signals();
-	dup2(f, 0);
+	ft_dup(stdin_fd, STDIN_FILENO, NOTHING);
 	return (SUCCESS);
 }

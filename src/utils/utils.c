@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 23:52:13 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/17 22:41:35 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*ft_strjoin_free(char *s1, char *s2, int to_free)
 
 bool	is_builtin(char *str)
 {
+	if (str == NULL)
+		return (false);
 	if (ft_strcmp(str, B_ECHO) == 0
 		|| ft_strcmp(str, B_CD) == 0
 		|| ft_strcmp(str, B_PWD) == 0
