@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/15 22:57:29 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 19:43:09 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static int	join_path(char **paths, t_command *command)
 {
 	int				i;
-	char			*ptr;
 	int				path_len;
 	int				cmd_len;
+	string			ptr;
 
 	i = 0;
 	while (paths[i])
@@ -41,7 +41,7 @@ static int	join_path(char **paths, t_command *command)
 static int	set_cmd_path(t_object *obj, t_command *command)
 {
 	char			**paths;
-	char			*ptr;
+	string			ptr;
 
 	if (ft_strchr("./", **command->argv))
 		return (SUCCESS);

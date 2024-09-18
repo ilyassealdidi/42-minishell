@@ -52,6 +52,7 @@
 		"wait.h": "c",
 		"exec.h": "c",
 		"__locale": "c",
-		"ios": "c"
+		"ios": "c",
+		"stat.h": "c"
 	}
 }

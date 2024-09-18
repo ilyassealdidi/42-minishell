@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 09:25:27 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/03/29 15:20:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/17 14:35:21 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	char	*string;
+	char	*str;
 
-	string = (char *)s;
-	while (*string)
+	str = (char *)s;
+	while (*str)
 	{
-		if (*string == (char)c)
-			return (string);
-		string++;
+		if (*str == (char)c)
+			return (str);
+		str++;
 	}
-	if (*string == (char)c)
-		return (string);
+	if (*str == (char)c)
+		return (str);
 	return (0);
 }

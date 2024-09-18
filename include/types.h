@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/17 00:28:12 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 19:53:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 
 # define PROMPT "\033[0;32m➜\033[0m "
 
+# define string char *
+
 # define B_EXIT "exit"
 # define B_ECHO "echo"
 # define B_CD "cd"
@@ -60,8 +62,9 @@
 # define EMTMA "too many arguments"
 # define EMRCD "error retrieving current directory"
 # define EMCNF "command not found"
-# define EISADIR "is a directory"
-# define SYNTAX_ERR "syntax error"
+# define EISADIR "is a directory" //!
+# define EMSYNTAX "syntax error"
+# define EMAMBR "ambiguous redirect"
 
 //FDS
 # define NOTHING -1
@@ -74,6 +77,7 @@
 # define FAILED -1
 # define ECMDNTFND 127
 
+// typedef char * string;
 
 typedef enum e_token_type
 {
@@ -87,8 +91,7 @@ typedef enum e_token_type
 	REDIR_OUT,
 	APPEND,
 	HEREDOC,
-	INFILE,
-	OUTFILE,
+	// FILE, // to be removed
 }	t_token_type;
 
 typedef struct s_token

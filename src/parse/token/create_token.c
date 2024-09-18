@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/15 21:54:18 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 16:30:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static t_token_type	get_token_type(char *str)
+static t_token_type	get_token_type(string str)
 {
 	if (ft_strncmp(str, ">>", 2) == 0)
 		return (APPEND);
@@ -30,9 +30,9 @@ static t_token_type	get_token_type(char *str)
 	return (NONE);
 }
 
-static bool	contains_env(char *str)
+static bool	contains_env(string str)
 {
-	char			*ptr;
+	string			ptr;
 
 	if (*str == '\'')
 		return (false);
@@ -49,7 +49,7 @@ static bool	contains_env(char *str)
 	}
 }
 
-static int	get_token_length(char *line, t_token_type type)
+static int	get_token_length(string line, t_token_type type)
 {
 	if (type == PIPE || type == REDIR_IN || type == REDIR_OUT)
 		return (1);
@@ -86,7 +86,7 @@ static int	set_next_token(char **line, t_token *token)
 	return (SUCCESS);
 }
 
-int	tokens_init(t_object *obj, char *line)
+int	tokens_init(t_object *obj, string line)
 {
 	int				ret;
 	t_token			token;

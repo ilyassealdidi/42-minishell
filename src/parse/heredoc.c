@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/17 22:15:51 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:27:47 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static char	*generate_filename(void)
 {
 	static int		i;
-	char			*number;
-	char			*name;
+	string			number;
+	string			name;
 
 	number = ft_itoa(i);
 	if (number == NULL)
@@ -35,7 +35,7 @@ void	heredoc_signal_handler(int signum)
 	close(0);
 }
 
-int	write_line(t_object *obj, t_token *token, int fd, char *line)
+int	write_line(t_object *obj, t_token *token, int fd, string line)
 {
 	if (is_quoted(token))
 	{
@@ -53,10 +53,10 @@ int	write_line(t_object *obj, t_token *token, int fd, char *line)
 	return (SUCCESS);
 }
 
-static int	heredoc(t_object *obj, t_token *token, char *filename)
+static int	heredoc(t_object *obj, t_token *token, string filename)
 {
 	int				fd;
-	char			*line;
+	string			line;
 
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
@@ -83,7 +83,7 @@ int	heredocs_init(t_object *obj)
 {
 	t_list			*tmp;
 	t_token			*token;
-	char			*filename;
+	string			filename;
 	int				stdin_fd;
 
 	tmp = obj->tokens;

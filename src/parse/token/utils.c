@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 08:47:03 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/14 12:26:19 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:00:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ bool	is_redir(t_token *token)
 {
 	return (token->type == REDIR_OUT || token->type == APPEND
 		|| token->type == REDIR_IN || token->type == HEREDOC);
+}
+
+bool	is_operator(t_token *token)
+{
+	return (token->type == PIPE || token->type == DELIMITER || is_redir(token));
 }
 
 void	destroy_token(void *content)

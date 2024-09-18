@@ -11,7 +11,20 @@
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [
+				// {"name" : "PATH", "value" : "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"},
+				// {"name" : "SHELL", "value" : "/bin/bash"},
+				// {"name" : "TERM", "value" : "xterm-256color"},
+				// {"name" : "TMPDIR", "value" : "/tmp"},
+				// {"name" : "TMP", "value" : "/tmp"},
+				// {"name" : "TEMP", "value" : "/tmp"},
+				// {"name" : "PWD", "value" : "${workspaceFolder}"},
+
+				// {"name" : "empty", "value" : ""},
+				// {"name" : "one_word", "value" : "Ilyasse"},
+				// {"name" : "spaced", "value" : "    Ilyasse   "},
+				// {"name" : "two_words", "value" : "  Ilyasse  Aldidi   "},
+			],
             "externalConsole": true,
             "MIMode": "lldb"
         },

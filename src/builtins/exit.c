@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 23:51:49 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 19:41:18 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void 	ft_exit(t_object *obj, int status)
 int	builtin_exit(t_object *obj, t_command *command)
 {
 	unsigned char	nb;
-	char			*value;
+	string			value;
 
 	nb = 0;
 	if (ft_lstsize(obj->commands) == 1)

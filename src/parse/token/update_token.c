@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 09:37:05 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:01:23 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,20 @@ static void	update_token_type(t_list *head, t_token *new)
 {
 	t_token			*last;
 
-	if (new->type == REDIR_IN || new->type == HEREDOC
-		|| new->type == PIPE || new->type == REDIR_OUT
-		|| new->type == APPEND)
-		return ;
 	last = get_last_token(head);
+	// if (is_joinable(last) && last->type == FILE)
+	// 	new->type = FILE;
+	if (is_expandable(new) && !is_quoted(new) && new->content != NULL
+		&& ft_strchr(" \t", new->content[0]) && last != NULL
+		&& !is_operator(last) && ft_strlen(last->content) != 0 && is_joinable(last))
+		set_token_state(last, JOINABLE, false);
+	if (is_expandable(new) && !is_quoted(new) && new->content
+		&& ft_strchr(" \t", new->content[ft_strlen(new->content) - 1]))
+		set_token_state(new, JOINABLE, false);
 	if (last != NULL && last->type == HEREDOC)
 		new->type = DELIMITER;
-	else if (last != NULL && last->type == REDIR_IN)
-		new->type = INFILE;
-	else if (head != NULL
-		&& (last->type == REDIR_OUT || last->type == APPEND))
-		new->type = OUTFILE;
+	// else if (last != NULL && is_redir(last))
+	// 	new->type = FILE;
 	else if (new->content
 		&& is_builtin(new->content) && contains_command(head) == false)
 		new->type = BUILTIN;
@@ -55,16 +57,8 @@ static void	update_token_type(t_list *head, t_token *new)
 		new->type = CMD;
 }
 
-static void	lower_case(unsigned int i, char *c)
-{
-	(void)i;
-
-	*c = ft_tolower(*c);
-}
-
 void	update_token(t_list *head, t_token *new)
 {
-	update_token_type(head, new);
-	if (new->type == BUILTIN)
-		ft_striteri(new->content, lower_case);
+	if (!is_redir(new) && new->type != PIPE)
+		update_token_type(head, new);
 }

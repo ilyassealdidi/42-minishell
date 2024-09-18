@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 19:40:15 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 20:03:06 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 t_token			*get_token(t_list *list);
 t_token			*get_last_token(t_list *list);
 bool			is_redir(t_token *token);
+bool			is_operator(t_token *token);
 
 bool			is_quoted(t_token *token);
 bool			is_expandable(t_token *token);

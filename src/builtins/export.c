@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 23:51:19 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 19:41:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	print_env(t_list *head)
 
 static bool	is_valid_identifier(char *str)
 {
-	int	i;
+	int				i;
 
 	if (!ft_isalpha(*str) && *str != '_')
 		return (INVALID);

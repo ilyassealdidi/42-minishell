@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 23:52:03 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 19:41:01 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	update_oldpwd(t_object *obj)
 	t_dictionnary	dict;
 
 	dict.key = "OLDPWD";
-	dict.value = get_env(obj->env, "B_PWD");
+	dict.value = get_env(obj->env, "PWD");
 	if (dict.value != NULL)
 	{
 		if (set_env(&obj->env, dict) == FAILURE)
@@ -29,18 +29,29 @@ int	update_oldpwd(t_object *obj)
 int	update_pwd(t_object *obj)
 {
 	t_dictionnary	dict;
-//cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-	dict.key = "B_PWD";
+
+	dict.key = "PWD";
 	dict.value = getcwd(NULL, 0);
-	if (dict.value == NULL || set_env(&obj->env, dict) == FAILURE)
-		return (free(dict.value), FAILURE);
+	if (dict.value == NULL)
+	{
+		free(dict.value);
+		ft_error(B_CD, "error retrieving current directory: getcwd: ", NULL);
+		return (FAILURE);
+	}
+	if (set_env(&obj->env, dict) == FAILURE)
+	{
+		free(dict.value);
+		obj->exit_status = 1;
+		ft_error(NULL, NULL, NULL);
+		return (FAILURE);
+	}
 	free(dict.value);
 	return (SUCCESS);
 }
 
 int	builtin_cd(t_object *obj, t_command *command)
 {
-	char	*path;
+	string			path;
 
 	if (command->argv[1] == NULL)
 		path = get_env(obj->env, "HOME");
@@ -58,7 +69,7 @@ int	builtin_cd(t_object *obj, t_command *command)
 		obj->exit_status = 1;
 		return (FAILURE);
 	}
-	if (update_oldpwd(obj) == FAILURE || update_pwd(obj) == FAILURE)
-		return (obj->exit_status = 1, FAILURE);
+	if (update_oldpwd(obj) == FAILURE || update_pwd(obj) == FAILURE) //! update_oldpwd
+		return (FAILURE);
 	return (SUCCESS);
 }

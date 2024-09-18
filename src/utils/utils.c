@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/17 22:41:35 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:26:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	set_exit_status(t_object *obj)
 {
-	char			*value;
+	string			value;
 
 	value = ft_itoa(obj->exit_status);
 	if (value == NULL)
@@ -32,7 +32,7 @@ bool	isset(void *ptr)
 
 char	*ft_strjoin_free(char *s1, char *s2, int to_free)
 {
-	char			*str;
+	string			str;
 
 	str = ft_strjoin(s1, s2);
 	if (to_free == LEFT)

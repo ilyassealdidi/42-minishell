@@ -23,9 +23,8 @@ void	display_token(void *content)
 	printf("type		: %s%s\n", tmp->type == PIPE ? CYAN"PIPE"
 										: tmp->type == BUILTIN ? BLUE"BUILTIN"
 										: tmp->type == CMD ? MAGENTA"CMD"
-										: tmp->type == OUTFILE ? UKN"OUTFILE"
+										// : tmp->type == FILE ? UKN"FILE"
 										: tmp->type == DELIMITER ? UKN"DELIMITER"
-										: tmp->type == INFILE ? UKN"INFILE"
 										: tmp->type == REDIR_IN ? CYAN"REDIR_IN"
 										: tmp->type == REDIR_OUT ? CYAN"REDIR_OUT"
 										: tmp->type == APPEND ? CYAN"APPEND"
@@ -71,6 +70,7 @@ void	display_command(void *content)
 	}
 	printf("in		: %d\n", tmp->in);
 	printf("out		: %d\n", tmp->out);
+	printf("argc	: %d\n", tmp->argc);
 
 	printf("_____________________________\n");
 }

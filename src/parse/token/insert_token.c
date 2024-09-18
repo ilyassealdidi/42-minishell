@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/17 00:27:15 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:44:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ static int	insert_token(t_list **head, t_token *new)
 */
 static int	split_variable(t_object *obj, t_token *token)
 {
-	t_token			new;
+	static t_token	new;
 	int				i;
 	char			**strs;
 
 	if (token->content == NULL)
-		return (SUCCESS);
+		return (ft_appendtoken(obj, &new), SUCCESS);
 	strs = ft_split(token->content, ' ');
 	if (strs == NULL)
 		return (FAILURE);
 	if (*strs == NULL)
-		return (free(*strs), SUCCESS);
+		return (free(*strs), /*ft_appendtoken(obj, &new),*/ SUCCESS);
 	free(token->content);
 	i = 0;
 	while (strs[i])
@@ -53,24 +53,21 @@ static int	split_variable(t_object *obj, t_token *token)
 		new.type = ARG;
 		if (strs[i + 1] == NULL && is_joinable(token))
 			new.state |= JOINABLE;
-		ft_appendtoken(obj, &new);
+		ft_appendtoken(obj, &new); //! handle the return value
 		i++;
 	}
 	free(strs);
 	return (SUCCESS);
 }
 
-// $INVALID_VAR | ls
-// $INVALID_VAR ls
-// > $INVALID_VAR
-
 int	ft_appendtoken(t_object *obj, t_token *new)
 {
 	t_token			*token;
+	static t_token	*last;
 
+	update_token(obj->tokens, new);
 	if (is_expandable(new) && !is_quoted(new))
 		return (split_variable(obj, new));
-	update_token(obj->tokens, new);
 	if (obj->tokens != NULL && is_joinable(get_last_token(obj->tokens)))
 	{
 		token = get_last_token(obj->tokens);
@@ -87,3 +84,4 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	}
 	return (SUCCESS);
 }
+

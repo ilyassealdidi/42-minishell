@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/15 22:57:02 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 19:43:25 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static int	set_args(t_list *tokens, t_command *command)
 
 static char	*dict_toenv(t_dictionnary *dict)
 {
-	char			*key;
-	char			*env;
+	string			key;
+	string			env;
 
 	if (dict->value == NULL)
 		return (ft_strdup(dict->key));
@@ -120,7 +120,7 @@ int	set_command(t_object *obj, t_list *tokens, t_command **command)
 			break ;
 		tokens = tokens->next;
 	}
-	if (set_envp(obj->env, (*command)) == FAILURE)
+	if ((*command)->argc > 0 && set_envp(obj->env, (*command)) == FAILURE)
 		return (destroy_command((*command)), FAILURE);
 	return (SUCCESS);
 }

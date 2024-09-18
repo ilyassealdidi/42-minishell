@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:34:30 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/15 22:34:50 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/18 16:28:46 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static char	*generate_filename(void)
 {
 	static int		i;
-	char			*number;
-	char			*name;
+	string			number;
+	string			name;
 
 	number = ft_itoa(i);
 	if (number == NULL)
