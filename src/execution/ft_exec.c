@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/19 14:34:14 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:21:02 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static void	ft_exec_bin(t_object *obj)
 	if (has_next(obj->commands))
 		ft_close(cmd->pfd[PIN]);
 	ft_wait(obj);
+	init_signals();
 }
 
 static void	exec_builtin(t_object *obj, t_list *cmds)

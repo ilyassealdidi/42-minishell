@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:25:03 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:44:13 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	parse(t_object *obj)
 {
 	string			line;
 
-	if (obj->exit_status == 0)
+	if (obj->exit_status == SUCCESS)
 		line = readline(SUCCESS_PROMPT);
 	else
 		line = readline(FAILURE_PROMPT);
@@ -46,7 +46,7 @@ static int	parse(t_object *obj)
 	if (line[0] != '\0')
 		add_history(line);
 	if (update_exit_status(obj) == FAILURE)
-		return (free(line), FAILURE);
+		return (obj->exit_status = 1, free(line), FAILURE);
 	obj->exit_status = tokens_init(obj, line);
 	free(line);
 	if (obj->exit_status == FAILURE)

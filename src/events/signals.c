@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 18:45:48 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 15:14:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:33:53 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ static void	interrupt(int sig)
 {
 	g_received_signal++;
 	(void)sig;
-	printf("\n");
-	rl_on_new_line();
+	ft_printf("\n%s", FAILURE_PROMPT);
 	rl_replace_line("", 0);
-	rl_redisplay();
 }
 
 void	init_signals(void)

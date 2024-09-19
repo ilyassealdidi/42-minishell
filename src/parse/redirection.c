@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:14:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:25:13 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:45:36 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	redir_init(t_list *node, t_command *command)
 		command->out = open_fd(filename, token->type);
 	}
 	if (isnull(filename))
-		return (ft_error(NULL, NULL, EMAMBR), FAILURE);
+		return (ft_error(NULL, "", EMAMBR), FAILURE);
 	if (command->in == -1 || command->out == -1)
 		return (ft_error(NULL, filename, NULL), FAILURE);
 	return (SUCCESS);

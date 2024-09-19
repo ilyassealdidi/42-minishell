@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_built.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 06:15:31 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/16 23:52:13 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:54:30 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	execute_builtin(t_object *obj, t_list *node)
 	t_command	*command;
 	int			status;
 
+	status = SUCCESS;
 	command = node->content;
 	if (command_is(command->cmd, B_EXIT))
 		status = builtin_exit(obj, command);
