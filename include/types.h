@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:53:45 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 09:15:30 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@
 # define EMTMA "too many arguments"
 # define EMRCD "error retrieving current directory"
 # define EMCNF "command not found"
-# define EISADIR "is a directory" //!
+# define EMISDIR "is a directory"
 # define EMSYNTAX "syntax error"
 # define EMAMBR "ambiguous redirect"
 
