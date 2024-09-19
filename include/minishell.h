@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/17 00:10:49 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:09:41 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void			ft_error(char *location, char *cause, char *error);
 char			*ft_strjoin_free(char *s1, char *s2, int to_free);
 int				is_valid_syntax(t_list *tokens);
 void			free_array(char **strs);
-bool			is_builtin(char *str);
+bool			isnull(void *ptr);
+bool			isset(void *ptr);
+bool			isbuiltin(char *str);
 
 #endif

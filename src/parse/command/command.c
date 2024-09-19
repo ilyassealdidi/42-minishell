@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:43:09 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:25:37 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	join_path(char **paths, t_command *command)
 		path_len = ft_strlen(paths[i]);
 		cmd_len = ft_strlen(command->argv[0]);
 		ptr = ft_calloc(path_len + cmd_len + 2, sizeof(char));
-		if (ptr == NULL)
+		if (isnull(ptr))
 			return (FAILURE);
 		ft_strlcat(ptr, paths[i], path_len + 1);
 		ft_strlcat(ptr, "/", path_len + 2);
@@ -46,12 +46,12 @@ static int	set_cmd_path(t_object *obj, t_command *command)
 	if (ft_strchr("./", **command->argv))
 		return (SUCCESS);
 	ptr = get_env(obj->env, "PATH");
-	if (ptr == NULL)
+	if (isnull(ptr))
 		return (SUCCESS);
 	paths = ft_split(ptr, ':');
-	if (paths == NULL)
+	if (isnull(paths))
 		return (FAILURE);
-	if (*paths == NULL)
+	if (isnull(*paths))
 		return (free(paths), SUCCESS);
 	if (join_path(paths, command) == FAILURE)
 		return (free_array(paths), FAILURE);
@@ -80,13 +80,13 @@ int	commands_init(t_object *obj)
 			return (FAILURE);
 		if (command != NULL)
 		{
-			if (command->argc != 0 && !is_builtin(command->argv[0])
+			if (command->argc != 0 && !isbuiltin(command->argv[0])
 				&& set_cmd_path(obj, command) == FAILURE)
 				return (destroy_command(command), FAILURE);
 			if (command->argc > 0)
 				command->cmd = command->argv[0];
 			new = ft_lstnew(command);
-			if (new == NULL)
+			if (isnull(new))
 				return (destroy_command(command), FAILURE);
 			ft_lstadd_back(&obj->commands, new);
 		}

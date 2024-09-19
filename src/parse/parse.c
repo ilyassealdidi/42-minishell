@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 09:32:44 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:25:03 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	update_exit_status(t_object *obj)
 	if (ft_atoi(get_env(obj->env, "?")) != obj->exit_status)
 	{
 		value = ft_itoa(obj->exit_status);
-		if (value == NULL)
+		if (isnull(value))
 			return (FAILURE);
 		if (set_env(&obj->env, (t_dictionnary){"?", value}) == FAILURE)
 			return (free(value), FAILURE);
@@ -41,7 +41,7 @@ static int	parse(t_object *obj)
 		line = readline(SUCCESS_PROMPT);
 	else
 		line = readline(FAILURE_PROMPT);
-	if (line == NULL)
+	if (isnull(line))
 		exit_shell(obj);
 	if (line[0] != '\0')
 		add_history(line);

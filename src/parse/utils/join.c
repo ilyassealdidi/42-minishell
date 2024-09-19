@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 10:59:11 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 16:29:15 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:33:01 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ string	join(string str1, string str2)
 {
 	string			joined;
 
-	if (str2 == NULL)
+	if (isnull(str2))
 		return (str1);
 	if (str1 != NULL && *str1 != '\0' && *str2 == '\0')
 		return (str1);
 	if (*str2 == '\0')
 	{
 		str2 = ft_strdup("");
-		if (str2 == NULL)
+		if (isnull(str2))
 			return (free(str1), NULL);
 	}
 	joined = ft_strjoin(str1, str2);

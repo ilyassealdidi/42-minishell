@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 10:04:05 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/08/29 11:10:43 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:21:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_environment	*create_env(t_dictionnary dict, bool hidden)
 	t_environment	*env;
 
 	env = (t_environment *)ft_calloc(1, sizeof(t_environment));
-	if (env == NULL)
+	if (isnull(env))
 		return (NULL);
 	env->element = dict;
 	env->hidden = hidden;

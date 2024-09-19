@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:41:18 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:14:29 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	builtin_exit(t_object *obj, t_command *command)
 	if (command->argc >= 2)
 	{
 		value = ft_strtrim(command->argv[1], " \t");
-		if (value == NULL)
+		if (isnull(value))
 			return (obj->exit_status = 1, FAILURE);
 		errno = 0;
 		nb = get_number(value);

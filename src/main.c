@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 09:32:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:41:00 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,13 @@
 
 int					g_received_signal = 0;
 
-
-
-void	f(void)
-{
-	system("leaks minishell");
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	t_object		obj;
 	struct termios	term;
 
 	if (argc != 1 || !isatty(STDIN_FILENO))
-		return (ft_putstr_fd("Usage: ./minishell\n", 2), EXIT_FAILURE);
+		return (ft_dprintf(2, "Usage: %s\n", argv[0]), EXIT_FAILURE);
 	obj = (t_object){0};
 	init_signals();
 	if (init_env(&obj.env, env) == FAILURE)
@@ -42,5 +35,5 @@ int	main(int argc, char **argv, char **env)
 		ft_lstclear(&obj.commands, destroy_command);
 		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	}
-	return ((void)argv, EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

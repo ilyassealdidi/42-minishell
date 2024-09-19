@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:41:01 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:13:49 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	update_pwd(t_object *obj)
 
 	dict.key = "PWD";
 	dict.value = getcwd(NULL, 0);
-	if (dict.value == NULL)
+	if (isnull(dict.value))
 	{
 		free(dict.value);
 		ft_error(B_CD, "error retrieving current directory: getcwd: ", NULL);
@@ -53,11 +53,11 @@ int	builtin_cd(t_object *obj, t_command *command)
 {
 	string			path;
 
-	if (command->argv[1] == NULL)
+	if (isnull(command->argv[1]))
 		path = get_env(obj->env, "HOME");
 	else
 		path = command->argv[1];
-	if (path == NULL)
+	if (isnull(path))
 	{
 		ft_error(B_CD, NULL, EMHNS);
 		obj->exit_status = 1;

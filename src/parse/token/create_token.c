@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 16:30:27 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:30:58 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static bool	contains_env(string str)
 	while (1)
 	{
 		ptr = ft_strchr(str + (*str == '"'), '$');
-		if (ptr == NULL
+		if (isnull(ptr)
 			|| (*str == '"' && ft_strchr(str + 1, '"') < ptr)
 			|| (*str != '"' && str + ft_strcspn(str, " |><'\"") < ptr))
 			return (false);
@@ -75,13 +75,13 @@ static int	set_next_token(char **line, t_token *token)
 	if (token->type == ARG)
 	{
 		token->content = ft_substr(*line, is_quoted(token), len);
-		if (token->content == NULL)
+		if (isnull(token->content))
 			return (FAILURE);
 	}
 	else
 		token->content = NULL;
 	*line += len + 2 * is_quoted(token);
-	token->state |= JOINABLE * (ft_strchr(" <>|\t", **line) == NULL
+	token->state |= JOINABLE * (isnull(ft_strchr(" <>|\t", **line))
 			&& **line != '\0' && token->type == ARG);
 	return (SUCCESS);
 }

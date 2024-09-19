@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:47:26 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 16:26:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:35:42 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	ft_error(string location, string cause, string error)
 {
 	ft_dprintf(STDERR_FILENO, "minishell: ");
-	if (location != NULL)
+	if (!isnull(location))
 		ft_dprintf(STDERR_FILENO, "%s: ", location);
-	if (error != NULL)
+	if (!isnull(error))
 	{
-		if (cause != NULL)
+		if (isnull(cause))
 			ft_dprintf(STDERR_FILENO, "%s: ", cause);
 		ft_dprintf(STDERR_FILENO, "%s\n", error);
 	}

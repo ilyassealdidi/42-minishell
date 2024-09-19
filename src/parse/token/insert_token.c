@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 15:44:52 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:32:20 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static int	insert_token(t_list **head, t_token *new)
 	t_token			*token;
 
 	token = ft_calloc(1, sizeof(t_token));
-	if (token == NULL)
+	if (isnull(token))
 		return (FAILURE);
 	ft_memcpy(token, new, sizeof(t_token));
 	node = ft_lstnew(token);
-	if (node == NULL)
+	if (isnull(node))
 		return (free(token), FAILURE);
 	ft_lstadd_back(head, node);
 	return (SUCCESS);
@@ -37,12 +37,12 @@ static int	split_variable(t_object *obj, t_token *token)
 	int				i;
 	char			**strs;
 
-	if (token->content == NULL)
+	if (isnull(token->content))
 		return (ft_appendtoken(obj, &new), SUCCESS);
 	strs = ft_split(token->content, ' ');
-	if (strs == NULL)
+	if (isnull(strs))
 		return (FAILURE);
-	if (*strs == NULL)
+	if (isnull(*strs))
 		return (free(*strs), /*ft_appendtoken(obj, &new),*/ SUCCESS);
 	free(token->content);
 	i = 0;
@@ -51,7 +51,7 @@ static int	split_variable(t_object *obj, t_token *token)
 		ft_memset(&new, 0, sizeof(t_token));
 		new.content = strs[i];
 		new.type = ARG;
-		if (strs[i + 1] == NULL && is_joinable(token))
+		if (isnull(strs[i + 1]) && is_joinable(token))
 			new.state |= JOINABLE;
 		ft_appendtoken(obj, &new); //! handle the return value
 		i++;
@@ -72,7 +72,7 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	{
 		token = get_last_token(obj->tokens);
 		token->content = ft_strjoin_free(token->content, new->content, BOTH);
-		if (token->content == NULL)
+		if (isnull(token->content))
 			return (FAILURE);
 		set_token_state(token, JOINABLE, new->state & JOINABLE);
 		set_token_state(token, QUOTED, new->state & QUOTED);

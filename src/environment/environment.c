@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:57:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:21:15 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	init_env(t_list **env_list, char **envp)
 	{
 		dict.key = ft_substr(*envp, 0, ft_strchr(*envp, '=') - *envp);
 		dict.value = ft_strdup(ft_strchr(*envp, '=') + 1);
-		if (dict.key == NULL || dict.value == NULL
+		if (isnull(dict.key) || isnull(dict.value)
 			|| insert_env(env_list, dict, false) == FAILURE)
 			return (ft_lstclear(env_list, destroy_env),
 				destroy_dictionnary(&dict), FAILURE);

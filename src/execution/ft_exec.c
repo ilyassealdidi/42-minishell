@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/19 09:15:40 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:34:14 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 		ft_pipe_out(cmds, cmd);
 		if (has_redirection(cmd))
 			ft_redirect(cmd);
-		if (is_builtin(cmd->cmd))
+		if (isbuiltin(cmd->cmd))
 			exit(execute_builtin(obj, cmds));
 		else
 			ft_run(cmds, cmd);
@@ -120,7 +120,7 @@ void	execute_commands(t_object *obj)
 	}
 	if (has_next(node) || has_redirection(cmd))
 		ft_save_fd(&fd_in, STDIN_FILENO);
-	if (is_builtin(cmd->cmd) && !has_next(node))
+	if (isbuiltin(cmd->cmd) && !has_next(node))
 		exec_builtin(obj, node);
 	else
 		ft_exec_bin(obj);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 16:28:30 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:23:35 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 	else
 	{
 		variable = ft_substr(*str, 1, len);
-		if (variable == NULL)
+		if (isnull(variable))
 			return (FAILURE);
 		value = get_env(obj->env, variable);
 		free(variable);
@@ -55,7 +55,7 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 			*ptr = NULL;
 	}
 	*str += len + (is_var);
-	if (*ptr == NULL && (!is_var || value != NULL))
+	if (isnull(*ptr) && (!is_var || value != NULL))
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -67,16 +67,16 @@ int	expand_str(t_object *obj, char **str)
 	string			ptr;
 
 	if (**str == '\0')
-		return (*str = ft_strdup(""), *str == NULL);
+		return (*str = ft_strdup(""), isnull(*str));
 	new = NULL;
 	while (**str != '\0')
 	{
 		if (set_next_part(obj, str, &ptr) == FAILURE)
 			return (FAILURE);
-		if (ptr == NULL)
+		if (isnull(ptr))
 			continue ;
 		new = ft_strjoin_free(new, ptr, BOTH);
-		if (new == NULL)
+		if (isnull(new))
 			return (FAILURE);
 	}
 	*str = new;

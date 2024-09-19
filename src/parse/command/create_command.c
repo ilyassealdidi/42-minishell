@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:43:25 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:28:16 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	set_args(t_list *tokens, t_command *command)
 	int				i;
 
 	command->argv = ft_calloc(command->argc + 1, sizeof(char *));
-	if (command->argv == NULL)
+	if (isnull(command->argv))
 		return (FAILURE);
 	i = 1;
 	while (tokens)
@@ -47,7 +47,7 @@ static int	set_args(t_list *tokens, t_command *command)
 		if (token->type == ARG || is_cmd)
 		{
 			command->argv[i * !is_cmd] = ft_strdup(token->content);
-			if (command->argv[i * !is_cmd] == NULL)
+			if (isnull(command->argv[i * !is_cmd]))
 				return (free_array(command->argv), FAILURE);
 			i += !is_cmd;
 		}
@@ -63,13 +63,13 @@ static char	*dict_toenv(t_dictionnary *dict)
 	string			key;
 	string			env;
 
-	if (dict->value == NULL)
+	if (isnull(dict->value))
 		return (ft_strdup(dict->key));
 	key = ft_strjoin(dict->key, "=");
-	if (key == NULL)
+	if (isnull(key))
 		return (NULL);
 	env = ft_strjoin_free(key, dict->value, LEFT);
-	if (env == NULL)
+	if (isnull(env))
 		return (free(key), NULL);
 	return (env);
 }
@@ -82,7 +82,7 @@ static int	set_envp(t_list *list, t_command *command)
 
 	count = ft_lstsize(list);
 	command->envp = ft_calloc(count + 1, sizeof(char *));
-	if (command->envp == NULL)
+	if (isnull(command->envp))
 		return (FAILURE);
 	command->envp[count] = NULL;
 	i = 0;
@@ -92,7 +92,7 @@ static int	set_envp(t_list *list, t_command *command)
 		if (env->hidden == false)
 		{
 			command->envp[i] = dict_toenv(&env->element);
-			if (command->envp[i] == NULL)
+			if (isnull(command->envp[i]))
 				return (free_array(command->envp), FAILURE);
 			i++;
 		}
@@ -105,8 +105,8 @@ int	set_command(t_object *obj, t_list *tokens, t_command **command)
 {
 	t_token			*token;
 
-	(*command) = ft_calloc(1, sizeof(t_command));
-	if ((*command) == NULL)
+	*command = ft_calloc(1, sizeof(t_command));
+	if (isnull(*command))
 		return (FAILURE);
 	(*command)->out = STDOUT_FILENO;
 	(*command)->argc = count_args(tokens);

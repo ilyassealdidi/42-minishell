@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:21:57 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:42:27 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:20:01 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	unset_env(t_list **env_list, string key)
 		if (ft_strcmp(env->element.key, key) == 0)
 		{
 			decrement_env_index(*env_list, env->index);
-			if (node->previous == NULL)
+			if (isnull(node->previous))
 				*env_list = node->next;
 			else
 			{

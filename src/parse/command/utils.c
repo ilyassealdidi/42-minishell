@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:28 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/09 21:30:19 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:30:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_command	*get_command(t_list *list)
 {
-	if (list == NULL)
+	if (isnull(list))
 		return (NULL);
 	return ((t_command *)list->content);
 }

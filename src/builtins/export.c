@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:41:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:15:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	print_env(t_list *head)
 			i++;
 		}
 		node = node->next;
-		if (node == NULL)
+		if (isnull(node))
 			node = head;
 	}
 }
@@ -60,10 +60,10 @@ static bool	is_valid_identifier(char *str)
 //update the function's name
 static int	set_dict(t_dictionnary *dict, char *env, char *equal)
 {
-	if (equal == NULL)
+	if (isnull(equal))
 	{
 		dict->key = ft_strdup(env);
-		if (dict->key == NULL)
+		if (isnull(dict->key))
 			return (FAILURE);
 		dict->value = NULL;
 	}
@@ -71,7 +71,7 @@ static int	set_dict(t_dictionnary *dict, char *env, char *equal)
 	{
 		dict->key = ft_substr(env, 0, equal - (equal[-1] == '+') - env);
 		dict->value = ft_strdup(ft_strchr(env, '=') + 1);
-		if (dict->key == NULL || dict->value == NULL)
+		if (isnull(dict->key) || isnull(dict->value))
 			return (destroy_dictionnary(dict), FAILURE);
 	}
 	return (SUCCESS);

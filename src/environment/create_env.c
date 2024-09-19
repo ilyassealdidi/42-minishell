@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:19:36 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/13 09:41:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:19:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ int	insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
 		newdict.value = ft_strdup(dict.value);
 	else
 		newdict.value = NULL;
-	if (newdict.key == NULL || (newdict.value == NULL && dict.value != NULL))
+	if (isnull(newdict.key) || (isnull(newdict.value) && isset(dict.value)))
 		return (destroy_dictionnary(&newdict), FAILURE);
 	env = create_env(newdict, hidden);
-	if (env == NULL)
+	if (isnull(env))
 		return (destroy_dictionnary(&newdict), FAILURE);
 	set_index(env, *env_list);
 	new = ft_lstnew(env);
-	if (new == NULL)
+	if (isnull(new))
 		return (destroy_env(env), FAILURE);
 	ft_lstadd_back(env_list, new);
 	return (SUCCESS);

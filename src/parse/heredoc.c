@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 16:27:47 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:24:43 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static char	*generate_filename(void)
 	string			name;
 
 	number = ft_itoa(i);
-	if (number == NULL)
+	if (isnull(number))
 		return (i = 0, NULL);
 	name = ft_strjoin("/tmp/heredoc_", number);
 	free(number);
-	if (name == NULL)
+	if (isnull(name))
 		return (i = 0, NULL);
 	i++;
 	return (name);
@@ -64,7 +64,7 @@ static int	heredoc(t_object *obj, t_token *token, string filename)
 	while (1)
 	{
 		line = readline("> ");
-		if (line == NULL || ft_strcmp(line, token->content) == 0)
+		if (isnull(line) || ft_strcmp(line, token->content) == 0)
 		{
 			free(line);
 			if (g_received_signal != obj->received_signals)
@@ -95,7 +95,7 @@ int	heredocs_init(t_object *obj)
 		if (token->type == DELIMITER)
 		{
 			filename = generate_filename();
-			if (filename == NULL)
+			if (isnull(filename))
 				return (FAILURE);
 			if (heredoc(obj, tmp->content, filename) == FAILURE)
 				return (init_signals(), ft_dup(stdin_fd, STDIN_FILENO, NOTHING), FAILURE); //! print error

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:24:08 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/11 00:24:19 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:15:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	append_env(t_list **env_list, t_dictionnary dict)
 		element = tmp->content;
 		if (ft_strcmp(element->key, dict.key) == 0)
 		{
-			if (dict.value == NULL)
+			if (isnull(dict.value))
 				return (SUCCESS);
 			element->value = ft_strjoin_free(element->value, dict.value, LEFT);
-			if (element->value == NULL)
+			if (isnull(element->value))
 				return (FAILURE);
 			return (SUCCESS);
 		}

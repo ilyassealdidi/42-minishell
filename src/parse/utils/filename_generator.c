@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:34:30 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 16:28:46 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:32:43 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static char	*generate_filename(void)
 	string			name;
 
 	number = ft_itoa(i);
-	if (number == NULL)
+	if (isnull(number))
 		return (i = 0, NULL);
 	name = ft_strjoin("/tmp/heredoc_", number);
 	free(number);
-	if (name == NULL)
+	if (isnull(name))
 		return (i = 0, NULL);
 	i++;
 	return (name);
