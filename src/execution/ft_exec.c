@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 23:39:56 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:57:58 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int	execute_commands(t_object *obj)
 		return (SUCCESS);
 	node = obj->commands;
 	cmd = node->content;
+	if (cmd->in == FAILED || cmd->out == FAILED)
+		return (FAILED);
 	if (has_next(node) || has_redirection(cmd))
 		ft_save_fd(&fd_in, STDIN_FILENO);
 	if (is_builtin(cmd->cmd) && !has_next(node))
