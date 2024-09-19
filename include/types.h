@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 09:33:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 09:40:43 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@
 # define EMTMA "too many arguments"
 # define EMRCD "error retrieving current directory"
 # define EMCNF "command not found"
-# define EISADIR "is a directory" //!
+# define EMISDIR "is a directory"
 # define EMSYNTAX "syntax error"
 # define EMAMBR "ambiguous redirect"
 

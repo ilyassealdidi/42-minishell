@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/19 09:05:41 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/19 09:15:40 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_run(t_list *cmds, t_command *cmd)
 	{
 		if (S_ISDIR(path_stat.st_mode))
 		{
-			ft_error(NULL, cmd->cmd, EISADIR);
+			ft_error(NULL, cmd->cmd, EMISDIR);
 			exit(126);
 		}
 	}
@@ -40,8 +40,6 @@ static int	ft_run(t_list *cmds, t_command *cmd)
 
 static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 {
-	int				status;
-
 	signal(SIGINT, SIG_IGN);
 	cmd->pid = ft_fork();
 	if (cmd->pid == FAILED)
@@ -66,7 +64,7 @@ static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 	return (SUCCESS);
 }
 
-static int	ft_exec_bin(t_object *obj)
+static void	ft_exec_bin(t_object *obj)
 {
 	t_command		*cmd;
 	t_list			*cmds;
@@ -87,13 +85,11 @@ static int	ft_exec_bin(t_object *obj)
 	if (has_next(obj->commands))
 		ft_close(cmd->pfd[PIN]);
 	ft_wait(obj);
-	return (SUCCESS);
 }
 
-static int	exec_builtin(t_object *obj, t_list *cmds)
+static void	exec_builtin(t_object *obj, t_list *cmds)
 {
 	t_command		*cmd;
-	int				status;
 	int				fd_out;
 
 	cmd = cmds->content;
@@ -102,32 +98,32 @@ static int	exec_builtin(t_object *obj, t_list *cmds)
 		ft_save_fd(&fd_out, STDOUT_FILENO);
 		ft_dup(cmd->out, STDOUT_FILENO, NOTHING);
 	}
-	status = execute_builtin(obj, cmds);
+	obj->exit_status = execute_builtin(obj, cmds);
 	if (has_redirection(cmd))
 		ft_dup(fd_out, STDOUT_FILENO, NOTHING);
-	return (status);
 }
 
-int	execute_commands(t_object *obj)
+void	execute_commands(t_object *obj)
 {
 	t_list			*node;
 	t_command		*cmd;
-	int				status;
 	int				fd_in;
 
 	if (obj->commands == NULL)
-		return (SUCCESS);
+		return ;
 	node = obj->commands;
 	cmd = node->content;
 	if (cmd->in == FAILED || cmd->out == FAILED)
-		return (FAILURE);
+	{
+		obj->exit_status = 1;
+		return ;
+	}
 	if (has_next(node) || has_redirection(cmd))
 		ft_save_fd(&fd_in, STDIN_FILENO);
 	if (is_builtin(cmd->cmd) && !has_next(node))
-		status = exec_builtin(obj, node);
+		exec_builtin(obj, node);
 	else
-		status = ft_exec_bin(obj);
+		ft_exec_bin(obj);
 	if (has_next(node) || has_redirection(cmd))
 		ft_dup(fd_in, STDIN_FILENO, NOTHING);
-	return (status);
 }
