@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 20:04:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 08:58:18 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	generate_commands(t_object *obj)
 	if (commands_init(obj) == FAILURE)
 		return (perror(EMBASE), ft_lstclear(&obj->tokens, destroy_token),
 			FAILURE);
-	ft_lstiter(obj->tokens, display_token);
+	// ft_lstiter(obj->tokens, display_token);
 	ft_lstclear(&obj->tokens, destroy_token);
-	return (FAILURE);
+	// return (FAILURE);
 	//ft_lstiter(obj->commands, display_command);
 	return (SUCCESS);
 }
