@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 20:03:06 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 09:33:06 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int				builtin_unset(t_object *obj, t_command *cmd);
 void			builtin_env(t_object *obj);
 int				builtin_exit(t_object *obj, t_command *command);
 
-/*		Signals	Mangement		*/
+/*		Signals	Management		*/
 void			init_signals(void);
 void			exit_shell(t_object *obj);
 
@@ -83,9 +83,5 @@ int				set_command(t_object *obj, t_list *tokens, t_command **command);
 t_command		*get_command(t_list *list);
 void			destroy_command(void *content);
 int				commands_init(t_object *obj);
-
-/*		Exit status				*/
-int				update_exit_status(t_object *obj);
-int				set_exit_status(t_object *obj);
 
 #endif

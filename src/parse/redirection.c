@@ -6,11 +6,21 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:14:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:54:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 09:39:17 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static int	open_fd(string filename, t_token_type type)
+{
+	if (type == REDIR_IN || type == HEREDOC)
+		return (open(filename, O_RDONLY));
+	else if (type == APPEND)
+		return (open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644));
+	else
+		return (open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644));
+}
 
 static void	close_fd(int fd, int default_fd)
 {
@@ -28,17 +38,14 @@ int	redir_init(t_list *node, t_command *command)
 	if (token->type == REDIR_IN || token->type == HEREDOC)
 	{
 		close_fd(command->in, STDIN_FILENO);
-		command->in = open(filename, O_RDONLY);
+		command->in = open_fd(filename, token->type);
 		if (token->type == HEREDOC)
 			unlink(filename);
 	}
 	else
 	{
 		close_fd(command->out, STDOUT_FILENO);
-		if (token->type == APPEND)
-			command->out = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			command->out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		command->out = open_fd(filename, token->type);
 	}
 	if (filename == NULL)
 		return (ft_error(NULL, NULL, EMAMBR), FAILURE);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 19:53:45 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 09:33:55 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@
 # define VALID 1
 # define INVALID 0
 
-# define PROMPT "\033[0;32m➜\033[0m "
+# define SUCCESS_PROMPT "\033[0;32m➜\033[0m "
+# define FAILURE_PROMPT "\033[0;31m➜\033[0m "
 
 # define string char *
 
@@ -91,7 +92,7 @@ typedef enum e_token_type
 	REDIR_OUT,
 	APPEND,
 	HEREDOC,
-	// FILE, // to be removed
+	FILENAME
 }	t_token_type;
 
 typedef struct s_token

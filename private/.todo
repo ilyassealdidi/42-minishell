@@ -1,13 +1,12 @@
 Next :
-	top bla stop
+	readline functions
+	exit_shell function
 
 Mandatory :
 
 Recommended :
 
 Optional :
-	Ambigious Redirection
-	Split Expanded variables
 
 Suggestions :
 	use strtok

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/18 20:01:23 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 09:19:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static void	update_token_type(t_list *head, t_token *new)
 		set_token_state(new, JOINABLE, false);
 	if (last != NULL && last->type == HEREDOC)
 		new->type = DELIMITER;
-	// else if (last != NULL && is_redir(last))
-	// 	new->type = FILE;
+	else if (last != NULL && is_redir(last))
+		new->type = FILENAME;
 	else if (new->content
 		&& is_builtin(new->content) && contains_command(head) == false)
 		new->type = BUILTIN;

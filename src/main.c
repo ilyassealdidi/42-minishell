@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/16 19:41:58 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 09:32:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,7 @@
 
 int					g_received_signal = 0;
 
-int	update_exit_status(t_object *obj)
-{
-	if (g_received_signal != obj->received_signals)
-	{
-		obj->exit_status = 1;
-		obj->received_signals = g_received_signal;
-	}
-	if (ft_atoi(get_env(obj->env, "?")) != obj->exit_status)
-	{
-		if (set_exit_status(obj) == FAILURE)
-			return (FAILURE);
-	}
-	return (SUCCESS);
-}
+
 
 void	f(void)
 {
