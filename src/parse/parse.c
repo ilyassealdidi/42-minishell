@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 18:54:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 19:05:04 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	update_exit_status(t_object *obj)
 {
-	t_string			value;
+	t_string		value;
 
 	if (g_received_signal != obj->received_signals)
 	{
@@ -35,9 +35,9 @@ static int	update_exit_status(t_object *obj)
 
 static int	parse(t_object *obj)
 {
-	t_string			line;
+	t_string		line;
 
-	if (obj->exit_status == 0)
+	if (obj->exit_status == SUCCESS)
 		line = readline(SUCCESS_PROMPT);
 	else
 		line = readline(FAILURE_PROMPT);
@@ -46,7 +46,7 @@ static int	parse(t_object *obj)
 	if (line[0] != '\0')
 		add_history(line);
 	if (update_exit_status(obj) == FAILURE)
-		return (free(line), FAILURE);
+		return (obj->exit_status = 1, free(line), FAILURE);
 	obj->exit_status = tokens_init(obj, line);
 	free(line);
 	if (obj->exit_status == FAILURE)
