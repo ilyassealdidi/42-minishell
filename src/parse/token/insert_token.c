@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 22:35:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 21:36:40 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	split_variable(t_object *obj, t_token *token)
 			return (free_array(strs), token->content = NULL, FAILURE);
 		i++;
 	}
-	free_array(strs);
+	free(strs);
 	return (SUCCESS);
 }
 
