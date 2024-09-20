@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/19 15:21:02 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:29:54 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ft_run(t_list *cmds, t_command *cmd)
 {
 	struct stat		path_stat;
-
+	printf("cmd->cmd: %s\n", cmd->cmd);
 	if (cmd->argc == 0)
 		exit (SUCCESS);
 	if (ft_strchr(cmd->cmd, '/') && stat(cmd->cmd, &path_stat) == SUCCESS)
@@ -31,7 +31,7 @@ static int	ft_run(t_list *cmds, t_command *cmd)
 		if (cmd->cmd[0] == '.')
 			ft_error(NULL, cmd->cmd, NULL);
 		else if (ft_strchr(cmd->cmd, '/') == NULL)
-			ft_error(NULL, cmd->cmd, EMCNF);
+			ft_error(cmd->cmd, "", EMCNF);
 		else
 			ft_error(NULL, cmd->cmd, NULL);
 	}
