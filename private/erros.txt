@@ -1,3 +1,0 @@
-e3r7p11:master ialdidi$ $HOME
-bash: /Users/ialdidi: is a directory
-
