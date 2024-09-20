@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:25:03 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:54:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	update_exit_status(t_object *obj)
 {
-	string			value;
+	t_string			value;
 
 	if (g_received_signal != obj->received_signals)
 	{
@@ -35,7 +35,7 @@ static int	update_exit_status(t_object *obj)
 
 static int	parse(t_object *obj)
 {
-	string			line;
+	t_string			line;
 
 	if (obj->exit_status == 0)
 		line = readline(SUCCESS_PROMPT);
@@ -62,9 +62,7 @@ int	generate_commands(t_object *obj)
 {
 	if (parse(obj) == FAILURE)
 		return (FAILURE);
-	if (heredocs_init(obj) == FAILURE)
-		return (ft_lstclear(&obj->tokens, destroy_token), FAILURE);
-	if (commands_init(obj) == FAILURE)
+	if (heredocs_init(obj) == FAILURE || commannods_init(obj) == FAILURE)
 		return (perror(EMBASE), ft_lstclear(&obj->tokens, destroy_token),
 			FAILURE);
 	ft_lstclear(&obj->tokens, destroy_token);

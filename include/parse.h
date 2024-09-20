@@ -6,10 +6,9 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 09:33:06 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 23:50:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PARSE_H
 # define PARSE_H
@@ -64,6 +63,7 @@ int				builtin_exit(t_object *obj, t_command *command);
 
 /*		Signals	Management		*/
 void			init_signals(void);
+void			heredoc_interrupt_handler(int sig);
 void			exit_shell(t_object *obj);
 
 /*		TO BE REMOVED			*/

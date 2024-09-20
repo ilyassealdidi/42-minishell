@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:21:57 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:20:01 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:54:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	decrement_env_index(t_list *env_list, int index)
  * @param env_list The pointer to the head of the environment list.
  * @param key The key of the environment variable to be removed.
  */
-void	unset_env(t_list **env_list, string key)
+void	unset_env(t_list **env_list, t_string key)
 {
 	t_list			*node;
 	t_environment	*env;

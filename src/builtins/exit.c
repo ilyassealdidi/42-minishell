@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:14:29 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:55:56 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static long	get_number(const char *str)
 	return (num * sign);
 }
 
-static void 	ft_exit(t_object *obj, int status)
+static void	ft_exit(t_object *obj, int status)
 {
 	ft_lstclear(&obj->commands, destroy_command);
 	ft_lstclear(&obj->env, destroy_env);
@@ -51,7 +51,7 @@ static void 	ft_exit(t_object *obj, int status)
 int	builtin_exit(t_object *obj, t_command *command)
 {
 	unsigned char	nb;
-	string			value;
+	t_string		value;
 
 	nb = 0;
 	if (ft_lstsize(obj->commands) == 1)
@@ -69,7 +69,8 @@ int	builtin_exit(t_object *obj, t_command *command)
 			ft_exit(obj, -1);
 		}
 		if (command->argc > 2)
-			return (ft_error(B_EXIT, NULL, EMTMA), obj->exit_status = 1, SUCCESS);
+			return (ft_error(B_EXIT, NULL, EMTMA),
+				obj->exit_status = 1, SUCCESS);
 	}
 	ft_exit(obj, nb);
 	return (SUCCESS);

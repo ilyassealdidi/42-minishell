@@ -1,8 +1,9 @@
-# private/
+private/
 # .vscode/
 *.out
 *.o
 *.a
+src/utils/_utils.c
 minishell
 minishell_db
 minishell_db.dsym/

@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:14:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:25:13 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:58:11 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static int	open_fd(string filename, t_token_type type)
+static int	open_fd(t_string filename, t_token_type type)
 {
 	if (type == REDIR_IN || type == HEREDOC)
 		return (open(filename, O_RDONLY));
@@ -31,7 +31,7 @@ static void	close_fd(int fd, int default_fd)
 int	redir_init(t_list *node, t_command *command)
 {
 	t_token			*token;
-	string			filename;
+	t_string		filename;
 
 	token = get_token(node);
 	filename = get_token(node->next)->content;

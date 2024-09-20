@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:19:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:15:42 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:54:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	builtin_pwd(t_object *obj)
 {
-	string			pwd;
+	t_string			pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (isnull(pwd))

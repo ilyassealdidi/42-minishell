@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:23:35 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:58:17 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static int	set_part_len(string str, int *len)
+static int	set_part_len(t_string str, int *len)
 {
 	if (*str == '$')
 	{
@@ -36,8 +36,8 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 {
 	int				len;
 	int				is_var;
-	string			variable;
-	string			value;
+	t_string		variable;
+	t_string		value;
 
 	is_var = set_part_len(*str, &len);
 	if (!is_var)
@@ -60,11 +60,10 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 	return (SUCCESS);
 }
 
- //! check leaks
 int	expand_str(t_object *obj, char **str)
 {
-	string			new;
-	string			ptr;
+	t_string		new;
+	t_string		ptr;
 
 	if (**str == '\0')
 		return (*str = ft_strdup(""), isnull(*str));
@@ -85,7 +84,7 @@ int	expand_str(t_object *obj, char **str)
 
 int	expand(t_object *obj, t_token *token)
 {
-	string			original;
+	t_string			original;
 
 	if (obj->tokens && get_last_token(obj->tokens)->type == HEREDOC)
 		return (SUCCESS);

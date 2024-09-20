@@ -6,13 +6,13 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:47:26 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:35:42 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:54:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_error(string location, string cause, string error)
+void	ft_error(t_string location, t_string cause, t_string error)
 {
 	ft_dprintf(STDERR_FILENO, "minishell: ");
 	if (!isnull(location))

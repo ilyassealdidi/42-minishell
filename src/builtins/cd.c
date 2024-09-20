@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:13:49 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:54:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	update_pwd(t_object *obj)
 
 int	builtin_cd(t_object *obj, t_command *command)
 {
-	string			path;
+	t_string			path;
 
 	if (isnull(command->argv[1]))
 		path = get_env(obj->env, "HOME");
@@ -69,7 +69,7 @@ int	builtin_cd(t_object *obj, t_command *command)
 		obj->exit_status = 1;
 		return (FAILURE);
 	}
-	if (update_oldpwd(obj) == FAILURE || update_pwd(obj) == FAILURE) //! update_oldpwd
+	if (update_oldpwd(obj) == FAILURE || update_pwd(obj) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
 }

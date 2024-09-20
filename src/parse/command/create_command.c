@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:28:16 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:54:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static int	set_args(t_list *tokens, t_command *command)
 
 static char	*dict_toenv(t_dictionnary *dict)
 {
-	string			key;
-	string			env;
+	t_string			key;
+	t_string			env;
 
 	if (isnull(dict->value))
 		return (ft_strdup(dict->key));

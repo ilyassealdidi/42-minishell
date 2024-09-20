@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 20:41:13 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:33:35 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 22:17:39 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static void	update_token_type(t_list *head, t_token *new)
 	last = get_last_token(head);
 	if (is_expandable(new) && !is_quoted(new) && new->content != NULL
 		&& ft_strchr(" \t", new->content[0]) && last != NULL
-		&& !is_operator(last) && ft_strlen(last->content) != 0 && is_joinable(last))
+		&& !is_operator(last) && ft_strlen(last->content) != 0
+		&& is_joinable(last))
 		set_token_state(last, JOINABLE, false);
 	if (is_expandable(new) && !is_quoted(new) && new->content
 		&& ft_strchr(" \t", new->content[ft_strlen(new->content) - 1]))

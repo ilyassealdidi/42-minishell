@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:24:43 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:58:07 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static char	*generate_filename(void)
 {
 	static int		i;
-	string			number;
-	string			name;
+	t_string		number;
+	t_string		name;
 
 	number = ft_itoa(i);
 	if (isnull(number))
@@ -29,13 +29,7 @@ static char	*generate_filename(void)
 	return (name);
 }
 
-void	heredoc_signal_handler(int signum)
-{
-	g_received_signal++;
-	close(0);
-}
-
-int	write_line(t_object *obj, t_token *token, int fd, string line)
+static int	write_line(t_object *obj, t_token *token, int fd, t_string line)
 {
 	if (is_quoted(token))
 	{
@@ -45,7 +39,7 @@ int	write_line(t_object *obj, t_token *token, int fd, string line)
 	{
 		if (expand_str(obj, &line) == FAILURE)
 			return (FAILURE);
-		if (line != NULL)	
+		if (line != NULL)
 			ft_dprintf(fd, "%s", line);
 		ft_dprintf(fd, "\n");
 		free(line);
@@ -53,10 +47,10 @@ int	write_line(t_object *obj, t_token *token, int fd, string line)
 	return (SUCCESS);
 }
 
-static int	heredoc(t_object *obj, t_token *token, string filename)
+static int	open_heredoc(t_object *obj, t_token *token, t_string filename)
 {
 	int				fd;
-	string			line;
+	t_string		line;
 
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
@@ -79,16 +73,13 @@ static int	heredoc(t_object *obj, t_token *token, string filename)
 	return (SUCCESS);
 }
 
-int	heredocs_init(t_object *obj)
+static int	open_heredocs(t_object *obj)
 {
 	t_list			*tmp;
 	t_token			*token;
-	string			filename;
-	int				stdin_fd;
+	t_string		filename;
 
 	tmp = obj->tokens;
-	ft_save_fd(&stdin_fd, STDIN_FILENO);
-	signal(SIGINT, heredoc_signal_handler);
 	while (tmp)
 	{
 		token = tmp->content;
@@ -97,14 +88,28 @@ int	heredocs_init(t_object *obj)
 			filename = generate_filename();
 			if (isnull(filename))
 				return (FAILURE);
-			if (heredoc(obj, tmp->content, filename) == FAILURE)
-				return (init_signals(), ft_dup(stdin_fd, STDIN_FILENO, NOTHING), FAILURE); //! print error
+			if (open_heredoc(obj, tmp->content, filename) == FAILURE)
+				return (free(filename), FAILURE);
 			free(token->content);
 			token->content = filename;
 		}
-		tmp = tmp->next;
 	}
-	init_signals();
-	ft_dup(stdin_fd, STDIN_FILENO, NOTHING);
 	return (SUCCESS);
+}
+
+int	heredocs_init(t_object *obj)
+{
+	int				stdin_fd;
+	int				status;
+
+	stdin_fd = dup(STDIN_FILENO);
+	if (stdin_fd == -1)
+		return (FAILURE);
+	signal(SIGINT, heredoc_interrupt_handler);
+	status = open_heredocs(obj);
+	init_signals();
+	if (dup2(stdin_fd, STDIN_FILENO) == -1)
+		return (close(stdin_fd), FAILURE);
+	close(stdin_fd);
+	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 10:04:05 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:21:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/20 18:59:44 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ t_environment	*create_env(t_dictionnary dict, bool hidden)
 	if (!hidden)
 		env->index = 1;
 	return (env);
+}
+
+void	destroy_dictionnary(void *content)
+{
+	t_dictionnary	*dict;
+
+	dict = (t_dictionnary *)content;
+	free(dict->key);
+	free(dict->value);
 }
 
 void	destroy_env(void *content)

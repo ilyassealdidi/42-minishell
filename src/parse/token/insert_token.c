@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:32:20 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/19 22:35:57 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,18 @@ static int	insert_token(t_list **head, t_token *new)
 	return (SUCCESS);
 }
 
-/*
-	Remove this function
-*/
 static int	split_variable(t_object *obj, t_token *token)
 {
-	static t_token	new;
+	t_token			new;
 	int				i;
 	char			**strs;
 
-	if (isnull(token->content))
-		return (ft_appendtoken(obj, &new), SUCCESS);
+	ft_memset(&new, 0, sizeof(t_token));
 	strs = ft_split(token->content, ' ');
-	if (isnull(strs))
+	if (isset(token->content) && isnull(strs))
 		return (FAILURE);
-	if (isnull(*strs))
-		return (free(*strs), /*ft_appendtoken(obj, &new),*/ SUCCESS);
+	if (isnull(token->content) || isnull(*strs))
+		return (free(*strs), ft_appendtoken(obj, &new), SUCCESS);
 	free(token->content);
 	i = 0;
 	while (strs[i])
@@ -53,17 +49,17 @@ static int	split_variable(t_object *obj, t_token *token)
 		new.type = ARG;
 		if (isnull(strs[i + 1]) && is_joinable(token))
 			new.state |= JOINABLE;
-		ft_appendtoken(obj, &new); //! handle the return value
+		if (ft_appendtoken(obj, &new) == FAILURE)
+			return (free_array(strs), token->content = NULL, FAILURE);
 		i++;
 	}
-	free(strs);
+	free_array(strs);
 	return (SUCCESS);
 }
 
 int	ft_appendtoken(t_object *obj, t_token *new)
 {
 	t_token			*token;
-	static t_token	*last;
 
 	update_token(obj->tokens, new);
 	if (is_expandable(new) && !is_quoted(new))
@@ -84,4 +80,3 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	}
 	return (SUCCESS);
 }
-
