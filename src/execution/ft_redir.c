@@ -6,15 +6,12 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 06:13:03 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/11 01:48:48 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:29:50 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//redirect the file descriptor to the right place
-//2 means another file are opened
-//so we need to duplicate it to the std{in||out}
 void	ft_redirect(t_command *cmd)
 {
 	if (cmd->in > 2)
