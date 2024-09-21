@@ -6,16 +6,14 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 23:50:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 16:01:59 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
-# include <termios.h>
-
-/*		Token utils				*/
+/*		Tokenization			*/
 t_token			*get_token(t_list *list);
 t_token			*get_last_token(t_list *list);
 bool			is_redir(t_token *token);
@@ -65,12 +63,6 @@ int				builtin_exit(t_object *obj, t_command *command);
 void			init_signals(void);
 void			heredoc_interrupt_handler(int sig);
 void			exit_shell(t_object *obj);
-
-/*		TO BE REMOVED			*/
-void			print_content(void *content);
-void			display_token(void *content);
-void			leaks_func(void);
-void			display_command(void *content);
 
 /*		Redirections			*/
 int				redir_init(t_list *node, t_command *command);

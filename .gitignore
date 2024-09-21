@@ -1,8 +1,10 @@
 private/
 .vscode/
+include/debug.h
 *.out
 *.o
 *.a
+.normignore
 src/utils/_utils.c
 minishell
 minishell_db
