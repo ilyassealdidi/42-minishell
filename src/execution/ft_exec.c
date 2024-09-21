@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/21 16:18:01 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 17:28:39 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static int	ft_run(/*t_list *cmds, */t_command *cmd) //! cmds variable is not used
+static int	ft_run(t_command *cmd)
 {
 	struct stat		path_stat;
 
@@ -54,7 +54,7 @@ static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 		if (isbuiltin(cmd->cmd))
 			exit(execute_builtin(obj, cmds));
 		else
-			ft_run(/*cmds, */cmd);
+			ft_run(cmd);
 	}
 	else if (is_parent(cmd->pid))
 	{
