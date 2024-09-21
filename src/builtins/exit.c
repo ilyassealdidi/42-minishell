@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 18:55:56 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 18:37:47 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	ft_exit(t_object *obj, int status)
 {
 	ft_lstclear(&obj->commands, destroy_command);
 	ft_lstclear(&obj->env, destroy_env);
+	rl_clear_history();
 	exit(status);
 }
 
