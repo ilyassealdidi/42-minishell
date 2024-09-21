@@ -6,11 +6,26 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 22:12:29 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 20:30:57 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	init_l3ibat(t_list **env_list)
+{
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (isnull(pwd))
+		ft_error(B_PWD, NULL, EMRCD);
+	if (insert_env(env_list, (t_dictionnary){"?", "0"}, 1) == FAILURE
+		|| insert_env(env_list, (t_dictionnary){"PWD", pwd}, 0) == FAILURE
+		|| insert_env(env_list, (t_dictionnary){"@PWD", pwd}, 1) == FAILURE
+		|| insert_env(env_list, (t_dictionnary){"OLDPWD", NULL}, 0) == FAILURE
+		|| insert_env(env_list, (t_dictionnary){"@OLDPWD", NULL}, 1) == FAILURE)
+		return (free(pwd), FAILURE);
+}
 
 /**
  * Initializes the environment list with the given environment variables.
@@ -36,9 +51,7 @@ int	init_env(t_list **env_list, char **envp)
 		destroy_dictionnary(&dict);
 		envp++;
 	}
-	if (insert_env(env_list, (t_dictionnary){"?", "0"}, 1) == FAILURE
-		|| insert_env(env_list, (t_dictionnary){"OLDPWD", NULL}, 0) == FAILURE
-		|| insert_env(env_list, (t_dictionnary){"PWD", NULL}, 0) == FAILURE)
+	if (init_l3ibat(env_list) == FAILURE)
 		return (ft_lstclear(env_list, destroy_env), FAILURE);
 	return (SUCCESS);
 }

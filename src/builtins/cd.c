@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 18:54:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 19:33:33 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ int	update_pwd(t_object *obj)
 	dict.value = getcwd(NULL, 0);
 	if (isnull(dict.value))
 	{
-		free(dict.value);
-		ft_error(B_CD, "error retrieving current directory: getcwd: ", NULL);
-		return (FAILURE);
+		dict.value = ft_strjoin(get_env(obj->env, "PWD"), "/..");
+		set_env(&obj->env, dict);
+		// free(dict.value);
+		ft_error(B_CD, "error retrieving current directory: getcwd", NULL);
+		// return (FAILURE);
 	}
-	if (set_env(&obj->env, dict) == FAILURE)
+	if (set_env(&obj->env, dict) == FAILURE
+		|| set_env(&obj->env, (t_dictionnary){"@PWD", dict.value}) == FAILURE)
 	{
 		free(dict.value);
 		obj->exit_status = 1;
