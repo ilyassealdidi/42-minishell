@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 21:36:40 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:25:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,16 @@ static int	split_variable(t_object *obj, t_token *token)
 	char			**strs;
 
 	ft_memset(&new, 0, sizeof(t_token));
+	if (isnull(token->content))
+		return (ft_appendtoken(obj, &new), SUCCESS);
 	strs = ft_split(token->content, ' ');
-	if (isset(token->content) && isnull(strs))
+	if (isnull(strs))
 		return (FAILURE);
-	if (isnull(token->content) || isnull(*strs))
+	if (isnull(*strs))
 		return (free(*strs), ft_appendtoken(obj, &new), SUCCESS);
 	free(token->content);
-	i = 0;
-	while (strs[i])
+	i = -1;
+	while (strs[++i])
 	{
 		ft_memset(&new, 0, sizeof(t_token));
 		new.content = strs[i];
@@ -51,10 +53,8 @@ static int	split_variable(t_object *obj, t_token *token)
 			new.state |= JOINABLE;
 		if (ft_appendtoken(obj, &new) == FAILURE)
 			return (free_array(strs), token->content = NULL, FAILURE);
-		i++;
 	}
-	free(strs);
-	return (SUCCESS);
+	return (free(strs), SUCCESS);
 }
 
 int	ft_appendtoken(t_object *obj, t_token *new)

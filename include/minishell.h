@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:09:41 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:28:42 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,20 @@ void			free_array(char **strs);
 bool			isnull(void *ptr);
 bool			isset(void *ptr);
 bool			isbuiltin(char *str);
+
+/*		Debug - start		*/
+# define RED "\033[0;31m"
+# define GREEN "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define BLUE "\033[0;34m"
+# define MAGENTA "\033[0;35m"
+# define CYAN "\033[0;36m"
+# define UKN "\033[1;30m"
+# define WHITE "\033[1;97m"
+# define RESET "\033[0m"
+
+# define TRUE GREEN"true"RESET
+# define FALSE RED"false"RESET
+/*		Debug - end		*/
 
 #endif

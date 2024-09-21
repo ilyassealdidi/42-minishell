@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 18:58:07 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:35:08 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ static int	open_heredocs(t_object *obj)
 			free(token->content);
 			token->content = filename;
 		}
+		tmp = tmp->next;
 	}
 	return (SUCCESS);
 }

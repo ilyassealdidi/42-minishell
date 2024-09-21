@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 19:05:04 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 15:50:05 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ static int	update_exit_status(t_object *obj)
 	return (SUCCESS);
 }
 
-static int	parse(t_object *obj)
+static t_string	read_line(t_object *obj)
 {
 	t_string		line;
+	t_string		trimmed_line;
 
 	if (obj->exit_status == SUCCESS)
 		line = readline(SUCCESS_PROMPT);
@@ -43,10 +44,24 @@ static int	parse(t_object *obj)
 		line = readline(FAILURE_PROMPT);
 	if (isnull(line))
 		exit_shell(obj);
-	if (line[0] != '\0')
+	if (*line != '\0')
 		add_history(line);
+	trimmed_line = ft_strtrim(line, " \t");
+	free(line);
+	return (trimmed_line);
+}
+
+static int	parse(t_object *obj)
+{
+	t_string		line;
+
+	line = read_line(obj);
+	if (isnull(line))
+		return (perror(EMBASE), obj->exit_status = 1, FAILURE);
 	if (update_exit_status(obj) == FAILURE)
-		return (obj->exit_status = 1, free(line), FAILURE);
+		return (perror(EMBASE), obj->exit_status = 1, free(line), FAILURE);
+	if (*line == '\0')
+		return (printf("Hi %d\n", obj->exit_status), FAILURE);
 	obj->exit_status = tokens_init(obj, line);
 	free(line);
 	if (obj->exit_status == FAILURE)
@@ -62,7 +77,7 @@ int	generate_commands(t_object *obj)
 {
 	if (parse(obj) == FAILURE)
 		return (FAILURE);
-	if (heredocs_init(obj) == FAILURE || commannods_init(obj) == FAILURE)
+	if (heredocs_init(obj) == FAILURE || commands_init(obj) == FAILURE)
 		return (perror(EMBASE), ft_lstclear(&obj->tokens, destroy_token),
 			FAILURE);
 	ft_lstclear(&obj->tokens, destroy_token);
