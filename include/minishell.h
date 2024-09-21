@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 16:01:36 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 16:29:32 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <exec.h>
+# include <debug.h> //! To be removed
 # include <parse.h>
 
 extern int		g_received_signal;
