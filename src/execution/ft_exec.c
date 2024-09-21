@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/21 15:34:41 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 15:56:22 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static int	ft_run(t_list *cmds, t_command *cmd)
 	}
 	if (execve(cmd->cmd, cmd->argv, cmd->envp) == FAILED)
 	{
-		if (cmd->cmd[0] == '.')
+		if (ft_strncmp(cmd->cmd, "./", 2) == SUCCESS)
 			ft_error(NULL, cmd->cmd, NULL);
 		else if (ft_strchr(cmd->cmd, '/') == NULL)
-			ft_error(cmd->cmd, "", EMCNF);
+			ft_error(cmd->cmd, NULL, EMCNF);
 		else
-			ft_error(NULL, cmd->cmd, NULL);
+			ft_error(cmd->cmd, NULL, NULL);
 	}
 	exit(127);
 }
@@ -61,7 +61,7 @@ static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 		ft_pipe_in(cmds, cmd);
 		ft_close_redirections(cmd);
 	}
-	return (SUCCESS);
+	return (cmd->pid);
 }
 
 static void	ft_exec_bin(t_object *obj)
