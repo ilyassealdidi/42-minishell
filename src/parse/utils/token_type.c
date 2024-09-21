@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   token_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/28 08:47:03 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 16:43:45 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/09/21 16:43:31 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/09/21 16:48:20 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_token	*get_token(t_list *list)
+bool	is_redir(t_token *token)
 {
-	if (isnull(list))
-		return (NULL);
-	return ((t_token *)list->content);
+	return (token->type == REDIR_OUT || token->type == APPEND
+		|| token->type == REDIR_IN || token->type == HEREDOC);
 }
 
-t_token	*get_last_token(t_list *list)
+bool	is_operator(t_token *token)
 {
-	if (isnull(list))
-		return (NULL);
-	return ((t_token *)(ft_lstlast(list)->content));
-}
-
-void	destroy_token(void *content)
-{
-	t_token			*token;
-
-	token = (t_token *)content;
-	free(token->content);
-	free(token);
+	return (token->type == PIPE || is_redir(token));
 }

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 18:54:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 16:47:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	get_token_length(t_string line, t_token_type type)
 		return (ft_strcspn(line, " |><'\"\t"));
 }
 
-static int	set_next_token(char **line, t_token *token)
+int	set_token(char **line, t_token *token)
 {
 	int				len;
 
@@ -83,29 +83,5 @@ static int	set_next_token(char **line, t_token *token)
 	*line += len + 2 * is_quoted(token);
 	token->state |= JOINABLE * (isnull(ft_strchr(" <>|\t", **line))
 			&& **line != '\0' && token->type == ARG);
-	return (SUCCESS);
-}
-
-int	tokens_init(t_object *obj, t_string line)
-{
-	int				ret;
-	t_token			token;
-
-	while (1)
-	{
-		while (*line != '\0' && (*line == ' ' || *line == '\t'))
-			line++;
-		if (*line == '\0')
-			break ;
-		ret = set_next_token(&line, &token);
-		if (ret != SUCCESS)
-			return (ft_lstclear(&obj->tokens, destroy_token), ret);
-		if ((is_expandable(&token) && expand(obj, &token) == FAILURE)
-			|| ft_appendtoken(obj, &token) == FAILURE)
-			return (free(token.content),
-				ft_lstclear(&obj->tokens, destroy_token), FAILURE);
-	}
-	if (obj->tokens && is_valid_syntax(obj->tokens) == ERROR)
-		return (ft_lstclear(&obj->tokens, destroy_token), ERROR);
 	return (SUCCESS);
 }

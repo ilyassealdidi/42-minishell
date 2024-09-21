@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 16:29:32 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 16:49:21 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void			ft_error(char *location, char *cause, char *error);
 
 /*		Utilities				*/
 char			*ft_strjoin_free(char *s1, char *s2, int to_free);
-int				is_valid_syntax(t_list *tokens);
 void			free_array(char **strs);
 bool			isnull(void *ptr);
 bool			isset(void *ptr);

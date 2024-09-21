@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntax_check.c                                     :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/02 21:24:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 16:28:54 by ialdidi          ###   ########.fr       */
+/*   Created: 2024/09/21 16:46:33 by ialdidi           #+#    #+#             */
+/*   Updated: 2024/09/21 16:49:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	is_valid_syntax(t_list *tokens)
+static int	is_valid_syntax(t_list *tokens)
 {
 	t_token			*current;
 	t_token			*next;
@@ -30,5 +30,27 @@ int	is_valid_syntax(t_list *tokens)
 		}
 		tokens = tokens->next;
 	}
+	return (SUCCESS);
+}
+
+int	tokens_init(t_object *obj, t_string line)
+{
+	int				ret;
+	t_token			token;
+
+	while (*line != '\0')
+	{
+		ret = set_token(&line, &token);
+		if (ret != SUCCESS)
+			return (ft_lstclear(&obj->tokens, destroy_token), ret);
+		if ((is_expandable(&token) && expand(obj, &token) == FAILURE)
+			|| ft_appendtoken(obj, &token) == FAILURE)
+			return (free(token.content),
+				ft_lstclear(&obj->tokens, destroy_token), FAILURE);
+		while (*line != '\0' && (*line == ' ' || *line == '\t'))
+			line++;
+	}
+	if (obj->tokens && is_valid_syntax(obj->tokens) == ERROR)
+		return (ft_lstclear(&obj->tokens, destroy_token), ERROR);
 	return (SUCCESS);
 }
