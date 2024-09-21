@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 01:12:45 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/21 17:30:48 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:33:18 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_wait(t_object *obj)
 	while (cmds)
 	{
 		cmd = cmds->content;
-		waitpid(cmd->pid, &obj->exit_status, WNOHANG);
+		waitpid(cmd->pid, &obj->exit_status, 0);
 		check_signal(obj);
 		cmds = cmds->next;
 	}
