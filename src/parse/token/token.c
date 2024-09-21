@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:46:33 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 16:49:10 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 16:59:14 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	is_valid_syntax(t_list *tokens)
 		next = tokens->next->content;
 		if (current->type != PIPE)
 		{
-			if (is_operator(current) || is_operator(next))
+			if (is_operator(current) && is_operator(next))
 				return (ERROR);
 		}
 		tokens = tokens->next;
