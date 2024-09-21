@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:19:36 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:19:27 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 18:17:12 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	insert_env(t_list **env_list, t_dictionnary dict, bool hidden)
 	t_environment	*env;
 	t_dictionnary	newdict;
 
+	if (get_env(*env_list, dict.key) != NULL)
+		return (SUCCESS);
 	newdict.key = ft_strdup(dict.key);
 	if (dict.value != NULL)
 		newdict.value = ft_strdup(dict.value);
