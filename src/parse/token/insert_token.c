@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 12:25:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/21 17:30:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static int	split_variable(t_object *obj, t_token *token)
 	strs = ft_split(token->content, ' ');
 	if (isnull(strs))
 		return (FAILURE);
-	if (isnull(*strs))
-		return (free(*strs), ft_appendtoken(obj, &new), SUCCESS);
 	free(token->content);
+	if (isnull(*strs))
+		return (free(strs), ft_appendtoken(obj, &new), SUCCESS);
 	i = -1;
 	while (strs[++i])
 	{
