@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/21 17:28:39 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/22 09:04:00 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,6 @@ void	execute_commands(t_object *obj)
 		return ;
 	node = obj->commands;
 	cmd = node->content;
-	if (cmd->in == FAILED || cmd->out == FAILED)
-	{
-		obj->exit_status = 1;
-		return ;
-	}
 	if (has_next(node) || has_redirection(cmd))
 		ft_save_fd(&fd_in, STDIN_FILENO);
 	if (isbuiltin(cmd->cmd) && !has_next(node))

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 12:35:08 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 09:20:33 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,14 @@ static int	write_line(t_object *obj, t_token *token, int fd, t_string line)
 	}
 	else
 	{
-		if (expand_str(obj, &line) == FAILURE)
+		if (contains_env(line) && expand_str(obj, &line) == FAILURE)
 			return (FAILURE);
+		else
+		{
+			line = ft_strdup(line);
+			if (isnull(line))
+				return (FAILURE);
+		}
 		if (line != NULL)
 			ft_dprintf(fd, "%s", line);
 		ft_dprintf(fd, "\n");
@@ -54,7 +60,7 @@ static int	open_heredoc(t_object *obj, t_token *token, t_string filename)
 
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
-		return (FAILURE);
+		return (perror(EMBASE), FAILURE);
 	while (1)
 	{
 		line = readline("> ");
@@ -66,7 +72,7 @@ static int	open_heredoc(t_object *obj, t_token *token, t_string filename)
 			break ;
 		}
 		if (write_line(obj, token, fd, line) == FAILURE)
-			return (free(line), close(fd), FAILURE);
+			return (perror(EMBASE), free(line), close(fd), FAILURE);
 		free(line);
 	}
 	close(fd);
@@ -87,7 +93,7 @@ static int	open_heredocs(t_object *obj)
 		{
 			filename = generate_filename();
 			if (isnull(filename))
-				return (FAILURE);
+				return (perror(EMBASE), FAILURE);
 			if (open_heredoc(obj, tmp->content, filename) == FAILURE)
 				return (free(filename), FAILURE);
 			free(token->content);
@@ -105,12 +111,12 @@ int	heredocs_init(t_object *obj)
 
 	stdin_fd = dup(STDIN_FILENO);
 	if (stdin_fd == -1)
-		return (FAILURE);
+		return (perror(EMBASE), FAILURE);
 	signal(SIGINT, heredoc_interrupt_handler);
 	status = open_heredocs(obj);
 	init_signals();
 	if (dup2(stdin_fd, STDIN_FILENO) == -1)
-		return (close(stdin_fd), FAILURE);
+		return (perror(EMBASE), close(stdin_fd), FAILURE);
 	close(stdin_fd);
 	return (status);
 }

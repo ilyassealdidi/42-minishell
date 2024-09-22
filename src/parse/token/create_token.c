@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 16:47:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 11:48:23 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_token_type	get_token_type(t_string str)
 	return (NONE);
 }
 
-static bool	contains_env(t_string str)
+bool	contains_env(t_string str)
 {
 	t_string			ptr;
 
@@ -43,7 +43,7 @@ static bool	contains_env(t_string str)
 			|| (*str == '"' && ft_strchr(str + 1, '"') < ptr)
 			|| (*str != '"' && str + ft_strcspn(str, " |><'\"") < ptr))
 			return (false);
-		if (ft_isalpha(*(ptr + 1)) || *(ptr + 1) == '?')
+		if (isset(ptr))
 			return (true);
 		str = ptr + 1;
 	}
@@ -70,8 +70,8 @@ int	set_token(char **line, t_token *token)
 	if (token->type == NONE)
 		return (ERROR);
 	len = get_token_length(*line, token->type);
-	token->state |= EXPANDABLE * contains_env(*line);
-	token->state |= QUOTED * (**line == '"' || **line == '\'');
+	set_token_state(token, EXPANDABLE, contains_env(*line));
+	set_token_state(token, QUOTED, *line[0] == '"' || *line[0] == '\'');
 	if (token->type == ARG)
 	{
 		token->content = ft_substr(*line, is_quoted(token), len);

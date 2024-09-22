@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 18:57:10 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 09:39:02 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	set_cmd_path(t_object *obj, t_command *command)
 	return (SUCCESS);
 }
 
-void	skip_tokens(t_list **tokens)
+static void	skip_tokens(t_list **tokens)
 {
 	while (*tokens && get_token(*tokens)->type != PIPE)
 		*tokens = (*tokens)->next;
