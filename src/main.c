@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:25 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 22:40:22 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 12:45:02 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv, char **env)
 	tcgetattr(STDIN_FILENO, &term);
 	while (true)
 	{
+		errno = 0;
 		if (generate_commands(&obj) == FAILURE)
 			continue ;
 		execute_commands(&obj);

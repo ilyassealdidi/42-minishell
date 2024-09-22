@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 11:35:19 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 15:16:08 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,32 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 	return (SUCCESS);
 }
 
-int	expand_str(t_object *obj, char **str)
+int	expand_var(t_object *obj, char **dest, char *src)
 {
 	t_string		new;
 	t_string		ptr;
 
 	new = NULL;
-	while (**str != '\0')
+	ptr = get_env(obj->env, src);
+	if (ptr != NULL)
 	{
-		if (set_next_part(obj, str, &ptr) == FAILURE)
+		new = ft_strdup(ptr);
+		if (isnull(new))
+			return (FAILURE);
+	}
+	*dest = new;
+	return (SUCCESS);
+}
+
+int	expand_str(t_object *obj, char **dest, char *src)
+{
+	t_string		new;
+	t_string		ptr;
+
+	new = NULL;
+	while (*src != '\0')
+	{
+		if (set_next_part(obj, &src, &ptr) == FAILURE)
 			return (FAILURE);
 		if (isnull(ptr))
 			continue ;
@@ -72,25 +89,29 @@ int	expand_str(t_object *obj, char **str)
 		if (isnull(new))
 			return (FAILURE);
 	}
-	*str = new;
+	*dest = new;
 	return (SUCCESS);
 }
 
 int	expand(t_object *obj, t_token *token)
 {
-	t_string			original;
+	t_string		original;
+	t_string		expanded;
 
-	if (obj->tokens && get_last_token(obj->tokens)->type == HEREDOC)
-		return (SUCCESS);
-	original = token->content;
-	if (expand_str(obj, &token->content) == FAILURE)
-		return (FAILURE);
-	if (is_quoted(token) && token->content == NULL)
+	if (!is_quoted(token))
 	{
-		token->content = ft_strdup("");
-		if (isnull(token->content))
+		if (expand_var(obj, &expanded, token->content + 1) == FAILURE)
 			return (FAILURE);
 	}
-	free(original);
+	else
+	{
+		if (expand_str(obj, &expanded, token->content) == FAILURE)
+			return (FAILURE);
+		expanded = ft_strjoin_free(expanded, "", LEFT);
+		if (isnull(expanded))
+			return (FAILURE);
+	}
+	free(token->content);
+	token->content = expanded;
 	return (SUCCESS);
 }

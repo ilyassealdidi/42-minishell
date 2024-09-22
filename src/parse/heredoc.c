@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 09:20:33 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 13:24:33 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,26 @@ static char	*generate_filename(void)
 
 static int	write_line(t_object *obj, t_token *token, int fd, t_string line)
 {
+	t_string		expanded;
+
 	if (is_quoted(token))
-	{
 		ft_dprintf(fd, "%s\n", line);
-	}
 	else
 	{
-		if (contains_env(line) && expand_str(obj, &line) == FAILURE)
-			return (FAILURE);
+		if (contains_env(line))// contains: may not work
+		{
+			if (expand_str(obj, &expanded, line) == FAILURE)
+				return (FAILURE);
+			free(line);
+			line = expanded;
+		}
 		else
 		{
 			line = ft_strdup(line);
 			if (isnull(line))
 				return (FAILURE);
 		}
-		if (line != NULL)
-			ft_dprintf(fd, "%s", line);
-		ft_dprintf(fd, "\n");
+		ft_putendl_fd(expanded, fd);
 		free(line);
 	}
 	return (SUCCESS);

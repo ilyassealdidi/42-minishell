@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 09:52:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 15:23:21 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,14 @@ static int	parse(t_object *obj)
 		return (free(line), FAILURE);
 	status = tokens_init(obj, line);
 	free(line);
-	if (status == FAILURE)
-		return (perror(EMBASE),
-			ft_lstclear(&obj->tokens, destroy_token), status);
-	if (status == ERROR)
-		return (ft_error(NULL, NULL, EMSYNTAX),
-			ft_lstclear(&obj->tokens, destroy_token), status);
+	if (status != SUCCESS)
+	{
+		if (status == FAILURE)
+			perror(EMBASE);
+		if (status == ERROR)
+			ft_error(NULL, NULL, EMSYNTAX);
+		ft_lstclear(&obj->tokens, destroy_token);
+	}
 	return (status);
 }
 

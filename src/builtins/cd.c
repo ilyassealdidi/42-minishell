@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 06:42:02 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 12:47:40 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	update_pwd(t_object *obj)
 		|| set_env(&obj->env, (t_dictionnary){"@PWD", dict.value}) == FAILURE)
 	{
 		free(dict.value);
-		obj->exit_status = 1;
 		ft_error(NULL, NULL, NULL);
 		return (FAILURE);
 	}
@@ -70,13 +69,11 @@ int	builtin_cd(t_object *obj, t_command *command)
 	if (isnull(path))
 	{
 		ft_error(B_CD, NULL, EMHNS);
-		obj->exit_status = 1;
 		return (FAILURE);
 	}
 	if (chdir(path) == -1)
 	{
 		ft_error(B_CD, path, NULL);
-		obj->exit_status = 1;
 		return (FAILURE);
 	}
 	if (update_oldpwd(obj) == FAILURE || update_pwd(obj) == FAILURE)

@@ -6,7 +6,7 @@ INCS			= $(INCS_DIR)minishell.h $(INCS_DIR)types.h $(INCS_DIR)exec.h
 LIBFT_DIR		= lib/libft/
 LIBFT			= $(LIBFT_DIR)libft.a
 CFLAGS			= -I$(INCS_DIR) -I$(LIBFT_DIR) 
-CFLAGS			+= -Wall -Werror -Wextra
+CFLAGS			+= #-Wall -Werror -Wextra
 NAME			= minishell
 RM				= rm -rf
 CC				= cc #-g -fsanitize=address

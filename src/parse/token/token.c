@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:46:33 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 16:59:14 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 14:54:14 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,22 @@ static int	is_valid_syntax(t_list *tokens)
 
 int	tokens_init(t_object *obj, t_string line)
 {
-	int				ret;
+	int				status;
 	t_token			token;
 
+	status = SUCCESS;
 	while (*line != '\0')
 	{
-		ret = set_token(&line, &token);
-		if (ret != SUCCESS)
-			return (ft_lstclear(&obj->tokens, destroy_token), ret);
+		status = set_token(obj, &line, &token);
+		if (status != SUCCESS)
+			return (status);
 		if ((is_expandable(&token) && expand(obj, &token) == FAILURE)
 			|| ft_appendtoken(obj, &token) == FAILURE)
-			return (free(token.content),
-				ft_lstclear(&obj->tokens, destroy_token), FAILURE);
+			return (free(token.content), FAILURE);
 		while (*line != '\0' && (*line == ' ' || *line == '\t'))
 			line++;
 	}
-	if (obj->tokens && is_valid_syntax(obj->tokens) == ERROR)
-		return (ft_lstclear(&obj->tokens, destroy_token), ERROR);
-	return (SUCCESS);
+	if (obj->tokens)
+		status = is_valid_syntax(obj->tokens);
+	return (status);
 }

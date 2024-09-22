@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:15:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 12:42:28 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,26 @@ static int	export_env(t_object *obj, char *arg)
 int	builtin_export(t_object *obj, t_command *cmd)
 {
 	int				i;
+	int				status;
 
 	i = 1;
+	status = SUCCESS;
 	if (cmd->argc == 1)
-		return (print_env(obj->env), SUCCESS);
+		return (print_env(obj->env), status);
 	while (cmd->argv[i])
 	{
 		if (is_valid_identifier(cmd->argv[i]) == INVALID)
 		{
+			status = FAILURE;
 			ft_error(B_EXPORT, cmd->argv[i], EMNVI);
-			obj->exit_status = 1;
 		}
-		else if (export_env(obj, cmd->argv[i]) == FAILURE)
-			return (FAILURE);
+		else
+		{
+			status = export_env(obj, cmd->argv[i]);
+			if (status == FAILURE)
+				break ;
+		}
 		i++;
 	}
-	return (SUCCESS);
+	return (status);
 }

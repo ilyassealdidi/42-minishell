@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 09:14:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/22 13:16:28 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void			set_token_state(t_token *token, int flag, bool value);
 int				ft_appendtoken(t_object *obj, t_token *token);
 void			update_token(t_list *head, t_token *new);
 void			destroy_token(void *content);
-int				set_token(char **line, t_token *token);
+int				set_token(t_object *obj, char **line, t_token *token);
 int				tokens_init(t_object *obj, char *line);
 
 /*		Expanding				*/
-int				expand_str(t_object *obj, char **str);
+int				expand_str(t_object *obj, char **dest, char *src);
 int				expand(t_object *obj, t_token *token);
 
 /*		Parsing					*/
