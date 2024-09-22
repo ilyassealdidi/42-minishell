@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:47:25 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/19 09:13:42 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/22 15:32:03 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void				ft_wait(t_object *obj);
 void				ft_dup(int from, int to, int to_close);
 void				ft_close(int fd);
 
-bool				has_redirection(t_command *cmd);
+bool				has_redirection(int fd);
 bool				has_next(t_list *node);
 bool				is_child(pid_t pid);
 bool				is_parent(pid_t pid);
+void				is_directory(char *path);
 
 #endif
