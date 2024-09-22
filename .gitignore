@@ -1,11 +1,11 @@
 private/
 .vscode/
-include/debug.h
+# include/debug.h
 *.out
 *.o
 *.a
 .normignore
-src/utils/_utils.c
+# src/utils/_utils.c
 minishell
 minishell_db
 minishell_db.dsym/
