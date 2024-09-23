@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 09:35:58 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 21:02:18 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,11 @@ int	set_command(t_object *obj, t_list *tokens, t_command **command)
 	{
 		token = get_token(tokens);
 		if (is_redir(token) && redir_init(tokens, (*command)) == FAILURE)
+		{
+			if (errno == EMFILE)
+				return (destroy_command((*command)), FAILURE);
 			break ;
+		}
 		tokens = tokens->next;
 	}
 	if ((*command)->argc > 0 && set_envp(obj->env, (*command)) == FAILURE)
