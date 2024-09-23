@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:17:19 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 12:37:50 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 15:38:35 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,6 @@ static char	*generate_filename(void)
 	i++;
 	return (name);
 }
-
-static bool	contains_env(t_string str)
-{
-	t_string			ptr;
-
-	if (*str == '\'')
-		return (false);
-	while (1)
-	{
-		ptr = ft_strchr(str + (*str == '"'), '$');
-		if (isnull(ptr)
-			|| (*str == '"' && ft_strchr(str + 1, '"') < ptr)
-			|| (*str != '"' && str + ft_strcspn(str, " |><'\"\t$") < ptr))
-			return (false);
-		if (isset(ptr) && (*(ptr + 1) != '\0'))
-			return (true);
-		str = ptr + 1;
-	}
-}
-
 
 static int	write_line(t_object *obj, t_token *token, int fd, t_string line)
 {

@@ -6,13 +6,26 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 14:12:16 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 15:33:23 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	update_oldpwd(t_object *obj)
+static t_string	join_new_path(char *old_path, char *new_path)
+{
+	t_string	path;
+
+	path = ft_calloc(1, ft_strlen(old_path) + ft_strlen(new_path) + 2);
+	if (isnull(path))
+		return (NULL);
+	ft_strlcat(path, old_path, ft_strlen(old_path) + 1);
+	ft_strlcat(path, "/", 1);
+	ft_strlcat(path, new_path, ft_strlen(new_path) + 1);
+	return (path);
+}
+
+static int	update_oldpwd(t_object *obj)
 {
 	t_dictionnary	dict;
 	int				status;
@@ -29,15 +42,7 @@ int	update_oldpwd(t_object *obj)
 	return (status);
 }
 
-
-/*
-➜ echo $PWD
-/Users/ialdidi/master/5
-➜ echo $OLDPWD
-/Users/ialdidi/master/5/6/7/8/../..
-
-*/
-int	update_pwd(t_object *obj, char *arg)
+static int	update_pwd(t_object *obj, char *arg)
 {
 	t_dictionnary	dict;
 	int				status;
@@ -47,11 +52,10 @@ int	update_pwd(t_object *obj, char *arg)
 	dict.value = getcwd(NULL, 0);
 	if (isnull(dict.value))
 	{
-		dict.value = ft_strjoin(get_env_value(obj->env, "@PWD"), "/");
-		dict.value = ft_strjoin(dict.value, arg);
+		ft_error(B_CD, "error retrieving current directory: getcwd", NULL);
+		dict.value = join_new_path(get_env_value(obj->env, "PWD"), arg);
 		if (isnull(dict.value))
 			return (FAILURE);
-		ft_error(B_CD, "error retrieving current directory: getcwd", NULL);
 	}
 	status = set_env(&obj->env, (t_dictionnary){"@PWD", dict.value});
 	if (status == SUCCESS && isset(get_env(obj->env, "PWD")))

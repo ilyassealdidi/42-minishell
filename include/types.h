@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 19:03:10 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 15:34:06 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef enum e_token_type
 
 typedef struct s_token
 {
-	char			*content;
+	t_string		content;
 	unsigned int	state;
 	t_token_type	type;
 }	t_token;
@@ -92,15 +92,15 @@ typedef struct s_command
 	int				argc;
 	int				pfd[2];
 	pid_t			pid;
-	char			*cmd;
+	t_string		cmd;
 	char			**argv;
 	char			**envp;
 }	t_command;
 
 typedef struct s_dictionnary
 {
-	char			*key;
-	char			*value;
+	t_string		key;
+	t_string		value;
 }	t_dictionnary;
 
 typedef struct s_environment
