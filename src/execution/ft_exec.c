@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/22 15:00:29 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:35:28 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 		signal(SIGQUIT, SIG_DFL);
 		ft_pipe_out(cmds, cmd);
 		if (has_redirection(cmd->in) || has_redirection(cmd->out))
-		{
-			ft_save_fd(&fd_out, STDOUT_FILENO);
 			ft_redirect(cmd);
-		}
 		if (isbuiltin(cmd->cmd))
 			exit(execute_builtin(obj, cmds));
 		else

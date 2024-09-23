@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 12:45:11 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 16:05:52 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	contains_env(t_string str)
 	t_string		ptr;
 
 	ptr = ft_strchr(str, '$');
-	if (*str != '\'' && isset(ptr) && (*(ptr + 1) != '\0'))
+	if (isset(ptr) && (*(ptr + 1) != '\0'))
 		return (true);
 	return (false);
 }
@@ -74,11 +74,12 @@ int	set_token(t_object *obj, char **line, t_token *token)
 	len = get_token_length(*line, token->type);
 	if (token->type == ARG)
 	{
+		set_token_state(token, QUOTED, *line[0] == '"' || *line[0] == '\'');
 		token->content = ft_substr(*line, is_quoted(token), len);
 		if (isnull(token->content))
 			return (FAILURE);
-		set_token_state(token, QUOTED, *line[0] == '"' || *line[0] == '\'');
-		set_token_state(token, EXPANDABLE, contains_env(token->content));
+		set_token_state(token, EXPANDABLE,
+			*line[0] != '\'' && contains_env(token->content));
 	}
 	*line += len + 2 * is_quoted(token);
 	if (isnull(ft_strchr(" <>|\t", **line))

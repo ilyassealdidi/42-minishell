@@ -12,3 +12,4 @@ minishell_db
 minishell_db.dsym/
 obj/
 .DS_Store
+t
