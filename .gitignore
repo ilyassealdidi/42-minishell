@@ -1,6 +1,7 @@
 private/
 .vscode/
 include/debug.h
+.todo
 *.out
 *.o
 *.a
