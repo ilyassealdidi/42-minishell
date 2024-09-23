@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:47:25 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/22 15:32:03 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/23 20:02:05 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ bool				has_redirection(int fd);
 bool				has_next(t_list *node);
 bool				is_child(pid_t pid);
 bool				is_parent(pid_t pid);
-void				is_directory(char *path);
+void				is_directory(t_command *cmd);
 
 #endif
