@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 21:40:47 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 12:56:03 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,40 @@
 int	update_oldpwd(t_object *obj)
 {
 	t_dictionnary	dict;
+	int				status;
 
+	status = SUCCESS;
 	dict.key = "@OLDPWD";
 	dict.value = get_env(obj->env, "@PWD");
-	if (dict.value != NULL)
-	{
-		if (set_env(&obj->env, dict) == FAILURE)
-			return (FAILURE);
-	}
-	if (isset(get_env(obj->env, "OLDPWD")))
+	status = set_env(&obj->env, dict);
+	if (status == SUCCESS && isset(get_env(obj->env, "OLDPWD")))
 	{
 		dict.key = "OLDPWD";
-		dict.value = get_env(obj->env, "@PWD");
-		if (dict.value != NULL)
-		{
-			if (set_env(&obj->env, dict) == FAILURE)
-				return (FAILURE);
-		}
+		status = set_env(&obj->env, dict);
 	}
-	return (SUCCESS);
+	return (status);
 }
 
 int	update_pwd(t_object *obj, char *arg)
 {
 	t_dictionnary	dict;
+	int				status;
 
+	status = SUCCESS;
 	dict.key = "@PWD";
 	dict.value = getcwd(NULL, 0);
 	if (isnull(dict.value))
 	{
 		dict.value = ft_strjoin(get_env(obj->env, "@PWD"), arg);
 		if (isnull(dict.value))
-			return (perror(EMBASE), FAILURE);
+			return (FAILURE);
 		ft_error(B_CD, "error retrieving current directory: getcwd", NULL);
 	}
-	if (set_env(&obj->env, (t_dictionnary){"@PWD", dict.value}) == FAILURE)
-		return (free(dict.value), perror(EMBASE), FAILURE);
-	if (isset(get_env(obj->env, "PWD")) && set_env(&obj->env, dict) == FAILURE)
-		return (free(dict.value), perror(EMBASE), FAILURE);
+	status = set_env(&obj->env, (t_dictionnary){"@PWD", dict.value});
+	if (status == SUCCESS && isset(get_env(obj->env, "PWD")))
+		status = set_env(&obj->env, dict);
 	free(dict.value);
-	return (SUCCESS);
+	return (status);
 }
 
 int	builtin_cd(t_object *obj, t_command *command)
@@ -77,6 +71,6 @@ int	builtin_cd(t_object *obj, t_command *command)
 	}
 	if (update_oldpwd(obj) == FAILURE
 		|| update_pwd(obj, command->argv[1]) == FAILURE)
-		return (FAILURE);
+		return (perror(EMBASE), FAILURE);
 	return (SUCCESS);
 }
