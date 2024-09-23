@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 19:08:40 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 21:10:21 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	generate_commands(t_object *obj)
 		{
 			status = commands_init(obj);
 			if (status == FAILURE)
-				perror(EMBASE);
+				ft_lstclear(&obj->commands, destroy_command);
 		}
 	}
 	obj->exit_status = status;

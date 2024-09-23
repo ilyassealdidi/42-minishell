@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 21:02:18 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 21:11:31 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ int	set_command(t_object *obj, t_list *tokens, t_command **command)
 
 	*command = ft_calloc(1, sizeof(t_command));
 	if (isnull(*command))
-		return (FAILURE);
+		return (perror(EMBASE), FAILURE);
 	(*command)->out = STDOUT_FILENO;
 	(*command)->argc = count_args(tokens);
 	if ((*command)->argc > 0 && set_args(tokens, (*command)) == FAILURE)
-		return (destroy_command((*command)), FAILURE);
+		return (destroy_command((*command)), perror(EMBASE), FAILURE);
 	token = get_token(tokens);
 	while (tokens && token->type != PIPE)
 	{
@@ -125,6 +125,6 @@ int	set_command(t_object *obj, t_list *tokens, t_command **command)
 		tokens = tokens->next;
 	}
 	if ((*command)->argc > 0 && set_envp(obj->env, (*command)) == FAILURE)
-		return (destroy_command((*command)), FAILURE);
+		return (destroy_command((*command)), perror(EMBASE), FAILURE);
 	return (SUCCESS);
 }
