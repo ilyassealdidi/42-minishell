@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/23 17:52:49 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/23 20:19:53 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,17 @@ static void	ft_run(t_command *cmd)
 		exit(FAILURE);
 	if (cmd->argc == 0)
 		exit (SUCCESS);
-	is_directory(cmd->cmd);
+	is_directory(cmd);
 	if (execve(cmd->cmd, cmd->argv, cmd->envp) == FAILED)
 	{
-		if (errno == EACCES)
+		is_directory(cmd);
+		printf("errno: %d\n", errno);
+		if (ft_strncmp(cmd->cmd, "./", 2) == SUCCESS && errno == EACCES)
 		{
 			ft_error(NULL, cmd->cmd, NULL);
 			exit(126);
 		}
-		else if (ft_strchr(cmd->cmd, '/') == NULL)
+		else if (ft_strchr(cmd->cmd, '/') == NULL && errno != ENOENT)
 		{
 			ft_error(cmd->cmd, NULL, EMCNF);
 		}

@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:42:10 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/23 17:56:49 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/23 20:07:14 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ bool	is_child(pid_t pid)
 	return (pid == CHILD);
 }
 
-void	is_directory(char *path)
+void	is_directory(t_command *cmd)
 {
 	struct stat		path_stat;
 
-	if (stat(path, &path_stat) == SUCCESS && errno == EINVAL)
+	if (ft_strchr(cmd->cmd, '/') && stat(cmd->cmd, &path_stat) == SUCCESS)
 	{
 		if (S_ISDIR(path_stat.st_mode))
 		{
-			ft_error(NULL, path, EMISDIR);
+			ft_error(NULL, cmd->cmd, EMISDIR);
 			exit(126);
 		}
 	}
