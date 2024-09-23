@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/22 15:00:29 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:52:49 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ static void	ft_run(t_command *cmd)
 	is_directory(cmd->cmd);
 	if (execve(cmd->cmd, cmd->argv, cmd->envp) == FAILED)
 	{
-		if (ft_strncmp(cmd->cmd, "./", 2) == SUCCESS)
+		if (errno == EACCES)
 		{
 			ft_error(NULL, cmd->cmd, NULL);
 			exit(126);
 		}
 		else if (ft_strchr(cmd->cmd, '/') == NULL)
+		{
 			ft_error(cmd->cmd, NULL, EMCNF);
+		}
 		else
 			ft_error(cmd->cmd, NULL, NULL);
 		exit(127);
@@ -36,7 +38,6 @@ static void	ft_run(t_command *cmd)
 
 static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 {
-	int				fd_out;
 	signal(SIGINT, SIG_IGN);
 	cmd->pid = ft_fork();
 	if (cmd->pid == FAILED)
@@ -47,10 +48,7 @@ static int	ft_child(t_object *obj, t_list *cmds, t_command *cmd)
 		signal(SIGQUIT, SIG_DFL);
 		ft_pipe_out(cmds, cmd);
 		if (has_redirection(cmd->in) || has_redirection(cmd->out))
-		{
-			ft_save_fd(&fd_out, STDOUT_FILENO);
 			ft_redirect(cmd);
-		}
 		if (isbuiltin(cmd->cmd))
 			exit(execute_builtin(obj, cmds));
 		else

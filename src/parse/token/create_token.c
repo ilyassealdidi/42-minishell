@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 18:51:57 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 19:12:40 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	contains_env(t_string str)
 	t_string		ptr;
 
 	ptr = ft_strchr(str, '$');
-	if (*str != '\'' && isset(ptr) && (*(ptr + 1) != '\0'))
+	if (isset(ptr) && (*(ptr + 1) != '\0'))
 		return (true);
 	return (false);
 }
