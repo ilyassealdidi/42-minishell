@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 12:05:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:51:09 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,21 @@ int				expand(t_object *obj, t_token *token);
 /*		Parsing					*/
 int				generate_commands(t_object *obj);
 
-/*		Dictionnary				*/
-void			destroy_dictionnary(void *content);
-t_environment	*create_env(t_dictionnary dict, bool hidden);
-
 /*		Environment				*/
 char			**generate_envp(t_list *list);
-char			*get_env(t_list *env, char *key);
+t_dictionnary	*get_env(t_list *env_list, t_string key);
+char			*get_env_value(t_list *env, char *key);
 int				insert_env(t_list **env_list, t_dictionnary dict, bool hidden);
 int				append_env(t_list **env_list, t_dictionnary dict);
 int				set_env(t_list **env_list, t_dictionnary dict);
 void			unset_env(t_list **env_list, char *key);
 void			destroy_env(void *content);
 int				init_env(t_list **env, char **envp);
+
+/*		Environment utils		*/
+void			destroy_dictionnary(void *content);
+int				env_size(t_list *env_list);
+t_environment	*create_env(t_dictionnary dict, bool hidden);
 
 /*		Builtins				*/
 void			builtin_echo(t_command *cmd);

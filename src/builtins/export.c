@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:45:38 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 12:42:28 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:42:31 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	print_env(t_list *head)
 	int				i;
 
 	i = 1;
-	list_size = ft_lstsize(head) - 1;
+	list_size = env_size(head);
 	node = head;
 	while (i <= list_size)
 	{
@@ -57,7 +57,6 @@ static bool	is_valid_identifier(char *str)
 	return (VALID);
 }
 
-//update the function's name
 static int	set_dict(t_dictionnary *dict, char *env, char *equal)
 {
 	if (isnull(equal))

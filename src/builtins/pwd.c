@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:19:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 12:58:47 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:58:27 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	builtin_pwd(t_object *obj)
 {
 	t_string			pwd;
 
-	pwd = get_env(obj->env, "@PWD");
+	pwd = get_env_value(obj->env, "@PWD");
 	if (isnull(pwd))
 	{
 		pwd = getcwd(NULL, 0);
@@ -24,8 +24,8 @@ int	builtin_pwd(t_object *obj)
 			return (ft_error(B_PWD, NULL, EMRCD), FAILURE);
 		printf("%s\n", pwd);
 		free(pwd);
-		return (SUCCESS);
 	}
-	printf("%s\n", pwd);
+	else
+		printf("%s\n", pwd);
 	return (SUCCESS);
 }

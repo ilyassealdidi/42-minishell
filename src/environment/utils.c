@@ -6,11 +6,29 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 10:04:05 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/20 18:59:44 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:40:22 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	env_size(t_list *env_list)
+{
+	t_list			*node;
+	t_environment	*env;
+	int				size;
+
+	size = 0;
+	node = env_list;
+	while (node)
+	{
+		env = node->content;
+		if (!env->hidden)
+			size++;
+		node = node->next;
+	}
+	return (size);
+}
 
 t_environment	*create_env(t_dictionnary dict, bool hidden)
 {

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 09:39:02 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:54:28 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ static int	join_path(char **paths, t_command *command)
 static int	set_cmd_path(t_object *obj, t_command *command)
 {
 	char			**paths;
-	t_string		ptr;
+	t_dictionnary	*dict;
 
 	if (ft_strchr("./", **command->argv))
 		return (SUCCESS);
-	ptr = get_env(obj->env, "PATH");
-	if (isnull(ptr))
+	dict = get_env(obj->env, "PATH");
+	if (isnull(dict))
 		return (SUCCESS);
-	paths = ft_split(ptr, ':');
+	paths = ft_split(dict->value, ':');
 	if (isnull(paths))
 		return (FAILURE);
 	if (isnull(*paths))

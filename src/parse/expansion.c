@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 15:16:08 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:57:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	set_next_part(t_object *obj, char **str, char **ptr)
 		variable = ft_substr(*str, 1, len);
 		if (isnull(variable))
 			return (FAILURE);
-		value = get_env(obj->env, variable);
+		value = get_env_value(obj->env, variable);
 		free(variable);
 		if (value != NULL)
 			*ptr = ft_strdup(value);
@@ -62,7 +62,7 @@ int	expand_var(t_object *obj, char **dest, char *src)
 	t_string		ptr;
 
 	new = NULL;
-	ptr = get_env(obj->env, src);
+	ptr = get_env_value(obj->env, src);
 	if (ptr != NULL)
 	{
 		new = ft_strdup(ptr);

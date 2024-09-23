@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 15:23:21 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:55:42 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	set_exit_status(t_object *obj)
 {
 	t_string		value;
 
-	if (ft_atoi(get_env(obj->env, "?")) != obj->exit_status)
+	if (ft_atoi(get_env_value(obj->env, "?")) != obj->exit_status)
 	{
 		value = ft_itoa(obj->exit_status);
 		if (isnull(value))

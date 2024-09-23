@@ -6,24 +6,32 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 08:38:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 14:06:04 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	init_l3ibat(t_list **env_list)
+int	init_shell_env(t_list **env_list)
 {
 	char	*pwd;
 
+	if (insert_env(env_list, (t_dictionnary){"?", "0"}, 1) == FAILURE
+		|| insert_env(env_list, (t_dictionnary){"@OLDPWD", NULL}, 1) == FAILURE)
+		return (FAILURE);
+	if (isset(get_env(*env_list, "OLDPWD")))
+		unset_env(env_list, "OLDPWD");
+	if (insert_env(env_list, (t_dictionnary){"OLDPWD", NULL}, 0) == FAILURE)
+		return (FAILURE);
 	pwd = getcwd(NULL, 0);
 	if (isnull(pwd))
-		ft_error(B_PWD, NULL, EMRCD);
-	if (insert_env(env_list, (t_dictionnary){"?", "0"}, 1) == FAILURE
-		|| insert_env(env_list, (t_dictionnary){"PWD", pwd}, 0) == FAILURE
-		|| insert_env(env_list, (t_dictionnary){"@PWD", pwd}, 1) == FAILURE
-		|| insert_env(env_list, (t_dictionnary){"OLDPWD", NULL}, 0) == FAILURE
-		|| insert_env(env_list, (t_dictionnary){"@OLDPWD", NULL}, 1) == FAILURE)
+		ft_error(NULL, NULL, EMRCD);
+	if (!isset(get_env(*env_list, "PWD")))
+	{
+		if (insert_env(env_list, (t_dictionnary){"PWD", pwd}, 0) == FAILURE)
+			return (free(pwd), FAILURE);
+	}
+	if (insert_env(env_list, *get_env(*env_list, "PWD"), 1) == FAILURE)
 		return (free(pwd), FAILURE);
 	free(pwd);
 	return (SUCCESS);
@@ -53,7 +61,7 @@ int	init_env(t_list **env_list, char **envp)
 		destroy_dictionnary(&dict);
 		envp++;
 	}
-	if (init_l3ibat(env_list) == FAILURE)
+	if (init_shell_env(env_list) == FAILURE)
 		return (ft_lstclear(env_list, destroy_env), FAILURE);
 	return (SUCCESS);
 }
