@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 12:45:11 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 18:51:57 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	get_token_length(t_string line, t_token_type type)
 		return (ft_strchr(line + 1, *line) - line - 1);
 	else if (*line == '$')
 	{
-		if (!ft_isalpha(line[1]) && line[1] != '_')
+		if (!ft_isalpha(line[1]) && !ft_strchr("_ |><'\"\t$", line[1]))
 			return (2);
 		len = 1;
 		while (ft_isalnum(line[len]) || line[len] == '_')
@@ -74,11 +74,12 @@ int	set_token(t_object *obj, char **line, t_token *token)
 	len = get_token_length(*line, token->type);
 	if (token->type == ARG)
 	{
+		set_token_state(token, QUOTED, **line == '"' || **line == '\'');
 		token->content = ft_substr(*line, is_quoted(token), len);
 		if (isnull(token->content))
 			return (FAILURE);
-		set_token_state(token, QUOTED, *line[0] == '"' || *line[0] == '\'');
-		set_token_state(token, EXPANDABLE, contains_env(token->content));
+		set_token_state(token, EXPANDABLE,
+			**line != '\'' && contains_env(token->content));
 	}
 	*line += len + 2 * is_quoted(token);
 	if (isnull(ft_strchr(" <>|\t", **line))

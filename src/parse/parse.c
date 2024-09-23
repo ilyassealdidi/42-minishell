@@ -6,27 +6,11 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 13:55:42 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 19:08:40 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static int	set_exit_status(t_object *obj)
-{
-	t_string		value;
-
-	if (ft_atoi(get_env_value(obj->env, "?")) != obj->exit_status)
-	{
-		value = ft_itoa(obj->exit_status);
-		if (isnull(value))
-			return (FAILURE);
-		if (set_env(&obj->env, (t_dictionnary){"?", value}) == FAILURE)
-			return (free(value), FAILURE);
-		free(value);
-	}
-	return (SUCCESS);
-}
 
 static void	update_exit_status(t_object *obj)
 {
@@ -37,15 +21,26 @@ static void	update_exit_status(t_object *obj)
 	}
 }
 
+static int	set_exit_status(t_object *obj)
+{
+	t_string		value;
+
+	update_exit_status(obj);
+	value = ft_itoa(obj->exit_status);
+	if (isnull(value))
+		return (FAILURE);
+	if (set_env(&obj->env, (t_dictionnary){"?", value}) == FAILURE)
+		return (free(value), FAILURE);
+	free(value);
+	return (SUCCESS);
+}
+
 static t_string	read_line(t_object *obj)
 {
 	t_string		line;
 	t_string		trimmed_line;
 
-	if (obj->exit_status == SUCCESS)
-		line = readline(SUCCESS_PROMPT);
-	else
-		line = readline(FAILURE_PROMPT);
+	line = readline(PROMPT);
 	if (isnull(line))
 		exit_shell(obj);
 	if (*line != '\0')
@@ -60,7 +55,6 @@ static int	parse(t_object *obj)
 	t_string		line;
 	int				status;
 
-	update_exit_status(obj);
 	line = read_line(obj);
 	if (isnull(line))
 		return (perror(EMBASE), FAILURE);
@@ -96,6 +90,7 @@ int	generate_commands(t_object *obj)
 				perror(EMBASE);
 		}
 	}
+	obj->exit_status = status;
 	ft_lstclear(&obj->tokens, destroy_token);
 	return (status);
 }

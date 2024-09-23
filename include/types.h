@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:04 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 15:34:06 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 19:02:50 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@
 # define VALID 1
 # define INVALID 0
 
-# define SUCCESS_PROMPT "\033[0;32m➜\033[0m "
-# define FAILURE_PROMPT "\033[0;31m➜\033[0m "
+# define PROMPT "\033[0;32m➜\033[0m "
 
 # define B_EXIT "exit"
 # define B_ECHO "echo"
