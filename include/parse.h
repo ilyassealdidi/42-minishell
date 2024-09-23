@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 13:16:28 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 12:05:55 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool			is_quoted(t_token *token);
 bool			is_expandable(t_token *token);
 bool			is_joinable(t_token *token);
 
-bool			contains_env(t_string str);
+// static bool			contains_env(t_string str);
 void			set_token_state(t_token *token, int flag, bool value);
 int				ft_appendtoken(t_object *obj, t_token *token);
 void			update_token(t_list *head, t_token *new);

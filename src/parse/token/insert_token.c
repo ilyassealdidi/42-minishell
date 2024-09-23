@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/21 17:30:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 12:42:23 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,12 @@ int	ft_appendtoken(t_object *obj, t_token *new)
 	if (obj->tokens != NULL && is_joinable(get_last_token(obj->tokens)))
 	{
 		token = get_last_token(obj->tokens);
-		token->content = ft_strjoin_free(token->content, new->content, BOTH);
-		if (isnull(token->content))
-			return (FAILURE);
+		if (new->content)
+		{
+			token->content = ft_strjoin_free(token->content, new->content, BOTH);
+			if (isnull(token->content))
+				return (FAILURE);
+		}
 		set_token_state(token, JOINABLE, new->state & JOINABLE);
 		set_token_state(token, QUOTED, new->state & QUOTED);
 	}

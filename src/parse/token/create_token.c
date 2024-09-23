@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 15:23:05 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 12:45:11 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,18 @@ static t_token_type	get_token_type(t_string str)
 
 bool	contains_env(t_string str)
 {
-	t_string			ptr;
+	t_string		ptr;
 
-	if (*str == '\'')
-		return (false);
-	while (1)
-	{
-		ptr = ft_strchr(str + (*str == '"'), '$');
-		if (isnull(ptr)
-			|| (*str == '"' && ft_strchr(str + 1, '"') < ptr)
-			|| (*str != '"' && str + ft_strcspn(str, " |><'\"") < ptr))
-			return (false);
-		if (isset(ptr) && (*(ptr + 1) != '\0'))
-			return (true);
-		str = ptr + 1;
-	}
+	ptr = ft_strchr(str, '$');
+	if (*str != '\'' && isset(ptr) && (*(ptr + 1) != '\0'))
+		return (true);
+	return (false);
 }
 
 static int	get_token_length(t_string line, t_token_type type)
 {
+	int				len;
+
 	if (type == PIPE || type == REDIR_IN || type == REDIR_OUT)
 		return (1);
 	else if (type == HEREDOC || type == APPEND)
@@ -58,9 +51,16 @@ static int	get_token_length(t_string line, t_token_type type)
 	else if (*line == '"' || *line == '\'')
 		return (ft_strchr(line + 1, *line) - line - 1);
 	else if (*line == '$')
-		return (ft_strcspn(line + 1, " |><'\"\t$") + 1);
+	{
+		if (!ft_isalpha(line[1]) && line[1] != '_')
+			return (2);
+		len = 1;
+		while (ft_isalnum(line[len]) || line[len] == '_')
+			len++;
+		return (len);
+	}
 	else
-		return (ft_strcspn(line, " |><'\"\t"));
+		return (ft_strcspn(line, " |><'\"\t$"));
 }
 
 int	set_token(t_object *obj, char **line, t_token *token)
@@ -74,11 +74,11 @@ int	set_token(t_object *obj, char **line, t_token *token)
 	len = get_token_length(*line, token->type);
 	if (token->type == ARG)
 	{
-		set_token_state(token, QUOTED, *line[0] == '"' || *line[0] == '\'');
-		set_token_state(token, EXPANDABLE, contains_env(*line));
 		token->content = ft_substr(*line, is_quoted(token), len);
 		if (isnull(token->content))
 			return (FAILURE);
+		set_token_state(token, QUOTED, *line[0] == '"' || *line[0] == '\'');
+		set_token_state(token, EXPANDABLE, contains_env(token->content));
 	}
 	*line += len + 2 * is_quoted(token);
 	if (isnull(ft_strchr(" <>|\t", **line))
