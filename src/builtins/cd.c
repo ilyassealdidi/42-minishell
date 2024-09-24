@@ -6,22 +6,26 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 15:33:23 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:05:51 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static t_string	join_new_path(char *old_path, char *new_path)
+static t_string	join_new_path(char *base, char *new)
 {
 	t_string	path;
+	int			base_len;
+	int			new_len;
 
-	path = ft_calloc(1, ft_strlen(old_path) + ft_strlen(new_path) + 2);
+	base_len = ft_strlen(base);
+	new_len = ft_strlen(new);
+	path = ft_calloc(1, ft_strlen(base) + ft_strlen(new) + 2);
 	if (isnull(path))
 		return (NULL);
-	ft_strlcat(path, old_path, ft_strlen(old_path) + 1);
-	ft_strlcat(path, "/", 1);
-	ft_strlcat(path, new_path, ft_strlen(new_path) + 1);
+	ft_strlcat(path, base, base_len + 1);
+	ft_strlcat(path, "/", base_len + 2);
+	ft_strlcat(path, new, base_len + new_len + 2);
 	return (path);
 }
 
