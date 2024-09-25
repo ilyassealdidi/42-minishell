@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 20:56:55 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 22:35:09 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	get_token_length(t_string line, t_token_type type)
 		return (ft_strcspn(line, " |><'\"\t$"));
 }
 
-int	set_token(t_object *obj, char **line, t_token *token)
+int	set_token(char **line, t_token *token)
 {
 	int				len;
 

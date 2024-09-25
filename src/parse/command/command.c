@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 21:11:06 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:54:28 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ int	commands_init(t_object *obj)
 		{
 			if (command->argc != 0 && !isbuiltin(command->argv[0])
 				&& set_cmd_path(obj, command) == FAILURE)
-				return (destroy_command(command), perror(EMBASE), FAILURE);
+				return (destroy_command(command), FAILURE);
 			if (command->argc > 0)
 				command->cmd = command->argv[0];
 			new = ft_lstnew(command);
 			if (isnull(new))
-				return (destroy_command(command), perror(EMBASE), FAILURE);
+				return (destroy_command(command), FAILURE);
 			ft_lstadd_back(&obj->commands, new);
 		}
 		skip_tokens(&tokens);

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:46:33 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 14:54:14 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 22:35:26 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	tokens_init(t_object *obj, t_string line)
 	status = SUCCESS;
 	while (*line != '\0')
 	{
-		status = set_token(obj, &line, &token);
+		status = set_token(&line, &token);
 		if (status != SUCCESS)
 			return (status);
 		if ((is_expandable(&token) && expand(obj, &token) == FAILURE)

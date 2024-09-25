@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 01:52:24 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 14:06:04 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:45:10 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	init_shell_env(t_list **env_list)
 		if (insert_env(env_list, (t_dictionnary){"PWD", pwd}, 0) == FAILURE)
 			return (free(pwd), FAILURE);
 	}
-	if (insert_env(env_list, *get_env(*env_list, "PWD"), 1) == FAILURE)
+	if (insert_env(env_list, (t_dictionnary){"@PWD", pwd}, 1) == FAILURE)
 		return (free(pwd), FAILURE);
 	free(pwd);
 	return (SUCCESS);

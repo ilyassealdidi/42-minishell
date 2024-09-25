@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 21:10:21 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/24 20:43:01 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static void	update_exit_status(t_object *obj)
 static int	set_exit_status(t_object *obj)
 {
 	t_string		value;
+	int				status;
 
 	update_exit_status(obj);
 	value = ft_itoa(obj->exit_status);
 	if (isnull(value))
 		return (FAILURE);
-	if (set_env(&obj->env, (t_dictionnary){"?", value}) == FAILURE)
-		return (free(value), FAILURE);
+	status = set_env(&obj->env, (t_dictionnary){"?", value});
 	free(value);
 	return (SUCCESS);
 }
@@ -87,7 +87,7 @@ int	generate_commands(t_object *obj)
 		{
 			status = commands_init(obj);
 			if (status == FAILURE)
-				ft_lstclear(&obj->commands, destroy_command);
+				perror(EMBASE);
 		}
 	}
 	obj->exit_status = status;

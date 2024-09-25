@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:27:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/19 14:33:14 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/24 15:19:38 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	isnull(void *ptr)
 	return (ptr == NULL);
 }
 
-bool	isbuiltin(char *str)
+bool	isbuiltin(t_string str)
 {
 	if (isnull(str))
 		return (false);

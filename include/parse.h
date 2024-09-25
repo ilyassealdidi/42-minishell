@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:45:46 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 21:00:03 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:51:11 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void			set_token_state(t_token *token, int flag, bool value);
 int				ft_appendtoken(t_object *obj, t_token *token);
 void			update_token(t_list *head, t_token *new);
 void			destroy_token(void *content);
-int				set_token(t_object *obj, char **line, t_token *token);
-int				tokens_init(t_object *obj, char *line);
+int				set_token(char **line, t_token *token);
+int				tokens_init(t_object *obj, t_string line);
 
 /*		Expanding				*/
-int				expand_str(t_object *obj, char **dest, char *src);
+int				expand_str(t_object *obj, char **dest, t_string src);
 int				expand(t_object *obj, t_token *token);
 
 /*		Parsing					*/
@@ -40,11 +40,11 @@ int				generate_commands(t_object *obj);
 /*		Environment				*/
 char			**generate_envp(t_list *list);
 t_dictionnary	*get_env(t_list *env_list, t_string key);
-char			*get_env_value(t_list *env, char *key);
+char			*get_env_value(t_list *env, t_string key);
 int				insert_env(t_list **env_list, t_dictionnary dict, bool hidden);
 int				append_env(t_list **env_list, t_dictionnary dict);
 int				set_env(t_list **env_list, t_dictionnary dict);
-void			unset_env(t_list **env_list, char *key);
+void			unset_env(t_list **env_list, t_string key);
 void			destroy_env(void *content);
 int				init_env(t_list **env, char **envp);
 

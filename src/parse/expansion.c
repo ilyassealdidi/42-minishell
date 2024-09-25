@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 13:57:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/23 22:34:48 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	expand_str(t_object *obj, char **dest, char *src)
 
 int	expand(t_object *obj, t_token *token)
 {
-	t_string		original;
 	t_string		expanded;
 
 	if (!is_quoted(token))

@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:46:21 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 19:16:47 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/24 15:19:21 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@
 extern int		g_received_signal;
 
 /*		Errors Management		*/
-void			ft_error(char *location, char *cause, char *error);
+void			ft_error(t_string location, t_string cause, t_string error);
 
 /*		Utilities				*/
-char			*ft_strjoin_free(char *s1, char *s2, int to_free);
+char			*ft_strjoin_free(t_string s1, t_string s2, int to_free);
 void			free_array(char **strs);
 bool			isnull(void *ptr);
 bool			isset(void *ptr);
-bool			isbuiltin(char *str);
+bool			isbuiltin(t_string str);
 
 #endif

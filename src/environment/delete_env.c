@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:21:57 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 13:30:49 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:17:06 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,9 @@ void	unset_env(t_list **env_list, t_string key)
 			if (isnull(node->previous))
 				*env_list = node->next;
 			else
-			{
 				node->previous->next = node->next;
-				if (node->next != NULL)
-					node->next->previous = node->previous;
-			}
+			if (node->next != NULL)
+				node->next->previous = node->previous;
 			ft_lstdelone(node, destroy_env);
 			break ;
 		}

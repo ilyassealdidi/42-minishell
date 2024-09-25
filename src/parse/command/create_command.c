@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:07:10 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 21:11:31 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:45:05 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ static char	*dict_toenv(t_dictionnary *dict)
 	t_string			key;
 	t_string			env;
 
-	if (isnull(dict->value))
-		return (ft_strdup(dict->key));
 	key = ft_strjoin(dict->key, "=");
 	if (isnull(key))
 		return (NULL);
@@ -80,7 +78,7 @@ static int	set_envp(t_list *list, t_command *command)
 	int				count;
 	t_environment	*env;
 
-	count = ft_lstsize(list);
+	count = env_size(list);
 	command->envp = ft_calloc(count + 1, sizeof(char *));
 	if (isnull(command->envp))
 		return (FAILURE);
@@ -89,7 +87,7 @@ static int	set_envp(t_list *list, t_command *command)
 	while (list)
 	{
 		env = list->content;
-		if (env->hidden == false)
+		if (env->hidden == false && !isnull(env->element.value))
 		{
 			command->envp[i] = dict_toenv(&env->element);
 			if (isnull(command->envp[i]))
@@ -107,24 +105,20 @@ int	set_command(t_object *obj, t_list *tokens, t_command **command)
 
 	*command = ft_calloc(1, sizeof(t_command));
 	if (isnull(*command))
-		return (perror(EMBASE), FAILURE);
+		return (FAILURE);
 	(*command)->out = STDOUT_FILENO;
 	(*command)->argc = count_args(tokens);
 	if ((*command)->argc > 0 && set_args(tokens, (*command)) == FAILURE)
-		return (destroy_command((*command)), perror(EMBASE), FAILURE);
+		return (destroy_command((*command)), FAILURE);
 	token = get_token(tokens);
 	while (tokens && token->type != PIPE)
 	{
 		token = get_token(tokens);
 		if (is_redir(token) && redir_init(tokens, (*command)) == FAILURE)
-		{
-			if (errno == EMFILE)
-				return (destroy_command((*command)), FAILURE);
 			break ;
-		}
 		tokens = tokens->next;
 	}
 	if ((*command)->argc > 0 && set_envp(obj->env, (*command)) == FAILURE)
-		return (destroy_command((*command)), perror(EMBASE), FAILURE);
+		return (destroy_command((*command)), FAILURE);
 	return (SUCCESS);
 }
