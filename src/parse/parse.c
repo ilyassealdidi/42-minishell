@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/24 20:43:01 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:28:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	parse(t_object *obj)
 	if (set_exit_status(obj) == FAILURE)
 		return (perror(EMBASE), free(line), FAILURE);
 	if (*line == '\0')
-		return (free(line), FAILURE);
+		return (free(line), SUCCESS);
 	status = tokens_init(obj, line);
 	free(line);
 	if (status != SUCCESS)
@@ -80,15 +80,14 @@ int	generate_commands(t_object *obj)
 	int	status;
 
 	status = parse(obj);
+	if (!isset(obj->tokens))
+		return (status);
+	status = heredocs_init(obj);
 	if (status == SUCCESS)
 	{
-		status = heredocs_init(obj);
-		if (status == SUCCESS)
-		{
-			status = commands_init(obj);
-			if (status == FAILURE)
-				perror(EMBASE);
-		}
+		status = commands_init(obj);
+		if (status == FAILURE)
+			perror(EMBASE);
 	}
 	obj->exit_status = status;
 	ft_lstclear(&obj->tokens, destroy_token);
