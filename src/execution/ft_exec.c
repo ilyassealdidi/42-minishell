@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 15:09:42 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/24 16:48:35 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:15:57 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ static void	ft_run(t_command *cmd)
 			ft_error(NULL, cmd->cmd, NULL);
 			exit(126);
 		}
-		else if (ft_strchr(cmd->cmd, '/') == NULL && errno != ENOENT)
-		{
+		else if (ft_strchr(cmd->cmd, '/') == NULL)
 			ft_error(cmd->cmd, NULL, EMCNF);
-		}
 		else
 			ft_error(cmd->cmd, NULL, NULL);
 		exit(127);

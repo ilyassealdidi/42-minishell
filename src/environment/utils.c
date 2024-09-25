@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 10:04:05 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/25 12:40:49 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:17:32 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	env_size(t_list *env_list, bool exclude_n)
+int	env_size(t_list *env_list)
 {
 	t_list			*node;
 	t_environment	*env;
