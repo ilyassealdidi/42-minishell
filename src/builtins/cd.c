@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:55:06 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/25 13:04:19 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:06:41 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	builtin_cd(t_object *obj, t_command *command)
 		ft_error(B_CD, NULL, EMHNS);
 		return (FAILURE);
 	}
-	free(getcwd(NULL, 0));
 	if (chdir(path) == -1)
 	{
 		ft_error(B_CD, path, NULL);
