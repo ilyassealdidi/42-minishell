@@ -1,5 +1,11 @@
 *
-!include
+!include/
+!include/**/*
 !lib
+!lib/**/*
 !src
+!src/**/*
+!.gitignore
 !Makefile
+*.a
+*.o

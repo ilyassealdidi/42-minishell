@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:22:32 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/25 13:04:34 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:36:07 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,32 @@ static bool	contains_env(t_string original, t_string str)
 
 	if (*original == '\'')
 		return (false);
+	if (*str == '"')
+		return (true);
 	ptr = ft_strchr(str, '$');
 	if (isset(ptr))
 	{
 		original = ft_strchr(original, '$');
-		if (*(original + 1) != '\0')
+		if (isnull(ft_strchr(" |><'\"\t", original[1]))
+			&& (ft_isalpha(original[1])
+				|| original[1] == '_' || original[1] == '?'))
 			return (true);
 	}
 	return (false);
 }
 
-static int	get_token_length(t_string line, t_token_type type)
+static int	get_token_length(t_token *token, char *line)
 {
 	int				len;
 
-	if (type == PIPE || type == REDIR_IN || type == REDIR_OUT)
-		return (1);
-	else if (type == HEREDOC || type == APPEND)
-		return (2);
+	if (is_operator(token))
+		return (1 + (token->type == HEREDOC || token->type == APPEND));
 	else if (*line == '"' || *line == '\'')
 		return (ft_strchr(line + 1, *line) - line - 1);
 	else if (*line == '$')
 	{
-		if (!ft_isalpha(line[1]) && !ft_strchr("_ |><'\"\t$", line[1]))
-			return (2);
+		if (!ft_isalpha(line[1]) && line[1] != '_')
+			return (ft_strcspn(line + 1, " |><'\"\t$") + 1);
 		len = 1;
 		while (ft_isalnum(line[len]) || line[len] == '_')
 			len++;
@@ -77,7 +79,7 @@ int	set_token(char **line, t_token *token)
 	token->type = get_token_type(*line);
 	if (token->type == NONE)
 		return (ERROR);
-	len = get_token_length(*line, token->type);
+	len = get_token_length(token, *line);
 	if (token->type == ARG)
 	{
 		set_token_state(token, QUOTED, **line == '"' || **line == '\'');

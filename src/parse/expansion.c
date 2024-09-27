@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 22:34:48 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:36:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	set_part_len(t_string str, int *len)
 {
-	if (*str == '$' && *(str + 1) != '\0')
+	if (*str == '$' && isnull(ft_strchr(" |><'\"\t", str[1])))
 	{
 		str++;
 		if (!ft_isalpha(*str) && *str != '_')
