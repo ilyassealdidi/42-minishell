@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/22 12:45:51 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/27 19:29:42 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ int	builtin_exit(t_object *obj, t_command *command)
 		nb = get_number(value);
 		if (errno != 0)
 		{
-			ft_error(B_EXIT, command->argv[1], EMNAR);
+			if (ft_lstsize(obj->commands) == 1)
+				ft_error(B_EXIT, command->argv[1], EMNAR);
 			ft_exit(obj, -1);
 		}
-		if (command->argc > 2)
+		if (command->argc > 2 && ft_lstsize(obj->commands) == 1)
 			return (ft_error(B_EXIT, NULL, EMTMA), FAILURE);
 	}
 	ft_exit(obj, nb);
