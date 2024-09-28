@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   insert_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 15:03:53 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 15:37:38 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/28 02:27:47 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	split_variable(t_object *obj, t_token *token)
 	ft_memset(&new, 0, sizeof(t_token));
 	if (isnull(token->content))
 		return (ft_appendtoken(obj, &new), SUCCESS);
-	strs = ft_split(token->content, ' ');
+	strs = ft_split(token->content, " \t");
 	if (isnull(strs))
 		return (FAILURE);
 	free(token->content);

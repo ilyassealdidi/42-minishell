@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 12:41:54 by ialdidi           #+#    #+#             */
-/*   Updated: 2023/11/12 07:43:43 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/28 02:06:57 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_words(const char *s, int c)
+static int	count_words(char const *s, char const *charset)
 {
 	int	cnt;
 	int	pre;
@@ -21,7 +21,7 @@ static int	count_words(const char *s, int c)
 	pre = 1;
 	while (*s)
 	{
-		if (*s == c)
+		if (ft_strchr(charset, *s))
 			pre = 1;
 		else if (pre)
 		{
@@ -41,7 +41,7 @@ static void	*free_memory(char **strs, int i)
 	return (NULL);
 }
 
-static char	**split(char **strs, char const *s, char c)
+static char	**split(char **strs, char const *s, char const *charset)
 {
 	int	i;
 	int	len;
@@ -50,12 +50,12 @@ static char	**split(char **strs, char const *s, char c)
 	len = 0;
 	while (*s)
 	{
-		while (*s && *s == c)
+		while (*s && ft_strchr(charset, *s))
 			s++;
 		if (*s)
 		{
 			len = 0;
-			while (s[len] && s[len] != c)
+			while (s[len] && !ft_strchr(charset, s[len]))
 				len++;
 			strs[i] = ft_substr(s, 0, len);
 			if (!strs[i])
@@ -68,14 +68,14 @@ static char	**split(char **strs, char const *s, char c)
 	return (strs);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char const *charset)
 {
 	char	**strs;
 
 	if (!s)
 		return (NULL);
-	strs = (char **)ft_calloc(count_words(s, c) + 1, sizeof(char *));
+	strs = (char **)ft_calloc(count_words(s, charset) + 1, sizeof(char *));
 	if (!strs)
 		return (NULL);
-	return (split(strs, s, c));
+	return (split(strs, s, charset));
 }

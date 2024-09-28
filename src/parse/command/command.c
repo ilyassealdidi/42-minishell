@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 08:49:41 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 13:54:28 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/28 02:05:54 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	set_cmd_path(t_object *obj, t_command *command)
 	dict = get_env(obj->env, "PATH");
 	if (isnull(dict))
 		return (SUCCESS);
-	paths = ft_split(dict->value, ':');
+	paths = ft_split(dict->value, ":");
 	if (isnull(paths))
 		return (FAILURE);
 	if (isnull(*paths))
