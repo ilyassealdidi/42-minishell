@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 02:19:55 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/27 18:36:45 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/28 20:39:45 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ int	expand(t_object *obj, t_token *token)
 {
 	t_string		expanded;
 
+	if (!is_expandable(token)
+		|| (isset(obj->tokens) && get_last_token(obj->tokens)->type == HEREDOC))
+		return (SUCCESS);
 	if (!is_quoted(token))
 	{
 		if (expand_var(obj, &expanded, token->content + 1) == FAILURE)

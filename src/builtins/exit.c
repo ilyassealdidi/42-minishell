@@ -6,7 +6,7 @@
 /*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 19:35:37 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/27 22:42:42 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/28 20:52:54 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ int	builtin_exit(t_object *obj, t_command *command)
 		value = ft_strtrim(command->argv[1], " \t");
 		if (isnull(value))
 			return (FAILURE);
+		errno = 0;
 		nb = get_number(value);
+		free(value);
 		if (errno != 0)
 		{
 			ft_error(B_EXIT, command->argv[1], EMNAR);

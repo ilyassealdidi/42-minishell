@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:46:33 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/23 22:35:26 by ialdidi          ###   ########.fr       */
+/*   Updated: 2024/09/28 20:34:57 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ static int	is_valid_syntax(t_list *tokens)
 	{
 		current = tokens->content;
 		next = tokens->next->content;
-		if (current->type != PIPE)
-		{
-			if (is_operator(current) && is_operator(next))
-				return (ERROR);
-		}
+		if (is_operator(current) && is_operator(next))
+			return (ERROR);
 		tokens = tokens->next;
 	}
 	return (SUCCESS);
@@ -44,7 +41,7 @@ int	tokens_init(t_object *obj, t_string line)
 		status = set_token(&line, &token);
 		if (status != SUCCESS)
 			return (status);
-		if ((is_expandable(&token) && expand(obj, &token) == FAILURE)
+		if (expand(obj, &token) == FAILURE
 			|| ft_appendtoken(obj, &token) == FAILURE)
 			return (free(token.content), FAILURE);
 		while (*line != '\0' && (*line == ' ' || *line == '\t'))
