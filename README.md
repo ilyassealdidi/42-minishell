@@ -52,7 +52,7 @@ minishell$ cd ..
 | Contributor | Role |
 |:--------:|------|
 | <a href="https://github.com/ilyassealdidi"><img src="https://github.com/ilyassealdidi.png" width="30"></a> | Command Parsing |
-| <a href="https://github.com/aitelkadi"><img src="https://github.com/aitelkadi.png" width="30"></a> | Command Execution |
+| <a href="https://github.com/aaitelka"><img src="https://github.com/aaitelka.png" width="30"></a> | Command Execution |
 
 
 ## 📄 License
