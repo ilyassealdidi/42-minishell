@@ -2,7 +2,7 @@
 
 Minishell is a simplified Unix shell implemented in C. It provides basic shell functionalities such as executing commands, handling pipes, redirections, and environment variables.
 
-## Features
+## ✨ Features
 
 - Command execution (built-in and external)
 - Input/output redirection (`>`, `<`, `>>`)
@@ -11,27 +11,27 @@ Minishell is a simplified Unix shell implemented in C. It provides basic shell f
 - Built-in commands: `cd`, `echo`, `pwd`, `export`, `unset`, `env`, `exit`
 - Signal handling (e.g., `Ctrl+C`, `Ctrl+D`)
 
-## Getting Started
+## 🚀 Getting Started
 
-### Prerequisites
+### 📋 Prerequisites
 
 - GCC or Clang
 - Make
 - Unix-like environment (Linux, macOS)
 
-### Building
+### 🔨 Building
 
 ```sh
 make
 ```
 
-### Running
+### ▶️ Running
 
 ```sh
 ./minishell
 ```
 
-## Usage
+## 💻 Usage
 
 Type commands as you would in a standard shell:
 
@@ -41,20 +41,20 @@ minishell$ export PATH=$PATH:/custom/path
 minishell$ cd ..
 ```
 
-## Project Structure
+## 📁 Project Structure
 
 - `src/` — Source code files
 - `include/` — Header files
 - `Makefile` — Build instructions
 
-
-## 🚀 Contributors
+## 👥 Contributors
 
 | Contributor | Role |
-|--------|------|
-| <img src="https://github.com/ilyassealdidi.png" width="30"> <br> [@ilyassealdidi](https://github.com/ilyassealdidi) | Command Parsing |
-| <img src="https://github.com/aitelkadi.png" width="30"> <br> [@aitelkadi](https://github.com/aitelkadi) | Command Execution |
+|:--------:|------|
+| <a href="https://github.com/ilyassealdidi"><img src="https://github.com/ilyassealdidi.png" width="30"></a> | Command Parsing |
+| <a href="https://github.com/aitelkadi"><img src="https://github.com/aitelkadi.png" width="30"></a> | Command Execution |
 
-## License
+
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
