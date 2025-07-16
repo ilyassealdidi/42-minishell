@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialdidi <ialdidi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ialdidi <ialdidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:18:58 by ialdidi           #+#    #+#             */
-/*   Updated: 2024/09/25 15:28:52 by ialdidi          ###   ########.fr       */
+/*   Updated: 2025/07/16 20:22:52 by ialdidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ static void	update_exit_status(t_object *obj)
 static int	set_exit_status(t_object *obj)
 {
 	t_string		value;
-	int				status;
 
 	update_exit_status(obj);
 	value = ft_itoa(obj->exit_status);
 	if (isnull(value))
 		return (FAILURE);
-	status = set_env(&obj->env, (t_dictionnary){"?", value});
+	set_env(&obj->env, (t_dictionnary){"?", value});
 	free(value);
 	return (SUCCESS);
 }
