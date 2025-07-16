@@ -52,8 +52,8 @@ minishell$ cd ..
 
 | Contributor | Role |
 |--------|------|
-| <img src="https://github.com/ilyassealdidi.png" width="30"> [@ilyassealdidi](https://github.com/ilyassealdidi) | Command Parsing |
-| <img src="https://github.com/aitelkadi.png" width="30"> [@aitelkadi](https://github.com/aitelkadi) | Command Execution |
+| <img src="https://github.com/ilyassealdidi.png" width="30"> <br> [@ilyassealdidi](https://github.com/ilyassealdidi) | Command Parsing |
+| <img src="https://github.com/aitelkadi.png" width="30"> <br> [@aitelkadi](https://github.com/aitelkadi) | Command Execution |
 
 ## License
 
