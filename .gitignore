@@ -7,5 +7,7 @@
 !src/**/*
 !.gitignore
 !Makefile
+!LICENSE
+!README.md
 *.a
 *.o
