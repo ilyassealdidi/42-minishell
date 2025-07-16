@@ -47,17 +47,13 @@ minishell$ cd ..
 - `include/` — Header files
 - `Makefile` — Build instructions
 
+
 ## 🚀 Contributors
 
 | Avatar | Name | Role | GitHub |
 |--------|------|------|--------|
-| <img src="https://github.com/ilyassealdidi.png" width="50"> | Ilyasse Aldidi | Project Lead | [@ilyassealdidi](https://github.com/ilyassealdidi) |
-| <img src="https://github.com/aitelkadi.png" width="50"> | Abdelhalim Aitelkadi | Developer | [@aitelkadi](https://github.com/aitelkadi) |
-
-## Authors
-
-- [Ilyasse Aldidi](https://github.com/ilyassealdidi)
-- [Abdelhalim Aitelkadi](https://github.com/aaitelka)
+| <img src="https://github.com/ilyassealdidi.png" width="30"> | Ilyasse Aldidi | Command Parsing | [@ilyassealdidi](https://github.com/ilyassealdidi) |
+| <img src="https://github.com/aitelkadi.png" width="30"> | Abdelhalim Aitelkadi | Command Execution | [@aitelkadi](https://github.com/aitelkadi) |
 
 ## License
 
