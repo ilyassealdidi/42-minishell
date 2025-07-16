@@ -1,6 +1,25 @@
 # Minishell
 
-Minishell is a simplified Unix shell implemented in C. It provides basic shell functionalities such as executing commands, handling pipes, redirections, and environment variables.
+Minishell is a simplified Unix shell## 👥 Authors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/ilyassealdidi">
+        <img src="https://github.com/ilyassealdidi.png" width="100px;" alt="Ilyasse Aldidi"/><br>
+        <sub><b>Ilyasse Aldidi</b></sub>
+      </a><br>
+      <sub>Project Lead & Core Developer</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/aitelkadi">
+        <img src="https://github.com/aitelkadi.png" width="100px;" alt="Abdelhalim Aitelkadi"/><br>
+        <sub><b>Abdelhalim Aitelkadi</b></sub>
+      </a><br>
+      <sub>Core Developer</sub>
+    </td>
+  </tr>
+</table>lemented in C. It provides basic shell functionalities such as executing commands, handling pipes, redirections, and environment variables.
 
 ## Features
 
