@@ -1,4 +1,4 @@
-# Minishell
+# > Minishell
 
 Minishell is a simplified Unix shell implemented in C. It provides basic shell functionalities such as executing commands, handling pipes, redirections, and environment variables.
 
